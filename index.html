@@ -113,7 +113,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/18/hello-world/" data-id="cj598np8z0015ifx3g38mhmlp" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/18/hello-world/" data-id="cj598vmn90015l9x3s6fmq7q5" class="article-share-link">分享</a>
       
       
     </footer>
@@ -169,7 +169,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/04/mvp-rx-retrofit/" data-id="cj598np93001fifx3qd199n69" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/01/04/mvp-rx-retrofit/" data-id="cj598vmnb001bl9x37w2g64kz" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
@@ -225,7 +225,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/27/java并发笔记/" data-id="cj598np92001bifx3c6fag134" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2016/12/27/java并发笔记/" data-id="cj598vmna0019l9x3zln7r94k" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -297,7 +297,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/23/TextureView/" data-id="cj598np8t000uifx3uh429e3o" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2016/12/23/TextureView/" data-id="cj598vmn3000ul9x3ikt1ec8k" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
@@ -347,14 +347,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>广度优先搜索算法（Breadth-First-Search），又译作宽度优先搜索，或横向优先搜索，简称BFS，是一种图形搜索算法。简单的说，BFS是从根节点开始，沿着树的宽度遍历树的节点。如果所有节点均被访问，则算法中止。广度优先搜索的实现一般采用open-closed表。时间复杂度O(|V| + |E|),v是节点数，e是边数。应为广搜是地毯式搜索，所以不适合非常大的问题</p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>4 4<br>1 1 1 1<br>1 0 1 0<br>0 1 1 1<br>0 0 1 1<br>上面是一个4*4的，1代表通路，0代表不同路的迷宫，终点为右下<br>广搜面对这种图的时候，先从0，0点开始，然后把与0，0点相邻的，可以走通的点加入到队列中，然后再从队列中取出一个节点，再把与这个节点相邻的加入到队列中，如此往复，中间取出节点时判断是否到达终点，到达就退出（我们说的是有没有路径）。如果最终队列为空了，那就是没找到。队列我们都知道，先进先出原则。其实看有没有路径，深搜更合适，广搜适合找有多少条路径。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BFS</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[][] dir = <span class="keyword">new</span> <span class="keyword">int</span>[][]&#123;&#123;-<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>&#125;,&#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,-<span class="number">1</span>&#125;&#125;;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">boolean</span>[][] flag = <span class="keyword">new</span> <span class="keyword">boolean</span>[<span class="number">4</span>][<span class="number">4</span>];</div><div class="line">    <span class="keyword">static</span> <span class="keyword">boolean</span> hasPath;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">        <span class="keyword">int</span>[][] maze = <span class="keyword">new</span> <span class="keyword">int</span>[][]&#123;&#123;<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>&#125;,&#123;<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>&#125;,&#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>&#125;,&#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>&#125;&#125;;</div><div class="line">        <span class="keyword">boolean</span>[][] flag = <span class="keyword">new</span> <span class="keyword">boolean</span>[<span class="number">4</span>][<span class="number">4</span>];</div><div class="line">        bfs(maze);</div><div class="line">        System.out.print(hasPath);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">bfs</span><span class="params">(<span class="keyword">int</span>[][] maze)</span></span>&#123;</div><div class="line">        Queue&lt;Node&gt; queue = <span class="keyword">new</span> LinkedList&lt;Node&gt;();</div><div class="line">        <span class="keyword">boolean</span>[][] flag = <span class="keyword">new</span> <span class="keyword">boolean</span>[<span class="number">4</span>][<span class="number">4</span>];</div><div class="line">        Node node = <span class="keyword">new</span> Node(<span class="number">0</span>,<span class="number">0</span>,maze[<span class="number">0</span>][<span class="number">0</span>]);</div><div class="line">        flag[<span class="number">0</span>][<span class="number">0</span>] = <span class="keyword">true</span>;</div><div class="line">        queue.add(node);</div><div class="line">        <span class="keyword">while</span>(queue.size()&gt;<span class="number">0</span>)&#123;</div><div class="line">            node = queue.poll();</div><div class="line">            <span class="keyword">if</span>(node.x == <span class="number">3</span> &amp;&amp; node.y == <span class="number">3</span>)&#123;</div><div class="line">                hasPath = <span class="keyword">true</span>;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</div><div class="line">                <span class="keyword">int</span> xx = node.x+dir[<span class="number">0</span>][i];</div><div class="line">                <span class="keyword">int</span> yy = node.y+dir[<span class="number">1</span>][i];</div><div class="line">                <span class="keyword">if</span>(xx&gt;=<span class="number">0</span> &amp;&amp; xx &lt; maze.length &amp;&amp; yy&gt;=<span class="number">0</span> &amp;&amp; yy&lt; maze[xx].length &amp;&amp; maze[xx][yy] == <span class="number">1</span> &amp;&amp; !flag[xx][yy])&#123;</div><div class="line">                    node = <span class="keyword">new</span> Node(xx,yy,maze[xx][yy]);</div><div class="line">                    flag[xx][yy] = <span class="keyword">true</span>;</div><div class="line">                    queue.offer(node);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line"></div><div class="line"></div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span></span>&#123;</div><div class="line">        <span class="keyword">int</span> x;</div><div class="line">        <span class="keyword">int</span> y;</div><div class="line">        <span class="keyword">int</span> val;</div><div class="line">        <span class="keyword">boolean</span> visitied;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> val)</span></span>&#123;</div><div class="line">            <span class="keyword">this</span>.x = x;</div><div class="line">            <span class="keyword">this</span>.y = y;</div><div class="line">            <span class="keyword">this</span>.val = val;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>前面讲过深搜的递归方式，非递归没有说。我们知道，递归方式就是方法不断入栈的过程。那么如果用非递归，其实就是我们自己维护一个栈，跟这个广搜的思想差不多，只不过一个是维护队列，一个是维护栈</p>
-
+        <p>广度优先搜索算法（Breadth-First-Search），又译作宽度优先搜索，或横向优先搜索，简称BFS，是一种图形搜索算法。简单的说，BFS是从根节点开始，沿着树的宽度遍历树的节点。<br>
+        
+          <p class="article-more-link">
+            <a href="/2016/12/14/广度优先搜索-BFS/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/广度优先搜索-BFS/" data-id="cj598np97001jifx3web8js0g" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2016/12/14/广度优先搜索-BFS/" data-id="cj598vmnq001pl9x3f71enxs7" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
@@ -409,7 +411,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/深度优先搜索-DFS/" data-id="cj598np9w002lifx3kyvscnzt" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2016/12/13/深度优先搜索-DFS/" data-id="cj598vmo9002kl9x35unquqnj" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
@@ -459,14 +461,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>快速排序是对冒泡排序的改进，改进的着眼点在于：冒泡排序每次是对相邻的两个数据比较，这样移动的次数和比较的次数很多，因为有些�数很大，一开始就该放最后，但是还要一个一个比到最后。</p>
-<h2 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h2><p>快速排序是从两头开始的，不断向中间逼近，两头向中间逼近的过程就是排序过程，这样，左边数据要交换的话，可以直接到右端，不必要一个一个比。下面看张图理解一下<br><img src="http://ofy9dm2ii.bkt.clouddn.com/image/article/quicksort.png" alt="quicksort"><br>这就是一次划分过程，两头分别一个指针，在向中间移动的过程中比较两个指针对应的数据，需要交换就交换。<br>下面是一次划分的代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="keyword">int</span>[] arr,<span class="keyword">int</span> first,<span class="keyword">int</span> end)</span></span>&#123;</div><div class="line">       <span class="keyword">while</span>(first &lt; end)&#123;</div><div class="line">           <span class="keyword">while</span>(arr[first] &lt; arr[end]) end--;<span class="comment">//左侧扫面</span></div><div class="line">           <span class="keyword">if</span>(first &lt; end)&#123;</div><div class="line">               <span class="keyword">int</span> t = arr[first];</div><div class="line">               arr[first] = arr[end];</div><div class="line">               arr[end] = t;</div><div class="line">               first ++;</div><div class="line">           &#125;</div><div class="line">           <span class="keyword">while</span>(first &lt; end &amp;&amp; arr[first] &lt; arr[end]) first++;<span class="comment">//右侧扫面</span></div><div class="line">           <span class="keyword">if</span>(first &lt; end)&#123;</div><div class="line">               <span class="keyword">int</span> t = arr[first];</div><div class="line">               arr[first] = arr[end];</div><div class="line">               arr[end] = t;</div><div class="line">               first ++;</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line">       <span class="keyword">return</span> first;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
-<p>快拍的核心就是这个一次划分的过程，后面就是递归就行了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span>[] arr,<span class="keyword">int</span> first,<span class="keyword">int</span> end)</span></span>&#123;</div><div class="line">       <span class="keyword">int</span> mid;</div><div class="line">       <span class="keyword">if</span>(first &lt; end)&#123;</div><div class="line">           mid = partition(arr,first,end);</div><div class="line">           quickSort(arr,first,mid);</div><div class="line">           quickSort(arr,mid+<span class="number">1</span>,end);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;arr.length;i++)&#123;</div><div class="line">           System.out.print(arr[i]+<span class="string">" "</span>);</div><div class="line">       &#125;</div><div class="line">       System.out.println();</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
-
+        <p>快速排序是对冒泡排序的改进，改进的着眼点在于：冒泡排序每次是对相邻的两个数据比较，这样移动的次数和比较的次数很多，因为有些�数很大，一开始就该放最后，但是还要一个一个比到最后。<br>
+        
+          <p class="article-more-link">
+            <a href="/2016/12/12/快速排序/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/快速排序/" data-id="cj598np9m001yifx3kkqeprx9" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2016/12/12/快速排序/" data-id="cj598vmnw001xl9x3jjcb9o6l" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
@@ -532,7 +536,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/11/TCP的三次握手和4次挥手/" data-id="cj598np8j000nifx3l5pv8k91" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2016/12/11/TCP的三次握手和4次挥手/" data-id="cj598vmmw000pl9x3k177o2vj" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/net/">net</a></li></ul>
@@ -597,7 +601,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/11/最小生成树之Kruskar/" data-id="cj598np9q0029ifx36iijqinx" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2016/12/11/最小生成树之Kruskar/" data-id="cj598vmny0020l9x3ez81x7li" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
@@ -658,7 +662,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/10/最小生成树之Prim/" data-id="cj598np9n0021ifx3h8e153z2" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2016/12/10/最小生成树之Prim/" data-id="cj598vmo20025l9x3he9050z9" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>

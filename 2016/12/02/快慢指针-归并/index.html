@@ -5,19 +5,19 @@
   
   <title>快慢指针+归并 | 逝去的美好</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="“从名字上看，就很直观，就是一个快指针，一个慢指针，快慢的判定，是根据指针每次移动的跨度决定的。比如，慢指针每次跨度为1，即：lowPoint = root.next.快指针每次移动的跨度为2，即：fastPoint = root.next.next。”">
+  <meta name="description" content="从名字上看，就很直观，就是一个快指针，一个慢指针，快慢的判定，是根据指针每次移动的跨度决定的。比如，慢指针每次跨度为1，即：lowPoint = root.next.快指针每次移动的跨度为2，即：fastPoint = root.next.next。">
 <meta name="keywords" content="algorithm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="快慢指针+归并">
 <meta property="og:url" content="http://yoursite.com/2016/12/02/快慢指针-归并/index.html">
 <meta property="og:site_name" content="逝去的美好">
-<meta property="og:description" content="“从名字上看，就很直观，就是一个快指针，一个慢指针，快慢的判定，是根据指针每次移动的跨度决定的。比如，慢指针每次跨度为1，即：lowPoint = root.next.快指针每次移动的跨度为2，即：fastPoint = root.next.next。”">
+<meta property="og:description" content="从名字上看，就很直观，就是一个快指针，一个慢指针，快慢的判定，是根据指针每次移动的跨度决定的。比如，慢指针每次跨度为1，即：lowPoint = root.next.快指针每次移动的跨度为2，即：fastPoint = root.next.next。">
 <meta property="og:image" content="http://ofy9dm2ii.bkt.clouddn.com/image/article/point.png">
 <meta property="og:image" content="http://ofy9dm2ii.bkt.clouddn.com/image/article/guibing.jpeg">
-<meta property="og:updated_time" content="2017-01-03T11:24:52.000Z">
+<meta property="og:updated_time" content="2017-07-18T07:14:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="快慢指针+归并">
-<meta name="twitter:description" content="“从名字上看，就很直观，就是一个快指针，一个慢指针，快慢的判定，是根据指针每次移动的跨度决定的。比如，慢指针每次跨度为1，即：lowPoint = root.next.快指针每次移动的跨度为2，即：fastPoint = root.next.next。”">
+<meta name="twitter:description" content="从名字上看，就很直观，就是一个快指针，一个慢指针，快慢的判定，是根据指针每次移动的跨度决定的。比如，慢指针每次跨度为1，即：lowPoint = root.next.快指针每次移动的跨度为2，即：fastPoint = root.next.next。">
 <meta name="twitter:image" content="http://ofy9dm2ii.bkt.clouddn.com/image/article/point.png">
   
     <link rel="alternate" href="/atom.xml" title="逝去的美好" type="application/atom+xml">
@@ -107,7 +107,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="快慢指针"><a href="#快慢指针" class="headerlink" title="快慢指针"></a>快慢指针</h2><h3 id="快慢指针概述"><a href="#快慢指针概述" class="headerlink" title="快慢指针概述"></a>快慢指针概述</h3><p>从名字上看，就很直观，就是一个快指针，一个慢指针，快慢的判定，是根据指针每次移动的跨度决定的。比如，慢指针每次跨度为1，即：lowPoint = root.next.快指针每次移动的跨度为2，即：fastPoint = root.next.next。</p>
+        <p>从名字上看，就很直观，就是一个快指针，一个慢指针，快慢的判定，是根据指针每次移动的跨度决定的。比如，慢指针每次跨度为1，即：lowPoint = root.next.快指针每次移动的跨度为2，即：fastPoint = root.next.next。<br><a id="more"></a></p>
+<h2 id="快慢指针"><a href="#快慢指针" class="headerlink" title="快慢指针"></a>快慢指针</h2><h3 id="快慢指针概述"><a href="#快慢指针概述" class="headerlink" title="快慢指针概述"></a>快慢指针概述</h3><p>从名字上看，就很直观，就是一个快指针，一个慢指针，快慢的判定，是根据指针每次移动的跨度决定的。比如，慢指针每次跨度为1，即：lowPoint = root.next.快指针每次移动的跨度为2，即：fastPoint = root.next.next。</p>
 <h3 id="快慢指针能解决的问题"><a href="#快慢指针能解决的问题" class="headerlink" title="快慢指针能解决的问题"></a>快慢指针能解决的问题</h3><ul>
 <li>找链表的中点</li>
 <li>判断链表有没有环，有环的话找到环的入口<h3 id="快慢指针针对问题的实现"><a href="#快慢指针针对问题的实现" class="headerlink" title="快慢指针针对问题的实现"></a>快慢指针针对问题的实现</h3><h5 id="链表中点"><a href="#链表中点" class="headerlink" title="链表中点"></a>链表中点</h5>当我们想找一个链表的中点时，一般做法是先遍历一遍链表，获取链表的长度，然后再从头遍历，找到中点返回。显然性能是比较低的。根据上面概述所说。我们可以想到，我们可以用快慢指针的思想快速的找到中点。开始快慢指针指向链表的头部，慢指针每次跨度为1，快指针每次跨度为2.那么当快指针到达链表尾部的时候（这里假设链表无环），慢指针刚好指向链表的中点。用这种方法，较第一种来说，就快很多了，代码也是很简单<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public static Node getMid(Node root)&#123;</div><div class="line">    if(root == null)return null;</div><div class="line">    Node low = root;</div><div class="line">    Node fast = root.next;</div><div class="line">    while(fast.next!=null &amp;&amp; fast.next.next!=null)&#123;</div><div class="line">        low = low.next;</div><div class="line">        fast = fast.next.next;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return low;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -123,7 +124,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/02/快慢指针-归并/" data-id="cj598np9k001tifx3ru3g2q9i" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2016/12/02/快慢指针-归并/" data-id="cj598vmnt001sl9x3ttl5v9pw" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>

@@ -5,19 +5,19 @@
   
   <title>剑指offer_重建二叉树 | 逝去的美好</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="“本体有两个知识点，一个是二叉树的遍历，另一个就是递归。下面就分别从这两个知识点分析这题解法。”">
+  <meta name="description" content="本体有两个知识点，一个是二叉树的遍历，另一个就是递归。下面就分别从这两个知识点分析这题解法。">
 <meta name="keywords" content="algorithm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="剑指offer_重建二叉树">
 <meta property="og:url" content="http://yoursite.com/2016/11/02/剑指offer-重建二叉树/index.html">
 <meta property="og:site_name" content="逝去的美好">
-<meta property="og:description" content="“本体有两个知识点，一个是二叉树的遍历，另一个就是递归。下面就分别从这两个知识点分析这题解法。”">
+<meta property="og:description" content="本体有两个知识点，一个是二叉树的遍历，另一个就是递归。下面就分别从这两个知识点分析这题解法。">
 <meta property="og:image" content="http://ofy9dm2ii.bkt.clouddn.com/image/article/java_stack.jpg">
 <meta property="og:image" content="http://ofy9dm2ii.bkt.clouddn.com/image/articlebinaryTree.png">
-<meta property="og:updated_time" content="2017-01-03T11:24:52.000Z">
+<meta property="og:updated_time" content="2017-07-18T07:14:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="剑指offer_重建二叉树">
-<meta name="twitter:description" content="“本体有两个知识点，一个是二叉树的遍历，另一个就是递归。下面就分别从这两个知识点分析这题解法。”">
+<meta name="twitter:description" content="本体有两个知识点，一个是二叉树的遍历，另一个就是递归。下面就分别从这两个知识点分析这题解法。">
 <meta name="twitter:image" content="http://ofy9dm2ii.bkt.clouddn.com/image/article/java_stack.jpg">
   
     <link rel="alternate" href="/atom.xml" title="逝去的美好" type="application/atom+xml">
@@ -107,7 +107,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本体有两个知识点，一个是二叉树的遍历，另一个就是递归。下面就分别从这两个知识点分析这题解法。</p>
+        <p>本体有两个知识点，一个是二叉树的遍历，另一个就是递归。下面就分别从这两个知识点分析这题解法。<br><a id="more"></a><br>本体有两个知识点，一个是二叉树的遍历，另一个就是递归。下面就分别从这两个知识点分析这题解法。</p>
 <h2 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h2><p>递归应该是大家都熟悉的东西。今天打算从java虚拟机的层面说一说递归。为了表达清楚，先上一张盗来的图<br>  <img src="http://ofy9dm2ii.bkt.clouddn.com/image/article/java_stack.jpg" alt="java虚拟机栈"></p>
 <p>java虚拟机有一个区叫做虚拟机栈区。虚拟机栈描述的是java方法执行的内存模型：每个方法在执行的同时都会创建一个栈帧用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每一个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈到出栈的过程。从上图中可以看出，每当有个方法调用的时候，就会有一个栈帧被压入栈中。我们平时使用递归的时候，最需要注意的一点就是要有结束条件，否则就会报栈溢出的错误。站在虚拟机栈的角度就很好理解了，如果你只入栈，不出栈，那么栈的空间势必被消耗殆尽。递归还有个特点，能保持当前状态。从图中可以看出，每个栈帧就是一块区域，这个区域的状态在某个时间点是固定的，不会随其他的栈帧的改变而改变。代码角度说就是，当在方法中进入下次递归后，本次的变量都会保持现状，当递归退回到当前时，继续按原来的状态执行。</p>
 <h2 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h2><p>二叉树的遍历分为前序遍历，中序遍历，后序遍历。通俗易懂的再说一遍，根左右，左根右，左右根。知道规则后我们会发现，如果知道其中的两个遍历结果，那么我们都能恢复整棵二叉树。此题就用到这个知识点。</p>
@@ -118,7 +118,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/11/02/剑指offer-重建二叉树/" data-id="cj598np9i001qifx3uekwiash" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2016/11/02/剑指offer-重建二叉树/" data-id="cj598vmnj001ll9x3u5p81r15" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
