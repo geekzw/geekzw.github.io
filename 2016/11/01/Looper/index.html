@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="逝去的美好">
 <meta property="og:description" content="Looper这个类的主要功能是做消息的分发，并没有很复杂的逻辑">
 <meta property="og:image" content="http://ofy9dm2ii.bkt.clouddn.com/image/article/looper.png">
-<meta property="og:updated_time" content="2017-01-03T11:24:52.000Z">
+<meta property="og:updated_time" content="2017-07-18T07:23:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Looper">
 <meta name="twitter:description" content="Looper这个类的主要功能是做消息的分发，并没有很复杂的逻辑">
@@ -106,7 +106,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Looper这个类的主要功能是做消息的分发，并没有很复杂的逻辑</p>
+        <p>Looper这个类的主要功能是做消息的分发，并没有很复杂的逻辑<br><a id="more"></a></p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Looper这个类的主要功能是做消息的分发，并没有很复杂的逻辑</p>
 <h2 id="Looper类关键属性"><a href="#Looper类关键属性" class="headerlink" title="Looper类关键属性"></a>Looper类关键属性</h2><p><img src="http://ofy9dm2ii.bkt.clouddn.com/image/article/looper.png" alt="looper属性"></p>
 <h2 id="Looper类关键方法"><a href="#Looper类关键方法" class="headerlink" title="Looper类关键方法"></a>Looper类关键方法</h2><h6 id="1、创建Looper"><a href="#1、创建Looper" class="headerlink" title="1、创建Looper"></a>1、创建Looper</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">prepare</span><span class="params">(<span class="keyword">boolean</span> quitAllowed)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (sThreadLocal.get() != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Only one Looper may be created per thread"</span>);</div><div class="line">        &#125;</div><div class="line">        sThreadLocal.set(<span class="keyword">new</span> Looper(quitAllowed));</div><div class="line">    &#125;</div><div class="line">    </div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">prepareMainLooper</span><span class="params">()</span> </span>&#123;</div><div class="line">    prepare(<span class="keyword">false</span>);</div><div class="line">    <span class="keyword">synchronized</span> (Looper.class) &#123;</div><div class="line">        <span class="keyword">if</span> (sMainLooper != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"The main Looper has already been prepared."</span>);</div><div class="line">        &#125;</div><div class="line">        sMainLooper = myLooper();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这两个方法都是创建looper的方法，第一个是在一般线程中创建使用，第二个是创建mainLooper的时候调用。<br>主要区别在于quitAllowed参数，第一个方法默认接收的是true，表示此looper关联的MessageQueue允许停止，而mainLooper关联的MessageQueue是不允许停止的。从方法的实现可以看出，每个线程只允许一个Looper的存在。</p>
@@ -116,7 +117,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/11/01/Looper/" data-id="cj598vmml000el9x3crdy9p6w" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2016/11/01/Looper/" data-id="cj599881i000ct7x3moi41y2p" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/handler/">handler</a></li></ul>

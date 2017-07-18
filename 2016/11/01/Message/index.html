@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="逝去的美好">
 <meta property="og:description" content="message作为消息的载体，主要看下它是如何保存信息的">
 <meta property="og:image" content="http://ofy9dm2ii.bkt.clouddn.com/image/article/message.jpeg">
-<meta property="og:updated_time" content="2017-01-03T11:24:52.000Z">
+<meta property="og:updated_time" content="2017-07-18T07:23:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Message">
 <meta name="twitter:description" content="message作为消息的载体，主要看下它是如何保存信息的">
@@ -106,7 +106,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="Message类关键属性"><a href="#Message类关键属性" class="headerlink" title="Message类关键属性"></a>Message类关键属性</h4><p><img src="http://ofy9dm2ii.bkt.clouddn.com/image/article/message.jpeg" alt="message属性"></p>
+        <p>message作为消息的载体，主要看下它是如何保存信息的<br><a id="more"></a></p>
+<h4 id="Message类关键属性"><a href="#Message类关键属性" class="headerlink" title="Message类关键属性"></a>Message类关键属性</h4><p><img src="http://ofy9dm2ii.bkt.clouddn.com/image/article/message.jpeg" alt="message属性"></p>
 <h4 id="Message类关键方法"><a href="#Message类关键方法" class="headerlink" title="Message类关键方法"></a>Message类关键方法</h4><h6 id="1、获取消息"><a href="#1、获取消息" class="headerlink" title="1、获取消息"></a>1、获取消息</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Message <span class="title">obtain</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">synchronized</span> (sPoolSync) &#123;</div><div class="line">            <span class="keyword">if</span> (sPool != <span class="keyword">null</span>) &#123;</div><div class="line">                Message m = sPool;</div><div class="line">                sPool = m.next;</div><div class="line">                m.next = <span class="keyword">null</span>;</div><div class="line">                m.flags = <span class="number">0</span>; <span class="comment">// clear in-use flag</span></div><div class="line">                sPoolSize--;</div><div class="line">                <span class="keyword">return</span> m;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Message();</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <p>因为Message采用链表的形式存储消息，当我们用obtaion获取消息实例的时候，首先就是遍历消息链表，如果链表中有消息实例，则直接返回，如果没有，则new一个出来，下面这些方法，都是首先调用obtain获取一个消息，然后把带来的参数赋给获取的实例</p>
 <h6 id="2、获取消息重载方法"><a href="#2、获取消息重载方法" class="headerlink" title="2、获取消息重载方法"></a>2、获取消息重载方法</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Message <span class="title">obtain</span><span class="params">(Message orig)</span></span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> Message <span class="title">obtain</span><span class="params">(Handler h)</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> Message <span class="title">obtain</span><span class="params">(Handler h, Runnable callback)</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> Message <span class="title">obtain</span><span class="params">(Handler h, <span class="keyword">int</span> what)</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> Message <span class="title">obtain</span><span class="params">(Handler h, <span class="keyword">int</span> what, Object obj)</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> Message <span class="title">obtain</span><span class="params">(Handler h, <span class="keyword">int</span> what, <span class="keyword">int</span> arg1, <span class="keyword">int</span> arg2)</span></div></pre></td></tr></table></figure>
@@ -116,7 +117,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/11/01/Message/" data-id="cj598vmmn000il9x3jblgtvau" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2016/11/01/Message/" data-id="cj599881o000ht7x3w0l0f79f" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/handler/">handler</a></li></ul>

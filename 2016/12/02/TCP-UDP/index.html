@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://ofy9dm2ii.bkt.clouddn.com/image/article/tcpudp3.png">
 <meta property="og:image" content="http://ofy9dm2ii.bkt.clouddn.com/image/article/liuliangkongzhi.png">
 <meta property="og:image" content="http://7xslom.com1.z0.glb.clouddn.com/yongsekongzhi.png">
-<meta property="og:updated_time" content="2017-01-03T11:24:52.000Z">
+<meta property="og:updated_time" content="2017-07-18T07:24:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TCP&#x2F;UDP">
 <meta name="twitter:description" content="TCP/UDP都是属于运输层，那么首先来了解一下运输层。我们知道，IP属于网络层，既然IP就实现了把数据从主机A传送到主机B。那为什么还需要运输层呢？这就不得不说一下IP和运输层的作用范围了。IP只负责把数据从A主机传送到B主机，这显然没有完成通信工作">
@@ -110,7 +110,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="运输层"><a href="#运输层" class="headerlink" title="运输层"></a>运输层</h2><p>TCP/UDP都是属于运输层，那么首先来了解一下运输层。我们知道，IP属于网络层，既然IP就实现了把数据从主机A传送到主机B。那为什么还需要运输层呢？这就不得不说一下IP和运输层的作用范围了。IP只负责把数据从A主机传送到B主机，这显然没有完成通信工作。我们平时上网时，发送和接收数据的完整流程是从我们上网用的联网程序（例如浏览器）到我们的PC再到目标主机，再到目标主机的服务器程序。然后同样的路径，目标主机的服务器会把我们请求的数据返回到我们的联网程序。从这个过程可以看出，IP能做的只是整个过程的中间一端，它并不能把数据直接送到PC上的应用程序，后面的工作，就是运输层要做的事情。我们说端到端通信，其实就是应用程序之间的通讯，也就是进程间通讯。运输层有个很重要的功能就是复用和分用，复用是指不同应用程序可以用同一个运输协议传送数据，分用是指，当一个应用程序跟多个远程应用通信的时候，运输层剥去报文首部后，能正确的把消息传给相应的程序</p>
+        <p>TCP/UDP都是属于运输层，那么首先来了解一下运输层。我们知道，IP属于网络层，既然IP就实现了把数据从主机A传送到主机B。那为什么还需要运输层呢？这就不得不说一下IP和运输层的作用范围了。IP只负责把数据从A主机传送到B主机，这显然没有完成通信工作<br><a id="more"></a></p>
+<h2 id="运输层"><a href="#运输层" class="headerlink" title="运输层"></a>运输层</h2><p>TCP/UDP都是属于运输层，那么首先来了解一下运输层。我们知道，IP属于网络层，既然IP就实现了把数据从主机A传送到主机B。那为什么还需要运输层呢？这就不得不说一下IP和运输层的作用范围了。IP只负责把数据从A主机传送到B主机，这显然没有完成通信工作。我们平时上网时，发送和接收数据的完整流程是从我们上网用的联网程序（例如浏览器）到我们的PC再到目标主机，再到目标主机的服务器程序。然后同样的路径，目标主机的服务器会把我们请求的数据返回到我们的联网程序。从这个过程可以看出，IP能做的只是整个过程的中间一端，它并不能把数据直接送到PC上的应用程序，后面的工作，就是运输层要做的事情。我们说端到端通信，其实就是应用程序之间的通讯，也就是进程间通讯。运输层有个很重要的功能就是复用和分用，复用是指不同应用程序可以用同一个运输协议传送数据，分用是指，当一个应用程序跟多个远程应用通信的时候，运输层剥去报文首部后，能正确的把消息传给相应的程序</p>
 <h2 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h2><p>前面提到，IP只负责把数据送到目的主机，运输层负责送到对应的应用程序，那么运输层怎么知道该送给哪个应用程序呢？这就是端口诞生的原因。有了端口号，我们甚至不用关心实现这个功能的是哪个进程，只需按端口号发送数据就行了。端口是一个16位的整数，共有65535个。其中有0~1023被系统端口占用，1024~49151是登记端口，使用这些端口必须登记，剩下的就是客户端使用的端口，又叫短暂端口，当一次链接断开后，端口就可以给其他客户端使用。</p>
 <h2 id="TCP-UDP概述"><a href="#TCP-UDP概述" class="headerlink" title="TCP/UDP概述"></a>TCP/UDP概述</h2><p>TCP翻译为传输控制协议 面向连接。UDP翻译为用户数据报协议 面向无连接<br><img src="http://ofy9dm2ii.bkt.clouddn.com/image/article/tcpudp1.png" alt="TCP/UDP体系"></p>
 <h2 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h2><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
@@ -141,7 +142,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/02/TCP-UDP/" data-id="cj598vmmr000nl9x3mmmfoaof" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2016/12/02/TCP-UDP/" data-id="cj599881r000nt7x3fjgwl6i6" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/net/">net</a></li></ul>

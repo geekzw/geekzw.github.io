@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/12/11/最小生成树之Kruskar/index.html">
 <meta property="og:site_name" content="逝去的美好">
 <meta property="og:description" content="克鲁斯卡尔算法用与求解有权值的无相连通图的最小生成树。思想是先按照权值排序，然后每次把权值最小的节点连接起来，等所有节点都互相连接后，最小生成树就出来了。其中节点的链接，就是通过并查集实现的。">
-<meta property="og:updated_time" content="2017-01-03T11:24:52.000Z">
+<meta property="og:updated_time" content="2017-07-18T07:18:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="最小生成树之Kruskar">
 <meta name="twitter:description" content="克鲁斯卡尔算法用与求解有权值的无相连通图的最小生成树。思想是先按照权值排序，然后每次把权值最小的节点连接起来，等所有节点都互相连接后，最小生成树就出来了。其中节点的链接，就是通过并查集实现的。">
@@ -104,7 +104,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h2><p>所谓贪心算法是指，在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的仅是在某种意义上的局部最优解。<br>贪心算法没有固定的算法框架，算法设计的关键是贪心策略的选择。必须注意的是，贪心算法不是对所有问题都能得到整体最优解，选择的贪心策略必须具备无后效性，即某个状态以后的过程不会影响以前的状态，只与当前状态有关。所以对所采用的贪心策略一定要仔细分析其是否满足无后效性。（听上去特别像dp有没有，其实dp就是贪心思想）</p>
+        <p>克鲁斯卡尔算法用与求解有权值的无相连通图的最小生成树。思想是先按照权值排序，然后每次把权值最小的节点连接起来，等所有节点都互相连接后，最小生成树就出来了。其中节点的链接，就是通过并查集实现的。<br><a id="more"></a></p>
+<h2 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h2><p>所谓贪心算法是指，在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的仅是在某种意义上的局部最优解。<br>贪心算法没有固定的算法框架，算法设计的关键是贪心策略的选择。必须注意的是，贪心算法不是对所有问题都能得到整体最优解，选择的贪心策略必须具备无后效性，即某个状态以后的过程不会影响以前的状态，只与当前状态有关。所以对所采用的贪心策略一定要仔细分析其是否满足无后效性。（听上去特别像dp有没有，其实dp就是贪心思想）</p>
 <h2 id="并查集"><a href="#并查集" class="headerlink" title="并查集"></a>并查集</h2><p>并查集思想用于求图的联通分量的个数等相关问题，能快速的合并和查询元素所在集合，用到这里很完美，先介绍下并查集的用法。并查集的核心操作</p>
 <h3 id="init"><a href="#init" class="headerlink" title="init"></a>init</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;father.length;i++)&#123; </div><div class="line">   father[i] = i;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
 <p>father数组是存放父节点信息的，初始化的时候父节点就是自己，也就是所有节点单独为一个集合。</p>
@@ -119,7 +120,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/11/最小生成树之Kruskar/" data-id="cj598vmny0020l9x3ez81x7li" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2016/12/11/最小生成树之Kruskar/" data-id="cj599882r0022t7x3p6ffrgw9" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>

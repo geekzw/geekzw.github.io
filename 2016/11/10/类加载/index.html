@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/11/10/类加载/index.html">
 <meta property="og:site_name" content="逝去的美好">
 <meta property="og:description" content="类从被加载到虚拟机内存中开始，到卸载出内存为止，它的整个生命周期包括：加载、验证、准备、解析、初始化、使用、卸载7个阶段。其中验证、准备、解析3个部分统称为链接。加载、验证、准备、初始化和卸载这5个阶段顺序是确定的，类的加载过程必须按照这种顺序按部就班的开始，而解析阶段不一定，它可能在初始化后面（运行时绑定）。">
-<meta property="og:updated_time" content="2017-07-18T07:15:32.000Z">
+<meta property="og:updated_time" content="2017-07-18T07:17:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="类加载">
 <meta name="twitter:description" content="类从被加载到虚拟机内存中开始，到卸载出内存为止，它的整个生命周期包括：加载、验证、准备、解析、初始化、使用、卸载7个阶段。其中验证、准备、解析3个部分统称为链接。加载、验证、准备、初始化和卸载这5个阶段顺序是确定的，类的加载过程必须按照这种顺序按部就班的开始，而解析阶段不一定，它可能在初始化后面（运行时绑定）。">
@@ -103,7 +103,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>类从被加载到虚拟机内存中开始，到卸载出内存为止，它的整个生命周期包括：加载、验证、准备、解析、初始化、使用、卸载7个阶段。其中验证、准备、解析3个部分统称为链接。加载、验证、准备、初始化和卸载这5个阶段顺序是确定的，类的加载过程必须按照这种顺序按部就班的开始，而解析阶段不一定，它可能在初始化后面（运行时绑定）。</p>
+        <p>类从被加载到虚拟机内存中开始，到卸载出内存为止，它的整个生命周期包括：加载、验证、准备、解析、初始化、使用、卸载7个阶段。其中验证、准备、解析3个部分统称为链接。加载、验证、准备、初始化和卸载这5个阶段顺序是确定的，类的加载过程必须按照这种顺序按部就班的开始，而解析阶段不一定，它可能在初始化后面（运行时绑定）。<br><a id="more"></a></p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>类从被加载到虚拟机内存中开始，到卸载出内存为止，它的整个生命周期包括：加载、验证、准备、解析、初始化、使用、卸载7个阶段。其中验证、准备、解析3个部分统称为链接。加载、验证、准备、初始化和卸载这5个阶段顺序是确定的，类的加载过程必须按照这种顺序按部就班的开始，而解析阶段不一定，它可能在初始化后面（运行时绑定）。</p>
 <h2 id="触发条件"><a href="#触发条件" class="headerlink" title="触发条件"></a>触发条件</h2><h3 id="一、-加载，验证，准备"><a href="#一、-加载，验证，准备" class="headerlink" title="一、 加载，验证，准备"></a>一、 加载，验证，准备</h3><p>这几个过程，在虚拟机规范中并没有明确规定开始时间和条件，要根据虚拟机具体实现确定。</p>
 <h3 id="二、-初始化"><a href="#二、-初始化" class="headerlink" title="二、 初始化"></a>二、 初始化</h3><h4 id="主动初始化"><a href="#主动初始化" class="headerlink" title="主动初始化"></a>主动初始化</h4><ol>
 <li>当使用new关键字实例化对象、读取或设置静态字段、调用静态方法的时候，如果类没有被初始化，那么要执行初始化操作</li>
@@ -140,7 +141,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/11/10/类加载/" data-id="cj598vmoa002nl9x3kp0qpsau" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2016/11/10/类加载/" data-id="cj599882z002ot7x3pl55ssse" class="article-share-link">分享</a>
       
       
     </footer>

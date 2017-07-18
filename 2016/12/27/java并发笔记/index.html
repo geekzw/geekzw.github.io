@@ -5,17 +5,17 @@
   
   <title>java并发笔记 | 逝去的美好</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="double 和 long的特殊性当线程在没有同步的情况下读取变量时，可能会得到一个失效值，但至少这个值是由之前某个线程设置的值，而不是一个随机值，这种安全性保证也被称为最低安全性。但是有一个例外就是64位的double和long。非volatile类型的long和double变量，JVM允许64位的读操作或写操作分解为两个32为的操作。如果对该变量的读写操作不在同一个线程，就可能出问题 vola">
+  <meta name="description" content="java并发相关内容">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java并发笔记">
 <meta property="og:url" content="http://yoursite.com/2016/12/27/java并发笔记/index.html">
 <meta property="og:site_name" content="逝去的美好">
-<meta property="og:description" content="double 和 long的特殊性当线程在没有同步的情况下读取变量时，可能会得到一个失效值，但至少这个值是由之前某个线程设置的值，而不是一个随机值，这种安全性保证也被称为最低安全性。但是有一个例外就是64位的double和long。非volatile类型的long和double变量，JVM允许64位的读操作或写操作分解为两个32为的操作。如果对该变量的读写操作不在同一个线程，就可能出问题 vola">
-<meta property="og:updated_time" content="2017-01-03T11:24:52.000Z">
+<meta property="og:description" content="java并发相关内容">
+<meta property="og:updated_time" content="2017-07-18T07:22:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java并发笔记">
-<meta name="twitter:description" content="double 和 long的特殊性当线程在没有同步的情况下读取变量时，可能会得到一个失效值，但至少这个值是由之前某个线程设置的值，而不是一个随机值，这种安全性保证也被称为最低安全性。但是有一个例外就是64位的double和long。非volatile类型的long和double变量，JVM允许64位的读操作或写操作分解为两个32为的操作。如果对该变量的读写操作不在同一个线程，就可能出问题 vola">
+<meta name="twitter:description" content="java并发相关内容">
   
     <link rel="alternate" href="/atom.xml" title="逝去的美好" type="application/atom+xml">
   
@@ -104,13 +104,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="double-和-long的特殊性"><a href="#double-和-long的特殊性" class="headerlink" title="double 和 long的特殊性"></a>double 和 long的特殊性</h2><p>当线程在没有同步的情况下读取变量时，可能会得到一个失效值，但至少这个值是由之前某个线程设置的值，而不是一个随机值，这种安全性保证也被称为最低安全性。但是有一个例外就是64位的double和long。非volatile类型的long和double变量，JVM允许64位的读操作或写操作分解为两个32为的操作。如果对该变量的读写操作不在同一个线程，就可能出问题</p>
+        <p>java并发相关内容<br><a id="more"></a></p>
+<h2 id="double-和-long的特殊性"><a href="#double-和-long的特殊性" class="headerlink" title="double 和 long的特殊性"></a>double 和 long的特殊性</h2><p>当线程在没有同步的情况下读取变量时，可能会得到一个失效值，但至少这个值是由之前某个线程设置的值，而不是一个随机值，这种安全性保证也被称为最低安全性。但是有一个例外就是64位的double和long。非volatile类型的long和double变量，JVM允许64位的读操作或写操作分解为两个32为的操作。如果对该变量的读写操作不在同一个线程，就可能出问题</p>
 <h2 id="volatile变量"><a href="#volatile变量" class="headerlink" title="volatile变量"></a>volatile变量</h2><p>当把变量声明为volatile类型后，编译器和运行时都会注意到这个变量是共享的，因此不会将该变量上的操作与其他内存操作仪器重排序。volatile变量不会被缓存在寄存器或者对其他处理器不可见的地方，因此在读取volatile类型的变量时总会返回最新写入的值。volatile变量是一种比sychronized关键字更轻量级的同步机制。volatile一般只作为对同步的状态校验。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/27/java并发笔记/" data-id="cj598vmna0019l9x3zln7r94k" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2016/12/27/java并发笔记/" data-id="cj59988260015t7x3895mcv4r" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>

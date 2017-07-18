@@ -14,7 +14,7 @@
 <meta property="og:description" content="TCP连接的建立和释放，都要经过复杂的过程，用来保证连接的可靠性。连接的时候采用三次握手模式，断开的时候采用四次挥手模式">
 <meta property="og:image" content="http://ofy9dm2ii.bkt.clouddn.com/image/article/tcp_connect.png">
 <meta property="og:image" content="http://ofy9dm2ii.bkt.clouddn.com/image/article/tcp_clos.png">
-<meta property="og:updated_time" content="2017-01-03T11:24:52.000Z">
+<meta property="og:updated_time" content="2017-07-18T07:24:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TCP的三次握手和4次挥手">
 <meta name="twitter:description" content="TCP连接的建立和释放，都要经过复杂的过程，用来保证连接的可靠性。连接的时候采用三次握手模式，断开的时候采用四次挥手模式">
@@ -107,7 +107,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="TCP连接的建立"><a href="#TCP连接的建立" class="headerlink" title="TCP连接的建立"></a>TCP连接的建立</h2><p><img src="http://ofy9dm2ii.bkt.clouddn.com/image/article/tcp_connect.png" alt="三次握手"><br>TCP连接采用的是客户服务器形式，主动发起连接的是客户机，被动打开连接的是服务器。客户端和服务器在打开后，都会创建一个TCB块（里面存储着一些重要信息，TCp链接表，发送缓存指针等）。然后客户端可以向服务端发送数据，服务端等待接收。</p>
+        <p>TCP连接的建立和释放，都要经过复杂的过程，用来保证连接的可靠性。连接的时候采用三次握手模式，断开的时候采用四次挥手模式<br><a id="more"></a></p>
+<h2 id="TCP连接的建立"><a href="#TCP连接的建立" class="headerlink" title="TCP连接的建立"></a>TCP连接的建立</h2><p><img src="http://ofy9dm2ii.bkt.clouddn.com/image/article/tcp_connect.png" alt="三次握手"><br>TCP连接采用的是客户服务器形式，主动发起连接的是客户机，被动打开连接的是服务器。客户端和服务器在打开后，都会创建一个TCB块（里面存储着一些重要信息，TCp链接表，发送缓存指针等）。然后客户端可以向服务端发送数据，服务端等待接收。</p>
 <ul>
 <li>A首先向B发送连接报文，首部中的SYN = 1，序号为seq = x。TCP规定，SYN报文段不能携带数据，但是要消耗一个序号，此时客户端进入SYN-SEND状态。</li>
 <li>B接收到连接报文后，向A发送确认信息，此时SYN = 1 ACK = 1 序号seq = y  确认号ack = x+1，这个报文段也不能携带数据，但是要消耗一个序号，然后服务端进入SYN-REVD状态。</li>
@@ -123,7 +124,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/11/TCP的三次握手和4次挥手/" data-id="cj598vmmw000pl9x3k177o2vj" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2016/12/11/TCP的三次握手和4次挥手/" data-id="cj599881x000pt7x3fev4cthi" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/net/">net</a></li></ul>
