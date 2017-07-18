@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>最小生成树之Kruskar | BLOG</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="克鲁斯卡尔算法用与求解有权值的无相连通图的最小生成树。思想是先按照权值排序，然后每次把权值最小的节点连接起来，等所有节点都互相连接后，最小生成树就出来了。其中节点的链接，就是通过并查集实现的。">
+<meta name="keywords" content="algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最小生成树之Kruskar">
+<meta property="og:url" content="http://yoursite.com/2016/12/11/最小生成树之Kruskar/index.html">
+<meta property="og:site_name" content="BLOG">
+<meta property="og:description" content="克鲁斯卡尔算法用与求解有权值的无相连通图的最小生成树。思想是先按照权值排序，然后每次把权值最小的节点连接起来，等所有节点都互相连接后，最小生成树就出来了。其中节点的链接，就是通过并查集实现的。">
+<meta property="og:updated_time" content="2017-01-03T11:24:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="最小生成树之Kruskar">
+<meta name="twitter:description" content="克鲁斯卡尔算法用与求解有权值的无相连通图的最小生成树。思想是先按照权值排序，然后每次把权值最小的节点连接起来，等所有节点都互相连接后，最小生成树就出来了。其中节点的链接，就是通过并查集实现的。">
+  
+    <link rel="alternate" href="/atom.xml" title="BLOG" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/plugin/bganimation/bg.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <div class="widget-wrap mobile-header">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">null</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>30</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>6</strong><br>标签</div></a>
+    </div>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+        <section id="main"><article id="post-最小生成树之Kruskar" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/11/最小生成树之Kruskar/" class="article-date">
+  <time class="post-time" datetime="2016-12-11T06:00:09.000Z" itemprop="datePublished">
+    <span class="post-month">12月</span><br/>
+    <span class="post-day">11</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      最小生成树之Kruskar
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </div>
+
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h2><p>所谓贪心算法是指，在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的仅是在某种意义上的局部最优解。<br>贪心算法没有固定的算法框架，算法设计的关键是贪心策略的选择。必须注意的是，贪心算法不是对所有问题都能得到整体最优解，选择的贪心策略必须具备无后效性，即某个状态以后的过程不会影响以前的状态，只与当前状态有关。所以对所采用的贪心策略一定要仔细分析其是否满足无后效性。（听上去特别像dp有没有，其实dp就是贪心思想）</p>
+<h2 id="并查集"><a href="#并查集" class="headerlink" title="并查集"></a>并查集</h2><p>并查集思想用于求图的联通分量的个数等相关问题，能快速的合并和查询元素所在集合，用到这里很完美，先介绍下并查集的用法。并查集的核心操作</p>
+<h3 id="init"><a href="#init" class="headerlink" title="init"></a>init</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;father.length;i++)&#123; </div><div class="line">   father[i] = i;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>father数组是存放父节点信息的，初始化的时候父节点就是自己，也就是所有节点单独为一个集合。</p>
+<h3 id="search-int-x"><a href="#search-int-x" class="headerlink" title="search(int x)"></a>search(int x)</h3><h5 id="1-递归实现找祖先"><a href="#1-递归实现找祖先" class="headerlink" title="1.递归实现找祖先"></a>1.递归实现找祖先</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123; </div><div class="line">  <span class="keyword">if</span> (x != father[x])&#123; </div><div class="line">   father[x] = search(father[x]); </div><div class="line">  &#125; </div><div class="line">  <span class="keyword">return</span> father[x]; </div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>这是第一种查找祖先的方法，采用了递归的形式，入栈是为了找到自己的祖先，出栈（回朔）的时候把所有子节点的父节点都指向祖先，这样当下次再找祖先的时候，节约时间，并查集中叫：路径压缩</p>
+<h5 id="1-循环实现找祖先"><a href="#1-循环实现找祖先" class="headerlink" title="1.循环实现找祖先"></a>1.循环实现找祖先</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function">nt <span class="title">search</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123; </div><div class="line">   <span class="keyword">int</span> k,root; </div><div class="line">   root=x; </div><div class="line">   <span class="keyword">while</span>(root!=father[root])  <span class="comment">//循环找x的根      </span></div><div class="line">       root=father[root]; </div><div class="line">   <span class="keyword">while</span>(x!=root)<span class="comment">//本循环修改查找路径中的所有节点使其指向根节点---压缩 </span></div><div class="line">   &#123; </div><div class="line">       k=father[x]; </div><div class="line">       father[x]=root;<span class="comment">//指向根节点 </span></div><div class="line">       x=k; </div><div class="line">   &#125; </div><div class="line">   <span class="keyword">return</span> x; </div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>目的同上，只是实现方法不同，这个是先找到祖先，然后遍历子树，把子节点的父节点改成祖先节点</p>
+<h3 id="union-x-y"><a href="#union-x-y" class="headerlink" title="union(x,y)"></a>union(x,y)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">union</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span>&#123;</div><div class="line">    x = Find_Set(x); </div><div class="line">    y = Find_Set(y); </div><div class="line">    <span class="keyword">if</span> (x == y) <span class="keyword">return</span>;</div><div class="line">    father[y] = x;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我这里只是简单的，把一个集合关联到另一个集合上，其实可以开个辅助数组，记录树的长度，把短的关联到长的上面，也是一种优化。</p>
+<h2 id="Kruskar"><a href="#Kruskar" class="headerlink" title="Kruskar"></a>Kruskar</h2><p>说了半天，终于要说今天的主角了。克鲁斯卡尔算法用与求解有权值的无相连通图的最小生成树。思想是先按照权值排序，然后每次把权值最小的节点连接起来，等所有节点都互相连接后，最小生成树就出来了。其中节点的链接，就是通过并查集实现的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Kruskar</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span>[] father;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> minPath;</div><div class="line">    <span class="comment">//初始化</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">        <span class="keyword">int</span> pointCount;</div><div class="line">        <span class="keyword">int</span> pathCount;</div><div class="line">        Node[] pathSet;</div><div class="line">        Scanner cin = <span class="keyword">new</span> Scanner(System.in);</div><div class="line">        pointCount = cin.nextInt();</div><div class="line">        pathCount = cin.nextInt();</div><div class="line">        pathSet = <span class="keyword">new</span> Node[pathCount];</div><div class="line">        father = <span class="keyword">new</span> <span class="keyword">int</span>[pointCount+<span class="number">1</span>];</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;pathCount;i++)&#123;</div><div class="line">            pathSet[i] = <span class="keyword">new</span> Node();</div><div class="line">            <span class="keyword">int</span> a = cin.nextInt();</div><div class="line">            pathSet[i].a = a;</div><div class="line">            <span class="keyword">int</span> b = cin.nextInt();</div><div class="line">            pathSet[i].b = b;</div><div class="line">            <span class="keyword">int</span> c = cin.nextInt();</div><div class="line">            pathSet[i].val = c;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=pointCount;i++)&#123;</div><div class="line">            father[i] = i;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Arrays.sort(pathSet, <span class="keyword">new</span> Comparator&lt;Node&gt;() &#123;</div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Node o1, Node o2)</span> </span>&#123;</div><div class="line">                <span class="keyword">return</span> o1.val &lt; o2.val?-<span class="number">1</span>:<span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        kruskar(pathSet);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//按排序后，从小到大（权值）的顺序链接节点</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">kruskar</span><span class="params">(Node[] pathSet)</span></span>&#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;pathSet.length;i++)&#123;</div><div class="line">            unit(pathSet[i].a,pathSet[i].b,pathSet[i].val);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        System.out.print(minPath);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//并查集的找祖先</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">find_root</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</div><div class="line">        <span class="keyword">if</span>(x != father[x])&#123;</div><div class="line">            father[x] = find_root(father[x]);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> father[x];</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//并查集的集合合并</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">unit</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> val)</span></span>&#123;</div><div class="line">        <span class="keyword">int</span> rootX = find_root(x);</div><div class="line">        <span class="keyword">int</span> rootY = find_root(y);</div><div class="line">        <span class="keyword">if</span>(rootX!=rootY)&#123;</div><div class="line">            father[rootX] = y;</div><div class="line">            minPath+=val;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span></span>&#123;</div><div class="line">        <span class="keyword">int</span> a;<span class="comment">//节点a</span></div><div class="line">        <span class="keyword">int</span> b;<span class="comment">//节点b</span></div><div class="line">        <span class="keyword">int</span> val;<span class="comment">//a b距离</span></div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/11/最小生成树之Kruskar/" data-id="cj596hiju000b37x37q95328t" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/11/TCP的三次握手和4次挥手/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          TCP的三次握手和4次挥手
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/10/最小生成树之Prim/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">最小生成树之Prim</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <h1 class="blog-title">BLOG</h1>
+    <h2 class="blog-subtitle">null</h2>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">null</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>30</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>6</strong><br>标签</div></a>
+    </div>
+
+
+
+    <div class="social-link">
+      
+        <a class="hvr-bounce-in" href="http://github.com/ShanaMaid" target="_blank" title="Github">
+          Github
+        </a>
+      
+    </div>
+
+    <div class="friend-link">
+      <h2>友情链接</h2>
+      
+        <a class="hvr-bounce-in" href="http://blog.shanamaid.top/" target="_blank" title="ShanaMaid">
+          ShanaMaid
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy;2016 - 2017 geekzw<br>
+      由<a href="http://hexo.io/" target="_blank">Hexo</a>强力驱动 | 
+      主题-<a href="https://github.com/ShanaMaid/hexo-theme-shana">Shana</a>
+      
+    </div>
+    
+  </div>
+</footer>
+    </div>
+    
+
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//apps.bdimg.com/libs/wow/0.1.6/wow.min.js"></script>
+<script>
+new WOW().init();
+</script>   
+
+
+  <link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+  <script src="/plugin/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <link rel="stylesheet" href="/plugin/galmenu/GalMenu.css">
+  <script src="/plugin/galmenu/GalMenu.js"></script>
+  <div class="GalMenu GalDropDown">
+      <div class="circle" id="gal">
+        <div class="ring">
+          
+            <a href="/" title="" class="menuItem">首页</a>
+          
+            <a href="/tags" title="" class="menuItem">标签</a>
+          
+            <a href="/categories" title="" class="menuItem">分类</a>
+          
+            <a href="/archives" title="" class="menuItem">归档</a>
+          
+            <a href="/xxxxxxxxx" title="" class="menuItem">xxx</a>
+          
+            <a href="/xxxxxxx" title="" class="menuItem">xxxx</a>
+          
+        </div>
+        
+          <audio id="audio" src="#"></audio>
+        
+      </div> 
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+  <script type="text/javascript">var items = document.querySelectorAll('.menuItem');
+    for (var i = 0,
+    l = items.length; i < l; i++) {
+      items[i].style.left = (50 - 35 * Math.cos( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+      items[i].style.top = (50 + 35 * Math.sin( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%"
+    }</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('body').GalMenu({
+      'menu': 'GalDropDown'
+    })
+  });
+</script>
+
+  <section class="hidden-xs"> 
+  <ul class="cb-slideshow"> 
+    <li><span>苟利</span></li> 
+    <li><span>国家</span></li> 
+    <li><span>生死以</span></li> 
+    <li><span>岂能</span></li> 
+    <li><span>祸福</span></li> 
+    <li><span>趋避之</span></li> 
+  </ul>
+</section>
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ICMP | BLOG</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="ICMP全称：Internet Control Message Protocol 翻译过来就是网际控制报文协议。目的是有效的转发IP数据报和提高交付成功的机会。ICMP不是高层协议，是IP层的协议。ICMP报文作为IP数据报的数据，加上数据报的首部组成IP数据报发送出去">
+<meta name="keywords" content="net">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ICMP">
+<meta property="og:url" content="http://yoursite.com/2016/12/02/ICMP/index.html">
+<meta property="og:site_name" content="BLOG">
+<meta property="og:description" content="ICMP全称：Internet Control Message Protocol 翻译过来就是网际控制报文协议。目的是有效的转发IP数据报和提高交付成功的机会。ICMP不是高层协议，是IP层的协议。ICMP报文作为IP数据报的数据，加上数据报的首部组成IP数据报发送出去">
+<meta property="og:image" content="http://ofy9dm2ii.bkt.clouddn.com/icmp1.png">
+<meta property="og:image" content="http://ofy9dm2ii.bkt.clouddn.com/image/article/icmp2.png">
+<meta property="og:updated_time" content="2017-01-03T11:24:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ICMP">
+<meta name="twitter:description" content="ICMP全称：Internet Control Message Protocol 翻译过来就是网际控制报文协议。目的是有效的转发IP数据报和提高交付成功的机会。ICMP不是高层协议，是IP层的协议。ICMP报文作为IP数据报的数据，加上数据报的首部组成IP数据报发送出去">
+<meta name="twitter:image" content="http://ofy9dm2ii.bkt.clouddn.com/icmp1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="BLOG" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/plugin/bganimation/bg.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <div class="widget-wrap mobile-header">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">null</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>30</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>6</strong><br>标签</div></a>
+    </div>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+        <section id="main"><article id="post-ICMP" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/02/ICMP/" class="article-date">
+  <time class="post-time" datetime="2016-12-02T05:54:19.000Z" itemprop="datePublished">
+    <span class="post-month">12月</span><br/>
+    <span class="post-day">02</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ICMP
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/net/">net</a>
+  </div>
+
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="ICMP概念"><a href="#ICMP概念" class="headerlink" title="ICMP概念"></a>ICMP概念</h2><p>ICMP全称：Internet Control Message Protocol 翻译过来就是网际控制报文协议。目的是有效的转发IP数据报和提高交付成功的机会。ICMP不是高层协议，是IP层的协议。ICMP报文作为IP数据报的数据，加上数据报的首部组成IP数据报发送出去<br><img src="http://ofy9dm2ii.bkt.clouddn.com/icmp1.png" alt="ICMP报文格式"></p>
+<h2 id="ICMP种类"><a href="#ICMP种类" class="headerlink" title="ICMP种类"></a>ICMP种类</h2><p>ICMP报文有两种：ICMP差错报告报文和ICMP询问报文<br><img src="http://ofy9dm2ii.bkt.clouddn.com/image/article/icmp2.png" alt="ICMP报文类型"></p>
+<ul>
+<li>终点不可达：当路由器或主机不能交付数据时就向源点发送此报告</li>
+<li>源点抑制：当路由或主机由于拥塞而丢失数据的时候，向源点发送此报告，使源点知道应该把数据报的速率放慢</li>
+<li>时间超过：当路由器收到时间为0的数据报时除丢弃数据报外，还要向源点发送此报文。当终点在预定的时间内没有收到全部数据时，会丢弃已收到的所有数据并向源点发送此报文</li>
+<li>参数问题：当路由或目的主机收到的数据有问题时发送</li>
+<li>改变路由：路由把改变路由报文发给源主机，让主机知道下次应该用哪个路由<br>每个主机都有个默认路由，初始时，主机总是把数据发给默认路由，由默认路由寻找合适的路由或主机转发，当默认路由找到合适的路由，并认为以后主机应该直接发给那个路由，不用通过默认路由的时候，就会给源主机发送改变路由的报文，源主机在自己的路由表中增加一个项目，以后就会直接发给相应的路由<h2 id="ICMP应用"><a href="#ICMP应用" class="headerlink" title="ICMP应用"></a>ICMP应用</h2>在window系统中，我们常用的ping命令，就是ICMP。当执行ping命令的时候，PC机会一连发出多条回送请求报文<br>还有个非常有用的功能是 tracert，就是跟踪源主机到目的主机的路径。<br>实现方式：<br>tracerout向目的主机发送一连串的IP数据，都是不可交付的UDP数据。第一个的TTL设置为1，当第一个路由接收到后TTl-1，变成0，则丢弃数据；第二次TTL设置成2，当第二个路由收到后，TTL变为0，丢弃数据。这样一直到目的主机（目的主机无法对TTL操作，但是由于发送的是不可交付的UDP数据，因此会向源主机发送中点不可达的ICMP）。由于每次TTL变为0，数据时间超过，会给源主机发送时间超过的ICMP报文，则源主机就记住了从源主机到目的主机的路径</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/02/ICMP/" data-id="cj596hin7000k37x3v7veujpf" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/net/">net</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/02/TCP-UDP/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          TCP/UDP
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/02/快慢指针-归并/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">快慢指针+归并</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <h1 class="blog-title">BLOG</h1>
+    <h2 class="blog-subtitle">null</h2>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">null</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>30</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>6</strong><br>标签</div></a>
+    </div>
+
+
+
+    <div class="social-link">
+      
+        <a class="hvr-bounce-in" href="http://github.com/ShanaMaid" target="_blank" title="Github">
+          Github
+        </a>
+      
+    </div>
+
+    <div class="friend-link">
+      <h2>友情链接</h2>
+      
+        <a class="hvr-bounce-in" href="http://blog.shanamaid.top/" target="_blank" title="ShanaMaid">
+          ShanaMaid
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy;2016 - 2017 geekzw<br>
+      由<a href="http://hexo.io/" target="_blank">Hexo</a>强力驱动 | 
+      主题-<a href="https://github.com/ShanaMaid/hexo-theme-shana">Shana</a>
+      
+    </div>
+    
+  </div>
+</footer>
+    </div>
+    
+
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//apps.bdimg.com/libs/wow/0.1.6/wow.min.js"></script>
+<script>
+new WOW().init();
+</script>   
+
+
+  <link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+  <script src="/plugin/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <link rel="stylesheet" href="/plugin/galmenu/GalMenu.css">
+  <script src="/plugin/galmenu/GalMenu.js"></script>
+  <div class="GalMenu GalDropDown">
+      <div class="circle" id="gal">
+        <div class="ring">
+          
+            <a href="/" title="" class="menuItem">首页</a>
+          
+            <a href="/tags" title="" class="menuItem">标签</a>
+          
+            <a href="/categories" title="" class="menuItem">分类</a>
+          
+            <a href="/archives" title="" class="menuItem">归档</a>
+          
+            <a href="/xxxxxxxxx" title="" class="menuItem">xxx</a>
+          
+            <a href="/xxxxxxx" title="" class="menuItem">xxxx</a>
+          
+        </div>
+        
+          <audio id="audio" src="#"></audio>
+        
+      </div> 
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+  <script type="text/javascript">var items = document.querySelectorAll('.menuItem');
+    for (var i = 0,
+    l = items.length; i < l; i++) {
+      items[i].style.left = (50 - 35 * Math.cos( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+      items[i].style.top = (50 + 35 * Math.sin( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%"
+    }</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('body').GalMenu({
+      'menu': 'GalDropDown'
+    })
+  });
+</script>
+
+  <section class="hidden-xs"> 
+  <ul class="cb-slideshow"> 
+    <li><span>苟利</span></li> 
+    <li><span>国家</span></li> 
+    <li><span>生死以</span></li> 
+    <li><span>岂能</span></li> 
+    <li><span>祸福</span></li> 
+    <li><span>趋避之</span></li> 
+  </ul>
+</section>
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

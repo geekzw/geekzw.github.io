@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>最长递增子序列（LIS） | BLOG</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="比如要找出ABDEC的最长子序列，我们可以先对这个串排序，排序后为ABCDE，此时找出两个串的最长公共子序列，即为ABDEC的最长递增子序列。[最长公共子序列][1]算法我在前面有写，可以参考一下。">
+<meta name="keywords" content="algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最长递增子序列（LIS）">
+<meta property="og:url" content="http://yoursite.com/2016/12/06/最长递增子序列（LIS）/index.html">
+<meta property="og:site_name" content="BLOG">
+<meta property="og:description" content="比如要找出ABDEC的最长子序列，我们可以先对这个串排序，排序后为ABCDE，此时找出两个串的最长公共子序列，即为ABDEC的最长递增子序列。[最长公共子序列][1]算法我在前面有写，可以参考一下。">
+<meta property="og:updated_time" content="2017-01-03T11:24:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="最长递增子序列（LIS）">
+<meta name="twitter:description" content="比如要找出ABDEC的最长子序列，我们可以先对这个串排序，排序后为ABCDE，此时找出两个串的最长公共子序列，即为ABDEC的最长递增子序列。[最长公共子序列][1]算法我在前面有写，可以参考一下。">
+  
+    <link rel="alternate" href="/atom.xml" title="BLOG" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/plugin/bganimation/bg.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <div class="widget-wrap mobile-header">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">null</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>30</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>6</strong><br>标签</div></a>
+    </div>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+        <section id="main"><article id="post-最长递增子序列（LIS）" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/06/最长递增子序列（LIS）/" class="article-date">
+  <time class="post-time" datetime="2016-12-06T01:25:12.000Z" itemprop="datePublished">
+    <span class="post-month">12月</span><br/>
+    <span class="post-day">06</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      最长递增子序列（LIS）
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </div>
+
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="排序-最长公共子序列"><a href="#排序-最长公共子序列" class="headerlink" title="排序+最长公共子序列"></a>排序+最长公共子序列</h2><p>比如要找出ABDEC的最长子序列，我们可以先对这个串排序，排序后为ABCDE，此时找出两个串的最长公共子序列，即为ABDEC的最长递增子序列。<a href="https://geekzw.github.io/2016/12/05/最长递增子序列（LIS）/" target="_blank" rel="external">最长公共子序列</a>算法我在前面有写，可以参考一下。</p>
+<h2 id="直接dp"><a href="#直接dp" class="headerlink" title="直接dp"></a>直接dp</h2><p>dp的两大规则，</p>
+<ul>
+<li>目标问题可以划分为相同的众多子问题</li>
+<li>子问题具有重叠性，子问题对目标问题的求解有帮助<br>看我们这题目，显然满足。首先，我们求ABDEC的LIS的时候，我们可以先求出A子串的LIS，在A的基础上再求出AB的LIS，这样从子问题出发，问题规模不断扩大，最终求出目标问题的解。<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LIS</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">        String str = <span class="string">"ABDEC"</span>;</div><div class="line">        System.out.print(lis(str)+<span class="string">""</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">lis</span><span class="params">(String str)</span></span>&#123;</div><div class="line">        <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[str.length()+<span class="number">1</span>];</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;dp.length;i++)&#123;</div><div class="line">            dp[i] = <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;str.length();i++)&#123;</div><div class="line">            <span class="keyword">if</span>(i == <span class="number">0</span>)&#123;</div><div class="line">                dp[i] = <span class="number">1</span>;</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> j = i-<span class="number">1</span>;j&gt;=<span class="number">0</span>;j--)&#123;</div><div class="line">                    <span class="keyword">if</span>(str.charAt(i) &gt; str.charAt(j))&#123;</div><div class="line">                        dp[i] = dp[j]+<span class="number">1</span>;</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> dp[str.length()-<span class="number">1</span>];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>简单分析下代码。首先创建一个辅助数组，用来保存ABDEC串的每个位置的最大递增子序列。例如dp[0] = 1.因为只有A一个的时候，长度是1.dp<a href="https://geekzw.github.io/2016/12/05/最长递增子序列（LIS）/" target="_blank" rel="external">1</a> = 2;1这个位置对应的就是串的B，也就是走到B时的LIS，很明显B比A大，所以在B位置就是2，依次分析，就得出答案。每走到一个位置，让这个位置的数据跟在他之前的每一位进行比较，当找到第一个比他小的时候，他的长度就是那个比他小的的长度+1；</p>
+<h2 id="最小末尾"><a href="#最小末尾" class="headerlink" title="最小末尾"></a>最小末尾</h2><p>这种方法肯定不是叫最小末尾，只是最小末尾是核心，就这么叫了。因为我们要找的是最长递增子序列，那么可以知道，子串的第二位肯定比第一位大，同样第三位肯定比第二位大。那么我们在第一位，肯定要放入一个最小的数字，如果放大了，那么可能存在比他小的，就没地方放了。就是在LIS的每一位，放入最小可能值。比如对1423这个序列。首先LIS的第一位肯定放1，然后第二位放4.当我们看到2的时候，2明显比4小啊，4放第二位就不合适了，那么就把4拿掉，2放第二位，看到3的时候，3比2大，所以放在第三位。又因为我们的辅助数组里按最小末尾放值，那么肯定是递增的，那么当我们拿到一个新的值，在辅助数组中替换某个最小末尾的时候，就可以用二分查找，节省时间<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">lis2</span><span class="params">(String str)</span></span>&#123;</div><div class="line">        <span class="keyword">int</span> len = <span class="number">1</span>;</div><div class="line">        <span class="keyword">char</span>[] dp = <span class="keyword">new</span> <span class="keyword">char</span>[str.length()];</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;dp.length;i++)&#123;</div><div class="line">            dp[i] = <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line">        dp[len] = str.charAt(<span class="number">0</span>);</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;str.length();i++)&#123;</div><div class="line">            <span class="keyword">if</span>(dp[len]&lt; str.charAt(i))&#123;</div><div class="line">                dp[++len] = str.charAt(i);</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                <span class="keyword">int</span> index = binary(i,dp,str);</div><div class="line">                dp[index] = str.charAt(i);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> len;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">binary</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">char</span>[] dp,String str)</span></span>&#123;</div><div class="line">        <span class="keyword">int</span> left=<span class="number">0</span>,right=dp.length-<span class="number">1</span>;</div><div class="line">        <span class="keyword">int</span> mid ;</div><div class="line">        <span class="keyword">while</span>(left&lt;right)&#123;</div><div class="line">            mid = (left+right)/<span class="number">2</span>;</div><div class="line">            <span class="keyword">if</span>(dp[mid]&gt;str.charAt(i)) right = mid;</div><div class="line">            <span class="keyword">else</span> left = mid+<span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> left;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>此方法的时间复杂度降到了nlogn,而前面两个都是n^2</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/06/最长递增子序列（LIS）/" data-id="cj596hijy000d37x3u57ioouh" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/06/android-常用小知识/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          android 常用小知识
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/05/最长公共子序列（LCS）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">最长公共子序列（LCS）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <h1 class="blog-title">BLOG</h1>
+    <h2 class="blog-subtitle">null</h2>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">null</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>30</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>6</strong><br>标签</div></a>
+    </div>
+
+
+
+    <div class="social-link">
+      
+        <a class="hvr-bounce-in" href="http://github.com/ShanaMaid" target="_blank" title="Github">
+          Github
+        </a>
+      
+    </div>
+
+    <div class="friend-link">
+      <h2>友情链接</h2>
+      
+        <a class="hvr-bounce-in" href="http://blog.shanamaid.top/" target="_blank" title="ShanaMaid">
+          ShanaMaid
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy;2016 - 2017 geekzw<br>
+      由<a href="http://hexo.io/" target="_blank">Hexo</a>强力驱动 | 
+      主题-<a href="https://github.com/ShanaMaid/hexo-theme-shana">Shana</a>
+      
+    </div>
+    
+  </div>
+</footer>
+    </div>
+    
+
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//apps.bdimg.com/libs/wow/0.1.6/wow.min.js"></script>
+<script>
+new WOW().init();
+</script>   
+
+
+  <link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+  <script src="/plugin/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <link rel="stylesheet" href="/plugin/galmenu/GalMenu.css">
+  <script src="/plugin/galmenu/GalMenu.js"></script>
+  <div class="GalMenu GalDropDown">
+      <div class="circle" id="gal">
+        <div class="ring">
+          
+            <a href="/" title="" class="menuItem">首页</a>
+          
+            <a href="/tags" title="" class="menuItem">标签</a>
+          
+            <a href="/categories" title="" class="menuItem">分类</a>
+          
+            <a href="/archives" title="" class="menuItem">归档</a>
+          
+            <a href="/xxxxxxxxx" title="" class="menuItem">xxx</a>
+          
+            <a href="/xxxxxxx" title="" class="menuItem">xxxx</a>
+          
+        </div>
+        
+          <audio id="audio" src="#"></audio>
+        
+      </div> 
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+  <script type="text/javascript">var items = document.querySelectorAll('.menuItem');
+    for (var i = 0,
+    l = items.length; i < l; i++) {
+      items[i].style.left = (50 - 35 * Math.cos( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+      items[i].style.top = (50 + 35 * Math.sin( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%"
+    }</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('body').GalMenu({
+      'menu': 'GalDropDown'
+    })
+  });
+</script>
+
+  <section class="hidden-xs"> 
+  <ul class="cb-slideshow"> 
+    <li><span>苟利</span></li> 
+    <li><span>国家</span></li> 
+    <li><span>生死以</span></li> 
+    <li><span>岂能</span></li> 
+    <li><span>祸福</span></li> 
+    <li><span>趋避之</span></li> 
+  </ul>
+</section>
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

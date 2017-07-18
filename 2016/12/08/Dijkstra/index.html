@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Dijkstra | BLOG</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Dijkstra解决的是单源最短路径问题，也就是图中某个点到其他任意点的最短路径，权值要求是正值。">
+<meta name="keywords" content="algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dijkstra">
+<meta property="og:url" content="http://yoursite.com/2016/12/08/Dijkstra/index.html">
+<meta property="og:site_name" content="BLOG">
+<meta property="og:description" content="Dijkstra解决的是单源最短路径问题，也就是图中某个点到其他任意点的最短路径，权值要求是正值。">
+<meta property="og:image" content="http://ofy9dm2ii.bkt.clouddn.com/Dijkstra.png">
+<meta property="og:updated_time" content="2017-01-03T11:24:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dijkstra">
+<meta name="twitter:description" content="Dijkstra解决的是单源最短路径问题，也就是图中某个点到其他任意点的最短路径，权值要求是正值。">
+<meta name="twitter:image" content="http://ofy9dm2ii.bkt.clouddn.com/Dijkstra.png">
+  
+    <link rel="alternate" href="/atom.xml" title="BLOG" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/plugin/bganimation/bg.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <div class="widget-wrap mobile-header">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">null</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>30</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>6</strong><br>标签</div></a>
+    </div>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+        <section id="main"><article id="post-Dijkstra" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/08/Dijkstra/" class="article-date">
+  <time class="post-time" datetime="2016-12-08T02:46:37.000Z" itemprop="datePublished">
+    <span class="post-month">12月</span><br/>
+    <span class="post-day">08</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Dijkstra
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </div>
+
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="废话"><a href="#废话" class="headerlink" title="废话"></a>废话</h2><p>今天看了Dijkstra算法，花了些时间，也总算是理解了，特此写下，方便以后回忆。感觉算法这东西，长时间不看，容易忘。当然网上这类博客也很多，其中也有些讲的很好。之所以自己写，是因为自己理解的思路，总归是有些自己的特点，如果每次都去看别人的，每次都要按别人的套路走一遍。而回过头看自己的话，估计浏览一遍就能回忆起来。我只能说写给自己以后温习用，因为自己理解不够深，文采又没有，不敢说写给广大人民群众看，当然，如果你看完后对你有点帮助那就再好不过了。废话不多说了，开始。</p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Dijkstra解决的是单源最短路径问题，也就是图中某个点到其他任意点的最短路径，权值要求是正值。</p>
+<h2 id="讲故事"><a href="#讲故事" class="headerlink" title="讲故事"></a>讲故事</h2><p><img src="http://ofy9dm2ii.bkt.clouddn.com/Dijkstra.png" alt="此处输入图片的描述"><br>看这图是不是很简单？简单就对了，简单能说明问题的话，干嘛搞个很复杂的图。Dijkstra的思想有些像广搜，地毯式搜索，每次只找离自己最近的节点。我们可以这么想，比如我要找1到4的最短路。那么1就可以看成一个公司的boss，现在公司就他一个人。我们看到2和3与他相连，说明他认识2和3，2和3跟他的距离（权值）也就是跟他的亲密度。这时候，如果1想拉人入伙，我们想想他会找谁，肯定找3啊，因为3跟他关系好啊。那么也就是说，1节点首先找到离他最近的节点，那就是3.然后3入伙了，也就近了公司这个集合。1就说了，公司需要扩大规模，你快去发展下线（招人去吧）。然后就把招人的事交给3了，从图中我们可以看出，3只认识4了，所以就去找4，找到后跟1汇报，并说明了他跟4的关系，权值是10（看来关系有点远了）。这个时候，1想了，我不是还认识2吗，相比4，跟2的关系更好啊。于是，1又找到跟他关系最好的（距离最近），因为这个时候3已经加入了公司，所以不考虑了。所以就只能是2了。2加入后跟3做同样的事，去招人。巧了，2也认识4，并且跟4的关系看上去还不错奥。这个时候它再向1汇报，说自己找到了4，并且说明跟4的关系。这个时候注意，前面忘记交代，当3找到4并向1汇报的时候，1综合他跟3的关系，再加上3跟4的关系，已经能得出跟4的关系值了（距离），当时就是因为不太满意，感觉不可信，他才先就近找2.现在2也找到了4，并且关系又近了不少，1更新完跟4的关系值后，感觉还行，最后把4也收下了，这样，所有人都进入了公司，并且跟1的关系很明确了。</p>
+<p>##故事&amp;Dijkstra<br>读完故事，我们能得到这些信息</p>
+<ul>
+<li>boss(源点)每次都是找离他最近的人（节点）</li>
+<li>找到节点后让他去招人（更新与最近节点相连的节点信息）<br>其实主要就是这两点了，不断循环往复，所有节点都会被找到，所有节点距源点的距离也变成了最短距离，因为源点每次派出去的都是据他最近的点。<br>##代码<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dijkstra</span> </span>&#123;</div><div class="line">    <span class="comment">//这里主要做初始化工作</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">        <span class="keyword">int</span> count;<span class="comment">//节点数</span></div><div class="line">        <span class="keyword">int</span> pathCount;<span class="comment">//路径数</span></div><div class="line">        Scanner scanner=<span class="keyword">new</span> Scanner(System.in);</div><div class="line">        count = scanner.nextInt();</div><div class="line">        pathCount = scanner.nextInt();</div><div class="line">        <span class="keyword">int</span>[][] array = <span class="keyword">new</span> <span class="keyword">int</span>[count+<span class="number">1</span>][count+<span class="number">1</span>];</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;count+<span class="number">1</span>;i++)&#123;</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;count+<span class="number">1</span>;j++)&#123;</div><div class="line">                <span class="keyword">if</span>(i == j)array[i][j] = <span class="number">0</span>;</div><div class="line">                <span class="keyword">else</span> array[i][j] = Integer.MAX_VALUE;</div><div class="line"></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;pathCount;i++)&#123;</div><div class="line">            <span class="keyword">int</span> a = scanner.nextInt();</div><div class="line">            <span class="keyword">int</span> b = scanner.nextInt();</div><div class="line">            <span class="keyword">int</span> c = scanner.nextInt();</div><div class="line">            array[a][b] = c;</div><div class="line">        &#125;</div><div class="line">        System.out.print(dijkstra(array,<span class="number">1</span>,<span class="number">5</span>)+<span class="string">""</span>);</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    <span class="comment">//核心方法</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">dijkstra</span><span class="params">(<span class="keyword">int</span>[][] array,<span class="keyword">int</span> start,<span class="keyword">int</span> end)</span></span>&#123;</div><div class="line">        <span class="keyword">int</span> length = array.length;</div><div class="line">        <span class="keyword">int</span>[] dis = <span class="keyword">new</span> <span class="keyword">int</span>[length];<span class="comment">//源点到各节点的距离</span></div><div class="line">        <span class="keyword">boolean</span>[] vis = <span class="keyword">new</span> <span class="keyword">boolean</span>[length];<span class="comment">//是否已经加入公司了</span></div><div class="line">        vis[start] = <span class="keyword">true</span>;<span class="comment">//开始只有boss在公司</span></div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;length;i++)&#123;<span class="comment">//boss先收集他认识的人</span></div><div class="line">            dis[i] = array[start][i];</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//找他最信任的人</span></div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i &lt; length;i++)&#123;</div><div class="line">            <span class="keyword">int</span> current = <span class="number">0</span>;</div><div class="line">            <span class="keyword">int</span> min = Integer.MAX_VALUE;</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>;j&lt;length;j++)&#123;</div><div class="line">                <span class="keyword">if</span>(!vis[j] &amp;&amp; dis[j]&lt;min)&#123;</div><div class="line">                    min = dis[j];</div><div class="line">                    current = j;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            </div><div class="line">            vis[current] = <span class="keyword">true</span>;<span class="comment">//找到后这个人加入公司</span></div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> v = <span class="number">1</span>;v&lt;length;v++)&#123;<span class="comment">//派去干活（招人）</span></div><div class="line">                <span class="keyword">if</span>(array[current][v]&lt;Integer.MAX_VALUE)&#123;</div><div class="line">                    dis[v] = dis[v] &gt; (array[current][v]+dis[current])?(array[current][v]+dis[current]):dis[v];</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;</div><div class="line"><span class="comment">//        for(int i=1;i&lt;length;i++)&#123;</span></div><div class="line"><span class="comment">//            System.out.print(dis[i]+" ");</span></div><div class="line"><span class="comment">//        &#125;</span></div><div class="line">        <span class="keyword">return</span> dis[end];</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">/*</span></div><div class="line">6 9</div><div class="line">1 2 7</div><div class="line">1 3 9</div><div class="line">1 6 14</div><div class="line">2 3 10</div><div class="line">3 6 2</div><div class="line">6 5 9</div><div class="line">2 4 15</div><div class="line">3 4 11</div><div class="line">4 5 6</div><div class="line"> */</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>代码关键地方依照故事情景写了注释，应该是能理解了，感觉自己写的好通俗，失去了算法那种高大上的感觉。不过我不care，能让我最快最容易理解的方法就是好方法，当然如果能帮到正在看的人，那就是更好的方法了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/08/Dijkstra/" data-id="cj596hin1000h37x3dz1ch4k0" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/09/Floyd/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          Floyd
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/06/android-常用小知识/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">android 常用小知识</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <h1 class="blog-title">BLOG</h1>
+    <h2 class="blog-subtitle">null</h2>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">null</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>30</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>6</strong><br>标签</div></a>
+    </div>
+
+
+
+    <div class="social-link">
+      
+        <a class="hvr-bounce-in" href="http://github.com/ShanaMaid" target="_blank" title="Github">
+          Github
+        </a>
+      
+    </div>
+
+    <div class="friend-link">
+      <h2>友情链接</h2>
+      
+        <a class="hvr-bounce-in" href="http://blog.shanamaid.top/" target="_blank" title="ShanaMaid">
+          ShanaMaid
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy;2016 - 2017 geekzw<br>
+      由<a href="http://hexo.io/" target="_blank">Hexo</a>强力驱动 | 
+      主题-<a href="https://github.com/ShanaMaid/hexo-theme-shana">Shana</a>
+      
+    </div>
+    
+  </div>
+</footer>
+    </div>
+    
+
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//apps.bdimg.com/libs/wow/0.1.6/wow.min.js"></script>
+<script>
+new WOW().init();
+</script>   
+
+
+  <link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+  <script src="/plugin/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <link rel="stylesheet" href="/plugin/galmenu/GalMenu.css">
+  <script src="/plugin/galmenu/GalMenu.js"></script>
+  <div class="GalMenu GalDropDown">
+      <div class="circle" id="gal">
+        <div class="ring">
+          
+            <a href="/" title="" class="menuItem">首页</a>
+          
+            <a href="/tags" title="" class="menuItem">标签</a>
+          
+            <a href="/categories" title="" class="menuItem">分类</a>
+          
+            <a href="/archives" title="" class="menuItem">归档</a>
+          
+            <a href="/xxxxxxxxx" title="" class="menuItem">xxx</a>
+          
+            <a href="/xxxxxxx" title="" class="menuItem">xxxx</a>
+          
+        </div>
+        
+          <audio id="audio" src="#"></audio>
+        
+      </div> 
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+  <script type="text/javascript">var items = document.querySelectorAll('.menuItem');
+    for (var i = 0,
+    l = items.length; i < l; i++) {
+      items[i].style.left = (50 - 35 * Math.cos( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+      items[i].style.top = (50 + 35 * Math.sin( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%"
+    }</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('body').GalMenu({
+      'menu': 'GalDropDown'
+    })
+  });
+</script>
+
+  <section class="hidden-xs"> 
+  <ul class="cb-slideshow"> 
+    <li><span>苟利</span></li> 
+    <li><span>国家</span></li> 
+    <li><span>生死以</span></li> 
+    <li><span>岂能</span></li> 
+    <li><span>祸福</span></li> 
+    <li><span>趋避之</span></li> 
+  </ul>
+</section>
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

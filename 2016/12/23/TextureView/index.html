@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>TextureView | BLOG</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="A TextureView can be used to display a content stream. Such a content stream can for instance be a video or an OpenGL scene. The content stream can come from the application&apos;s process as well as a rem">
+<meta name="keywords" content="android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TextureView">
+<meta property="og:url" content="http://yoursite.com/2016/12/23/TextureView/index.html">
+<meta property="og:site_name" content="BLOG">
+<meta property="og:description" content="A TextureView can be used to display a content stream. Such a content stream can for instance be a video or an OpenGL scene. The content stream can come from the application&apos;s process as well as a rem">
+<meta property="og:updated_time" content="2017-01-03T11:24:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TextureView">
+<meta name="twitter:description" content="A TextureView can be used to display a content stream. Such a content stream can for instance be a video or an OpenGL scene. The content stream can come from the application&apos;s process as well as a rem">
+  
+    <link rel="alternate" href="/atom.xml" title="BLOG" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/plugin/bganimation/bg.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <div class="widget-wrap mobile-header">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">null</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>30</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>6</strong><br>标签</div></a>
+    </div>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+        <section id="main"><article id="post-TextureView" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/23/TextureView/" class="article-date">
+  <time class="post-time" datetime="2016-12-23T06:59:27.000Z" itemprop="datePublished">
+    <span class="post-month">12月</span><br/>
+    <span class="post-day">23</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      TextureView
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/android/">android</a>
+  </div>
+
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h4 id="官网："><a href="#官网：" class="headerlink" title="官网："></a>官网：</h4><p>A TextureView can be used to display a content stream. Such a content stream can for instance be a video or an OpenGL scene. The content stream can come from the application’s process as well as a remote process.</p>
+<p>TextureView can only be used in a hardware accelerated window. When rendered in software, TextureView will draw nothing.</p>
+<p>Unlike SurfaceView, TextureView does not create a separate window but behaves as a regular View. This key difference allows a TextureView to be moved, transformed, animated, etc. For instance, you can make a TextureView semi-translucent by calling myView.setAlpha(0.5f).</p>
+<p>Using a TextureView is simple: all you need to do is get its SurfaceTexture. The SurfaceTexture can then be used to render content. The following example demonstrates how to render the camera preview into a TextureView:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LiveCameraActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">TextureView</span>.<span class="title">SurfaceTextureListener</span> </span>&#123;</div><div class="line">      <span class="keyword">private</span> Camera mCamera;</div><div class="line">      <span class="keyword">private</span> TextureView mTextureView;</div><div class="line"></div><div class="line">      <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">          <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line"></div><div class="line">          mTextureView = <span class="keyword">new</span> TextureView(<span class="keyword">this</span>);</div><div class="line">          mTextureView.setSurfaceTextureListener(<span class="keyword">this</span>);</div><div class="line"></div><div class="line">          setContentView(mTextureView);</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceTextureAvailable</span><span class="params">(SurfaceTexture surface, <span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</div><div class="line">          mCamera = Camera.open();</div><div class="line"></div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">              mCamera.setPreviewTexture(surface);</div><div class="line">              mCamera.startPreview();</div><div class="line">          &#125; <span class="keyword">catch</span> (IOException ioe) &#123;</div><div class="line">              <span class="comment">// Something bad happened</span></div><div class="line">          &#125;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceTextureSizeChanged</span><span class="params">(SurfaceTexture surface, <span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</div><div class="line">          <span class="comment">// Ignored, Camera does all the work for us</span></div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onSurfaceTextureDestroyed</span><span class="params">(SurfaceTexture surface)</span> </span>&#123;</div><div class="line">          mCamera.stopPreview();</div><div class="line">          mCamera.release();</div><div class="line">          <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceTextureUpdated</span><span class="params">(SurfaceTexture surface)</span> </span>&#123;</div><div class="line">          <span class="comment">// Invoked every time there's a new Camera preview frame</span></div><div class="line">      &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>A TextureView’s SurfaceTexture can be obtained either by invoking getSurfaceTexture() or by using a TextureView.SurfaceTextureListener. It is important to know that a SurfaceTexture is available only after the TextureView is attached to a window (and onAttachedToWindow() has been invoked.) It is therefore highly recommended you use a listener to be notified when the SurfaceTexture becomes available.</p>
+<p>It is important to note that only one producer can use the TextureView. For instance, if you use a TextureView to display the camera preview, you cannot use lockCanvas() to draw onto the TextureView at the same time.</p>
+<h4 id="翻译："><a href="#翻译：" class="headerlink" title="翻译："></a>翻译：</h4><p>TextureView可以用来显示一个内容流。这个内容流可以是视频或者OpenGL的实例。这个内容流可以来自应用进程也可以来自远端。<br>TextureView仅在开启了硬件加速后才有效果，否则没有效果。<br>跟SurfaceView不同的是，TextureView没有创建新的窗口，而是作为一个普通的view存在。这个关键的不同点就赋予了TextureView能像view一样可以放大，缩小，平移，动画等特性。<br>想要使用TextureView非常简单，你只需要获取他的SurfaceTexture即可。然后SurfaceTexture负责渲染内容。下面的示例就是演示TextureView如何渲染相机的预览图<br>SurfaceTexture可以通过调用getSurfaceTexture()方法获取，也可以像上面程序那样，设置SurfaceTextureListener获取。在TextureView绑定到window后，也就是调用过onAttachedToWindow()后，我们必须知道SurfaceTexture是否可用，这是非常重要的。因此，强烈推荐你使用监听的方式，以便及时获取到可用的SurfaceTexture。<br>还有一件重要的事你需要注意。TextureView仅可以被一个生产者使用，例如，如果你用它显示相机预览图的时候，就不能使用lockCanvas()在上面绘画。至于lockCanvas()这个东西，自己google吧（这句是我加的哈）。</p>
+<p>以上就是官方API对TextureView的介绍，翻译的很生硬吧，说好听点是为了保证原汁原味，说难听点就是没有文学气息，没有艺术细胞</p>
+<p>接下来看下对API的介绍，只挑重要的说，不重要的自己看。比如buildLayer()，解释是：你掉了这个方法也没什么卵用。那我们还有必要拿出来说吗？</p>
+<p>##API<br>getBitmap(int width, int height)<br>这个方法是获取当前TextureView中的内容，返回一个bitmap，并且可以指定宽高，其他重载方法就不多说了，无非是不设置宽高呗。有一个还是可以提一下的：getBitmap(Bitmap bitmap)，这个是自己定义一个bitmap，然后把TextureView的内容复制上去，再返回</p>
+<p>getLayerType()<br>这个方法是返回view层的类型，此处总是返回LAYER_TYPE_HARDWARE.也就是说TextureView有一个硬件层。至于LAYER_TYPE_HARDWARE这个东西是什么，有什么用，可以去官网查。这里可以简单说：它相较于软件层的优点是，渲染速度快，通过缓存等一些手段，简化复杂的渲染方式</p>
+<p>getSurfaceTexture()<br>这个前面其实已经说了，就是获取一个SurfaceTexture，SurfaceTexture的作用也说了，它才是绘制渲染内容流的东西。</p>
+<p>getTransform(Matrix transform)<br>获取当前TextureView的变换形式，我们可以看到传入的是Matrix类型，返回的其实也是一个Matrix。这样就可以获取TextureView的变换信息了</p>
+<p>isOpaque()<br>判断TextureView是否是不透明的，推荐子类重写</p>
+<p>lockCanvas()<br>锁住画布，开始画画<br>其他的方法感觉都是View中公用的，可以自己去了解一下。</p>
+<p>##应用<br>看完getBitmap方法，我就想到，这不就可以做个照相机了吗？于是在他的示例代码中加了几行，一个简易的照相机就出来了，当然，非常简易，照相机要做好，还是不简单的<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestAty</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> <span class="keyword">implements</span> <span class="title">TextureView</span>.<span class="title">SurfaceTextureListener</span>, <span class="title">View</span>.<span class="title">OnClickListener</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Camera camera;</div><div class="line">    <span class="keyword">private</span> TextureView textureView;</div><div class="line">    <span class="keyword">private</span> ImageView imageView;</div><div class="line">    <span class="keyword">private</span> Button btn;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_test_aty);</div><div class="line">        textureView = (TextureView) findViewById(R.id.texture);</div><div class="line">        btn = (Button) findViewById(R.id.btn);</div><div class="line">        btn.setOnClickListener(<span class="keyword">this</span>);</div><div class="line">        imageView = (ImageView) findViewById(R.id.image);</div><div class="line">        textureView.setSurfaceTextureListener(<span class="keyword">this</span>);</div><div class="line"></div><div class="line">        textureView.getBitmap();</div><div class="line"></div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceTextureAvailable</span><span class="params">(SurfaceTexture surface, <span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</div><div class="line">        camera = Camera.open();</div><div class="line">        camera.setDisplayOrientation(<span class="number">90</span>);</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            camera.setPreviewTexture(surface);</div><div class="line">            camera.startPreview();</div><div class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceTextureSizeChanged</span><span class="params">(SurfaceTexture surface, <span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onSurfaceTextureDestroyed</span><span class="params">(SurfaceTexture surface)</span> </span>&#123;</div><div class="line">        camera.stopPreview();</div><div class="line">        camera.release();</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceTextureUpdated</span><span class="params">(SurfaceTexture surface)</span> </span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">        imageView.setImageBitmap(textureView.getBitmap());</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>真的是没加几行代码</p>
+<p>##总结<br>在android7.0说到SurfaceView和TextureView时是这么说的：<br>Android 7.0 可同步移动到 SurfaceView 类，此类在某些情况下提供的电池性能优于 TextureView：在渲染视频或 3D 内容时，包含滚动和动画视频位置的应用在使用 SurfaceView 时比 TextureView 耗电更少。<br>SurfaceView 类可减少屏幕合成对电池的消耗，因为它是在专用硬件中合成，与应用窗口内容分隔开。因此，它产生的中间副本少于 TextureView。<br>现在，SurfaceView 对象的内容位置和包含的应用内容同步更新。这一变化导致的一个结果是，在画面移动时，SurfaceView 中播放的视频的简单的平移或缩放不再在画面侧面产生黑条。<br>从 Android 7.0 开始，我们强烈建议您使用 SurfaceView 代替 TextureView，以实现省电。<br>可见，TextureView只是在一些需要view特性的场景中使用，否则的话，还是用SurfaceView吧</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/23/TextureView/" data-id="cj596his3000u37x3r604fi2x" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/27/java并发笔记/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          java并发笔记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/14/广度优先搜索-BFS/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">广度优先搜索(BFS)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <h1 class="blog-title">BLOG</h1>
+    <h2 class="blog-subtitle">null</h2>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">null</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>30</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>6</strong><br>标签</div></a>
+    </div>
+
+
+
+    <div class="social-link">
+      
+        <a class="hvr-bounce-in" href="http://github.com/ShanaMaid" target="_blank" title="Github">
+          Github
+        </a>
+      
+    </div>
+
+    <div class="friend-link">
+      <h2>友情链接</h2>
+      
+        <a class="hvr-bounce-in" href="http://blog.shanamaid.top/" target="_blank" title="ShanaMaid">
+          ShanaMaid
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy;2016 - 2017 geekzw<br>
+      由<a href="http://hexo.io/" target="_blank">Hexo</a>强力驱动 | 
+      主题-<a href="https://github.com/ShanaMaid/hexo-theme-shana">Shana</a>
+      
+    </div>
+    
+  </div>
+</footer>
+    </div>
+    
+
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//apps.bdimg.com/libs/wow/0.1.6/wow.min.js"></script>
+<script>
+new WOW().init();
+</script>   
+
+
+  <link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+  <script src="/plugin/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <link rel="stylesheet" href="/plugin/galmenu/GalMenu.css">
+  <script src="/plugin/galmenu/GalMenu.js"></script>
+  <div class="GalMenu GalDropDown">
+      <div class="circle" id="gal">
+        <div class="ring">
+          
+            <a href="/" title="" class="menuItem">首页</a>
+          
+            <a href="/tags" title="" class="menuItem">标签</a>
+          
+            <a href="/categories" title="" class="menuItem">分类</a>
+          
+            <a href="/archives" title="" class="menuItem">归档</a>
+          
+            <a href="/xxxxxxxxx" title="" class="menuItem">xxx</a>
+          
+            <a href="/xxxxxxx" title="" class="menuItem">xxxx</a>
+          
+        </div>
+        
+          <audio id="audio" src="#"></audio>
+        
+      </div> 
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+  <script type="text/javascript">var items = document.querySelectorAll('.menuItem');
+    for (var i = 0,
+    l = items.length; i < l; i++) {
+      items[i].style.left = (50 - 35 * Math.cos( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+      items[i].style.top = (50 + 35 * Math.sin( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%"
+    }</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('body').GalMenu({
+      'menu': 'GalDropDown'
+    })
+  });
+</script>
+
+  <section class="hidden-xs"> 
+  <ul class="cb-slideshow"> 
+    <li><span>苟利</span></li> 
+    <li><span>国家</span></li> 
+    <li><span>生死以</span></li> 
+    <li><span>岂能</span></li> 
+    <li><span>祸福</span></li> 
+    <li><span>趋避之</span></li> 
+  </ul>
+</section>
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

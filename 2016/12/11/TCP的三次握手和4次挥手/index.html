@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>TCP的三次握手和4次挥手 | BLOG</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="TCP连接的建立和释放，都要经过复杂的过程，用来保证连接的可靠性。连接的时候采用三次握手模式，断开的时候采用四次挥手模式">
+<meta name="keywords" content="net">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCP的三次握手和4次挥手">
+<meta property="og:url" content="http://yoursite.com/2016/12/11/TCP的三次握手和4次挥手/index.html">
+<meta property="og:site_name" content="BLOG">
+<meta property="og:description" content="TCP连接的建立和释放，都要经过复杂的过程，用来保证连接的可靠性。连接的时候采用三次握手模式，断开的时候采用四次挥手模式">
+<meta property="og:image" content="http://ofy9dm2ii.bkt.clouddn.com/image/article/tcp_connect.png">
+<meta property="og:image" content="http://ofy9dm2ii.bkt.clouddn.com/image/article/tcp_clos.png">
+<meta property="og:updated_time" content="2017-01-03T11:24:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TCP的三次握手和4次挥手">
+<meta name="twitter:description" content="TCP连接的建立和释放，都要经过复杂的过程，用来保证连接的可靠性。连接的时候采用三次握手模式，断开的时候采用四次挥手模式">
+<meta name="twitter:image" content="http://ofy9dm2ii.bkt.clouddn.com/image/article/tcp_connect.png">
+  
+    <link rel="alternate" href="/atom.xml" title="BLOG" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/plugin/bganimation/bg.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <div class="widget-wrap mobile-header">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">null</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>30</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>6</strong><br>标签</div></a>
+    </div>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+        <section id="main"><article id="post-TCP的三次握手和4次挥手" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/11/TCP的三次握手和4次挥手/" class="article-date">
+  <time class="post-time" datetime="2016-12-11T08:37:34.000Z" itemprop="datePublished">
+    <span class="post-month">12月</span><br/>
+    <span class="post-day">11</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      TCP的三次握手和4次挥手
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/net/">net</a>
+  </div>
+
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="TCP连接的建立"><a href="#TCP连接的建立" class="headerlink" title="TCP连接的建立"></a>TCP连接的建立</h2><p><img src="http://ofy9dm2ii.bkt.clouddn.com/image/article/tcp_connect.png" alt="三次握手"><br>TCP连接采用的是客户服务器形式，主动发起连接的是客户机，被动打开连接的是服务器。客户端和服务器在打开后，都会创建一个TCB块（里面存储着一些重要信息，TCp链接表，发送缓存指针等）。然后客户端可以向服务端发送数据，服务端等待接收。</p>
+<ul>
+<li>A首先向B发送连接报文，首部中的SYN = 1，序号为seq = x。TCP规定，SYN报文段不能携带数据，但是要消耗一个序号，此时客户端进入SYN-SEND状态。</li>
+<li>B接收到连接报文后，向A发送确认信息，此时SYN = 1 ACK = 1 序号seq = y  确认号ack = x+1，这个报文段也不能携带数据，但是要消耗一个序号，然后服务端进入SYN-REVD状态。</li>
+<li>客户端收到确认信息后，还要给服务端一个确认，确认号ack = y+1。TCP规定ACK报文段可以携带数据，不携带数据就不消耗序号，这种情况下下个数据报文段的序号还是x+1，然后客户端进入ESTABLISHED状态，B收到确认后也进入ESTABLISHED状态<br>为什么A还要发送一个确认信息呢？主要是为了防止已经失效的链接请求报文段突然又传到了服务端。例如，A像B发了个连接请求报文，但是滞留在了网络某处，没有及时的传到B，A肯定要重传，重传之后建立了连接。但是后来这个滞留的报文又传到了B。如果没有三次握手，B肯定认为A要建立连接，然后就回复确认，但是A不这么认为，A已经重传了，这个算是旧的，没用的连接请求，A不会理会，那B又不知道，还一直傻傻的等待A给他传数据，这样就导致B端部分资源浪费<h2 id="TCP的连接释放"><a href="#TCP的连接释放" class="headerlink" title="TCP的连接释放"></a>TCP的连接释放</h2><img src="http://ofy9dm2ii.bkt.clouddn.com/image/article/tcp_clos.png" alt="四次挥手"><br>数据通讯结束后，双方都要释放连接。</li>
+<li>客户端A首先B发送释放连接报文，并停止再发送数据主动关闭tcp连接，发送的信息如图，其中seq是上次发送数据的最后一个序号+1，A进入FIN=WAIT-1状态，TCP规定FIN不能携带数据，但是要消耗一个序号</li>
+<li>B收到消息后，发送确认报文，信息如图，其中seq是上次接收的数据的序号+1，然后B进入CLOSE-WAIT状态。TCP服务器进程应该通知高层应用进程，因为从A到B的连接就释放掉了，此时TCP处于半关闭状态。A已经没有数据传给B了，但是B还可以传数据给A</li>
+<li>A接到确认后，就进入FIN=WAIT-2状态，等待B发送连接释放报文，若B没有数据传送了，应用程序就通知释放连接，B发送最后的释放报文，B进入最后确认状态</li>
+<li>A接收到最后释放报文后，还要回复确认然后进入时间等待状态，此时连接依然没有释放，必须经过时间等待计时器设置的时间2MSL后，A才能进入close状态。时间MSL叫做最长报文段寿命，默认2分钟，但是可以根据实际修改，现代网络，2分钟有点长，可以设短一点<h4 id="A必须等待2MSL的原因"><a href="#A必须等待2MSL的原因" class="headerlink" title="A必须等待2MSL的原因"></a>A必须等待2MSL的原因</h4></li>
+<li>为了保证A最后发送的确认信息能到达B。因为最后的报文可能丢失，如果直接关闭连接，那B没有收到最后确认，就无法关闭。在等待2MSL的时候，如果最后确认报文丢失，那么B会重传最后释放报文，然后A再回复最后确认，这样就保证了双端都能正常关闭</li>
+<li>防止已失效的连接出现在新连接中，当A发送完最后一个ACK等待2MSL过程中，可以保证前面发送的数据都会在网络中消失（正常发送的会到B端，延时的会到B端或者直接被路由丢掉），这样在新的连接中就不会有旧连接的数据<br>除了时间等待计时器外，TCP还有个保活计时器。设想这么个场景，客户端连接到服务端后 ，突然发生故障了，无法与服务端通信了，显然服务端以后再也收不到客户端的信息了。当这个时候，我们不能让服务器就这么干等下去，总要做点什么，这就是保活计时器的作用。服务器没收到客户端的消息，都会重置保活计时器时间，一般为2个小时，当超出时间没有收到信息后，服务端就发送一个探测报文，以后每隔75分钟发一个，如果一连发10次都没有响应，则断开连接</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/11/TCP的三次握手和4次挥手/" data-id="cj596his1000t37x3w907sa7n" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/net/">net</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/12/快速排序/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          快速排序
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/11/最小生成树之Kruskar/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">最小生成树之Kruskar</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <h1 class="blog-title">BLOG</h1>
+    <h2 class="blog-subtitle">null</h2>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">null</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>30</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>6</strong><br>标签</div></a>
+    </div>
+
+
+
+    <div class="social-link">
+      
+        <a class="hvr-bounce-in" href="http://github.com/ShanaMaid" target="_blank" title="Github">
+          Github
+        </a>
+      
+    </div>
+
+    <div class="friend-link">
+      <h2>友情链接</h2>
+      
+        <a class="hvr-bounce-in" href="http://blog.shanamaid.top/" target="_blank" title="ShanaMaid">
+          ShanaMaid
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy;2016 - 2017 geekzw<br>
+      由<a href="http://hexo.io/" target="_blank">Hexo</a>强力驱动 | 
+      主题-<a href="https://github.com/ShanaMaid/hexo-theme-shana">Shana</a>
+      
+    </div>
+    
+  </div>
+</footer>
+    </div>
+    
+
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//apps.bdimg.com/libs/wow/0.1.6/wow.min.js"></script>
+<script>
+new WOW().init();
+</script>   
+
+
+  <link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+  <script src="/plugin/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <link rel="stylesheet" href="/plugin/galmenu/GalMenu.css">
+  <script src="/plugin/galmenu/GalMenu.js"></script>
+  <div class="GalMenu GalDropDown">
+      <div class="circle" id="gal">
+        <div class="ring">
+          
+            <a href="/" title="" class="menuItem">首页</a>
+          
+            <a href="/tags" title="" class="menuItem">标签</a>
+          
+            <a href="/categories" title="" class="menuItem">分类</a>
+          
+            <a href="/archives" title="" class="menuItem">归档</a>
+          
+            <a href="/xxxxxxxxx" title="" class="menuItem">xxx</a>
+          
+            <a href="/xxxxxxx" title="" class="menuItem">xxxx</a>
+          
+        </div>
+        
+          <audio id="audio" src="#"></audio>
+        
+      </div> 
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+  <script type="text/javascript">var items = document.querySelectorAll('.menuItem');
+    for (var i = 0,
+    l = items.length; i < l; i++) {
+      items[i].style.left = (50 - 35 * Math.cos( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+      items[i].style.top = (50 + 35 * Math.sin( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%"
+    }</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('body').GalMenu({
+      'menu': 'GalDropDown'
+    })
+  });
+</script>
+
+  <section class="hidden-xs"> 
+  <ul class="cb-slideshow"> 
+    <li><span>苟利</span></li> 
+    <li><span>国家</span></li> 
+    <li><span>生死以</span></li> 
+    <li><span>岂能</span></li> 
+    <li><span>祸福</span></li> 
+    <li><span>趋避之</span></li> 
+  </ul>
+</section>
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
