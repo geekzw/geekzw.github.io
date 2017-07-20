@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>服务器支持https过程 | 逝去的美好</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近接触了java后台开发，对后台与前端的加密解密比较感兴趣，碰巧又读了一篇浅显易懂的关于https的文章，就自己试着捣鼓了一下。">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="服务器支持https过程">
+<meta property="og:url" content="http://yoursite.com/2017/07/19/服务器支持https过程/index.html">
+<meta property="og:site_name" content="逝去的美好">
+<meta property="og:description" content="最近接触了java后台开发，对后台与前端的加密解密比较感兴趣，碰巧又读了一篇浅显易懂的关于https的文章，就自己试着捣鼓了一下。">
+<meta property="og:updated_time" content="2017-07-19T08:45:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="服务器支持https过程">
+<meta name="twitter:description" content="最近接触了java后台开发，对后台与前端的加密解密比较感兴趣，碰巧又读了一篇浅显易懂的关于https的文章，就自己试着捣鼓了一下。">
+  
+    <link rel="alternate" href="/atom.xml" title="逝去的美好" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/plugin/bganimation/bg.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <div class="widget-wrap mobile-header">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="http://ofy9dm2ii.bkt.clouddn.com/ez.jpeg">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">客户端的渣渣</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>31</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>6</strong><br>标签</div></a>
+    </div>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+        <section id="main"><article id="post-服务器支持https过程" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/19/服务器支持https过程/" class="article-date">
+  <time class="post-time" datetime="2017-07-19T07:44:31.000Z" itemprop="datePublished">
+    <span class="post-month">7月</span><br/>
+    <span class="post-day">19</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      服务器支持https过程
+    </h1>
+  
+
+        <div>
+          
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近接触了java后台开发，对后台与前端的加密解密比较感兴趣，碰巧又读了一篇浅显易懂的关于https的文章，就自己试着捣鼓了一下。<br><a id="more"></a></p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>说道加密解密，https。那内容就很多了，首先加解密，就分好多种，哈希，对称，非对称等等。http和https更是能说太多的内容。这里我肯定不会展开来说，想详细了解某一个技术细节的，可以自行google，这里贴一篇文章，讲的非常的通俗易懂，如果对https和加密解密不了解的，相信看完这篇文章，一定会醍醐灌顶，反正我是这样，链接在此<a href="https://mp.weixin.qq.com/s?__biz=MzAxOTc0NzExNg==&amp;mid=2665513779&amp;idx=1&amp;sn=a1de58690ad4f95111e013254a026ca2&amp;chksm=80d67b70b7a1f26697fa1626b3e9830dbdf4857d7a9528d22662f2e43af149265c4fd1b60024#rd" target="_blank" rel="external">一个故事讲完https</a>。</p>
+<h2 id="加密过程"><a href="#加密过程" class="headerlink" title="加密过程"></a>加密过程</h2><p>其实加密过程还是挺简单的，至少说简单的集成起来很简单，说的有点绕了。加密算法我们用到了对称加密和非对称加密。网上很多相关的工具类，可以选择一个封装的好的使用，当然，用我demo的，我也不介意。除了这些工具类外，还可以养openssl生成。</p>
+<h2 id="本地apache配置https"><a href="#本地apache配置https" class="headerlink" title="本地apache配置https"></a>本地apache配置https</h2><p>本人用的是mac系统，其他系统类似</p>
+<h4 id="生成CA证书"><a href="#生成CA证书" class="headerlink" title="生成CA证书"></a>生成CA证书</h4><p>为了统一管理生成的文件，最好先创建一个文件夹，可以叫ssl，CA之类的，然后进入文件夹，命令行进入openssl</p>
+<ol>
+<li>密钥 genrsa -des3 -out ca.key 4096</li>
+<li>证书 req -new -x509 -days 365 -key ca.key -out ca.crt</li>
+<li>创建服务器私钥 genrsa -out server.key 4096</li>
+<li>生成证书请求文件CSR req -new -key server.key -out server.csr</li>
+<li>自己作为CA签发证书 ca -in server.csr -out server.crt -cert ca.crt -keyfile ca.key -days 365</li>
+</ol>
+<p>这里我是用自己的本地服务器，自己签证书，如果有域名，有外网服务器，那么只需要去申请就行了，自签证书是不被信任的。需要注意的是，Common Name应该与域名保持一致<br>如果此时碰到错误：I am unable to access the ./demoCA/newcerts directory ./demoCA/newcerts: No such file or directory<br>执行以下几条命令即可：<br>mkdir -p ./demoCA/newcerts<br>touch demoCA/index.txt<br>touch demoCA/serial<br>echo 01 &gt; demoCA/serial</p>
+<h4 id="apache配置文件修改"><a href="#apache配置文件修改" class="headerlink" title="apache配置文件修改"></a>apache配置文件修改</h4><ul>
+<li>/etc/apache2/httpd.conf<br>去掉以下三行的注释：<br>LoadModule ssl_module libexec/apache2/mod_ssl.so<br>Include /private/etc/apache2/extra/httpd-vhosts.conf<br>Include /private/etc/apache2/extra/httpd-ssl.conf</li>
+<li>/etc/apache2/extra/httpd-ssl.conf<br>去掉以下两项注释并检查是否与之前安装私钥和证书的路径一致<br>可以把生成的两个文件放到下面的路径，ssl是我自己创建的文件夹<br>SSLCertificateFile “/etc/apache2/extra/ssl/server.crt”<br>SSLCertificateKeyFile “/etc/apache2/extra/ssl/server.key”</li>
+<li><p>编辑/etc/apache2/extra/httpd-vhosts.conf文件<br>在最下方添加：</p>
+<p> &lt; VirtualHost *:443&gt;<br> SSLEngine on<br> SSLCipherSuite ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP:+eNULL<br> SSLCertificateFile /private/etc/apache2/server.crt<br> SSLCertificateKeyFile /private/etc/apache2/server.key<br> ServerName 127.0.0.1<br> DocumentRoot “/Library/WebServer/Documents”<br>&lt; / VirtualHost&gt;</p>
+</li>
+</ul>
+<p>到这里算是配置完了，我遇到了2个问题，第一个是apache2.4跟以前的2.2配置有所不同，需要把:/etc/apache2/httpd.conf的<br>LoadModule socache_shmcb_module libexec/apache2/mod_socache_shmcb.so取消注释<br>第二个问题，当引入httpd-vhosts后，会报找不到documentRoot的路径，当然这只是个警告，具体影响我也没有关注，但还是改掉了，改个存在的文件夹就行了<br>还有个不是问题的问题，但是花了我好长时间，就是引入httpd-vhosts后，这个配置文件最底部有作者，版权之类的东西，竟然没有注释掉，然后我重启apache的时候，报错，开始没有仔细看错误，只是看到一坨。后来实在找不到怎么解决。就回头认证看了下错误描述，说是可能拼写有误。我就在config文件中找，仔细核对，最后血都要喷出来了，把最下面的版权信息注释掉就好了。<br>好了，这个时候重启apache：sudo apachectl restart。如果正常启动，那么用https访问本地应该是可以访问的。</p>
+<h2 id="安装根证书"><a href="#安装根证书" class="headerlink" title="安装根证书"></a>安装根证书</h2><p>上述步骤做完，可以访问，但是浏览器提示不安全，因为没有加入我们自己的证书，双击前面生成的ca安装，跳到钥匙串界面，右键我们的证书，简介，永久信任，ok。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/19/服务器支持https过程/" data-id="cj5clekdb0026z4x3a6o8m01d" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/07/20/java领域模型实体类细分/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          java领域模型实体类细分
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/01/04/mvp-rx-retrofit/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">mvp+rx+retrofit</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <h1 class="blog-title">逝去的美好</h1>
+    <h2 class="blog-subtitle">无论做什么，兴趣还是最重要的</h2>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="http://ofy9dm2ii.bkt.clouddn.com/ez.jpeg">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">客户端的渣渣</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>31</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>6</strong><br>标签</div></a>
+    </div>
+
+
+
+    <div class="social-link">
+      
+        <a class="hvr-bounce-in" href="https://github.com/geekzw" target="_blank" title="Github">
+          Github
+        </a>
+      
+    </div>
+
+    <div class="friend-link">
+      <h2>友情链接</h2>
+      
+        <a class="hvr-bounce-in" href="http://blog.shanamaid.top/" target="_blank" title="ShanaMaid">
+          ShanaMaid
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy;2016 - 2017 geekzw<br>
+      由<a href="http://hexo.io/" target="_blank">Hexo</a>强力驱动 | 
+      主题-<a href="https://github.com/ShanaMaid/hexo-theme-shana">Shana</a>
+      
+    </div>
+    
+  </div>
+</footer>
+    </div>
+    
+
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//apps.bdimg.com/libs/wow/0.1.6/wow.min.js"></script>
+<script>
+new WOW().init();
+</script>   
+
+
+  <link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+  <script src="/plugin/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <link rel="stylesheet" href="/plugin/galmenu/GalMenu.css">
+  <script src="/plugin/galmenu/GalMenu.js"></script>
+  <div class="GalMenu GalDropDown">
+      <div class="circle" id="gal">
+        <div class="ring">
+          
+            <a href="/" title="" class="menuItem">首页</a>
+          
+            <a href="/tags" title="" class="menuItem">标签</a>
+          
+            <a href="/categories" title="" class="menuItem">分类</a>
+          
+            <a href="/archives" title="" class="menuItem">归档</a>
+          
+            <a href="/xxxxxxxxx" title="" class="menuItem">xxx</a>
+          
+            <a href="/xxxxxxx" title="" class="menuItem">xxxx</a>
+          
+        </div>
+        
+          <audio id="audio" src="#"></audio>
+        
+      </div> 
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+  <script type="text/javascript">var items = document.querySelectorAll('.menuItem');
+    for (var i = 0,
+    l = items.length; i < l; i++) {
+      items[i].style.left = (50 - 35 * Math.cos( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+      items[i].style.top = (50 + 35 * Math.sin( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%"
+    }</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('body').GalMenu({
+      'menu': 'GalDropDown'
+    })
+  });
+</script>
+
+  <section class="hidden-xs"> 
+  <ul class="cb-slideshow"> 
+    <li><span>苟利</span></li> 
+    <li><span>国家</span></li> 
+    <li><span>生死以</span></li> 
+    <li><span>岂能</span></li> 
+    <li><span>祸福</span></li> 
+    <li><span>趋避之</span></li> 
+  </ul>
+</section>
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
