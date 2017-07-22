@@ -3,22 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>ICMP | 逝去的美好</title>
+  <title>设计模式之工厂方法 | 逝去的美好</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="ICMP全称：Internet Control Message Protocol 翻译过来就是网际控制报文协议。目的是有效的转发IP数据报和提高交付成功的机会。ICMP不是高层协议，是IP层的协议。ICMP报文作为IP数据报的数据，加上数据报的首部组成IP数据报发送出去">
-<meta name="keywords" content="net">
+  <meta name="description" content="本次主要介绍简单工厂模式和工厂方法模式的简单实现">
+<meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ICMP">
-<meta property="og:url" content="http://yoursite.com/2016/12/02/ICMP/index.html">
+<meta property="og:title" content="设计模式之工厂方法">
+<meta property="og:url" content="http://yoursite.com/2017/07/23/设计模式之工厂方法/index.html">
 <meta property="og:site_name" content="逝去的美好">
-<meta property="og:description" content="ICMP全称：Internet Control Message Protocol 翻译过来就是网际控制报文协议。目的是有效的转发IP数据报和提高交付成功的机会。ICMP不是高层协议，是IP层的协议。ICMP报文作为IP数据报的数据，加上数据报的首部组成IP数据报发送出去">
-<meta property="og:image" content="http://ofy9dm2ii.bkt.clouddn.com/icmp1.png">
-<meta property="og:image" content="http://ofy9dm2ii.bkt.clouddn.com/image/article/icmp2.png">
-<meta property="og:updated_time" content="2017-07-18T07:22:05.000Z">
+<meta property="og:description" content="本次主要介绍简单工厂模式和工厂方法模式的简单实现">
+<meta property="og:updated_time" content="2017-07-22T17:42:19.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ICMP">
-<meta name="twitter:description" content="ICMP全称：Internet Control Message Protocol 翻译过来就是网际控制报文协议。目的是有效的转发IP数据报和提高交付成功的机会。ICMP不是高层协议，是IP层的协议。ICMP报文作为IP数据报的数据，加上数据报的首部组成IP数据报发送出去">
-<meta name="twitter:image" content="http://ofy9dm2ii.bkt.clouddn.com/icmp1.png">
+<meta name="twitter:title" content="设计模式之工厂方法">
+<meta name="twitter:description" content="本次主要介绍简单工厂模式和工厂方法模式的简单实现">
   
     <link rel="alternate" href="/atom.xml" title="逝去的美好" type="application/atom+xml">
   
@@ -71,12 +68,12 @@
   </div>
 </div>
 
-        <section id="main"><article id="post-ICMP" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-设计模式之工厂方法" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/02/ICMP/" class="article-date">
-  <time class="post-time" datetime="2016-12-02T05:54:19.000Z" itemprop="datePublished">
-    <span class="post-month">12月</span><br/>
-    <span class="post-day">02</span>
+    <a href="/2017/07/23/设计模式之工厂方法/" class="article-date">
+  <time class="post-time" datetime="2017-07-22T16:22:58.000Z" itemprop="datePublished">
+    <span class="post-month">7月</span><br/>
+    <span class="post-day">23</span>
   </time>
 </a>
    
@@ -88,16 +85,12 @@
         
   
     <h1 class="article-title" itemprop="name">
-      ICMP
+      设计模式之工厂方法
     </h1>
   
 
         <div>
           
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/net/">net</a>
-  </div>
-
           
               
 
@@ -107,24 +100,33 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>ICMP全称：Internet Control Message Protocol 翻译过来就是网际控制报文协议。目的是有效的转发IP数据报和提高交付成功的机会。ICMP不是高层协议，是IP层的协议。ICMP报文作为IP数据报的数据，加上数据报的首部组成IP数据报发送出去<br><a id="more"></a></p>
-<h2 id="ICMP概念"><a href="#ICMP概念" class="headerlink" title="ICMP概念"></a>ICMP概念</h2><p>ICMP全称：Internet Control Message Protocol 翻译过来就是网际控制报文协议。目的是有效的转发IP数据报和提高交付成功的机会。ICMP不是高层协议，是IP层的协议。ICMP报文作为IP数据报的数据，加上数据报的首部组成IP数据报发送出去<br><img src="http://ofy9dm2ii.bkt.clouddn.com/icmp1.png" alt="ICMP报文格式"></p>
-<h2 id="ICMP种类"><a href="#ICMP种类" class="headerlink" title="ICMP种类"></a>ICMP种类</h2><p>ICMP报文有两种：ICMP差错报告报文和ICMP询问报文<br><img src="http://ofy9dm2ii.bkt.clouddn.com/image/article/icmp2.png" alt="ICMP报文类型"></p>
-<ul>
-<li>终点不可达：当路由器或主机不能交付数据时就向源点发送此报告</li>
-<li>源点抑制：当路由或主机由于拥塞而丢失数据的时候，向源点发送此报告，使源点知道应该把数据报的速率放慢</li>
-<li>时间超过：当路由器收到时间为0的数据报时除丢弃数据报外，还要向源点发送此报文。当终点在预定的时间内没有收到全部数据时，会丢弃已收到的所有数据并向源点发送此报文</li>
-<li>参数问题：当路由或目的主机收到的数据有问题时发送</li>
-<li>改变路由：路由把改变路由报文发给源主机，让主机知道下次应该用哪个路由<br>每个主机都有个默认路由，初始时，主机总是把数据发给默认路由，由默认路由寻找合适的路由或主机转发，当默认路由找到合适的路由，并认为以后主机应该直接发给那个路由，不用通过默认路由的时候，就会给源主机发送改变路由的报文，源主机在自己的路由表中增加一个项目，以后就会直接发给相应的路由<h2 id="ICMP应用"><a href="#ICMP应用" class="headerlink" title="ICMP应用"></a>ICMP应用</h2>在window系统中，我们常用的ping命令，就是ICMP。当执行ping命令的时候，PC机会一连发出多条回送请求报文<br>还有个非常有用的功能是 tracert，就是跟踪源主机到目的主机的路径。<br>实现方式：<br>tracerout向目的主机发送一连串的IP数据，都是不可交付的UDP数据。第一个的TTL设置为1，当第一个路由接收到后TTl-1，变成0，则丢弃数据；第二次TTL设置成2，当第二个路由收到后，TTL变为0，丢弃数据。这样一直到目的主机（目的主机无法对TTL操作，但是由于发送的是不可交付的UDP数据，因此会向源主机发送中点不可达的ICMP）。由于每次TTL变为0，数据时间超过，会给源主机发送时间超过的ICMP报文，则源主机就记住了从源主机到目的主机的路径</li>
-</ul>
+        <p>本次主要介绍简单工厂模式和工厂方法模式的简单实现<br><a id="more"></a></p>
+<h1 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h1><p>###基本版<br>简单工厂模式确实很简单，又叫静态工厂工厂方法，负责生产具体的实例。比如有狗和猫两个类，使用简单工厂模式，就如下面一样</p>
+<p>public interface Animal{</p>
+<p>void cry();<br>}</p>
+<p>public class Dog implements Animal{</p>
+<p>@Override<br>public void cry() {<br>System.out.print(“汪汪”);<br>}<br>}</p>
+<p>public class Cat implements Animal{</p>
+<p>@Override<br>public void cry() {<br>System.out.print(“喵喵”);<br>}<br>}</p>
+<p>public class AnimalFactory{</p>
+<p>public static Animal createAnimal(String type){</p>
+<p>if(type.equals(“dog”)){<br>return new Dog();<br>}else if(type.equals(“cat”)){<br>return new Cat();<br>}else{<br>return null;<br>}<br>}<br>}<br>public static void main(String[] args){</p>
+<p>Animal dog = AnimalFactory.createAnimal(“dog”);<br>dog.cry();<br>Animal cat = AnimalFactory.createAnimal(“cat”);<br>cat.cry();<br>}<br>首先抽象出动物这个接口，狗和猫都要实现。然后创建狗和猫两个类。再下面就是简单工厂的核心类了。动物工厂类有一个创建动物的静态方法，只需要传入我们想要创建的动物的名字，就可以返回一个对应的实例，我们不需要知道这个实例具体是怎么创建出来的。</p>
+<h3 id="升级版"><a href="#升级版" class="headerlink" title="升级版"></a>升级版</h3><p>从上面的例子，我们可以看出点问题，如果动物很多的时候，就会有很多的if…else，代码臃肿，而且我们还得维护type这个东西。更好的解决办法是：</p>
+<p>public class AnimalFactory {<br>public static <t extends="" animal=""> Animal createAnimal(Class<t> clazz) throws Exception{<br>try {<br>Class<t> cc = (Class<t>) Class.forName(clazz.getName());<br>Animal animal = cc.newInstance();<br>return animal;<br>} catch (Exception e) {<br>throw new Exception(“找不到这个动物”);<br>}<br>}<br>}</t></t></t></t></p>
+<p>public static void main(String[] args){</p>
+<p>try {<br>Animal dog = AnimalFactory.createAnimal(Dog.class);<br>dog.cry();<br>} catch (Exception e) {<br>e.printStackTrace();<br>}<br>}<br>其余类不变，在factory中，把原来的传入的type变成了类，这样，当我们想获得哪个类的实例的时候，直接传这个类进去就行了。<br>简单工厂模式适合创建少量的，复杂的类时使用。我的例子简单，是为了好理解，如果创建一个类只需要new一下默认构造方法的时候，还用工厂干什么。</p>
+<h1 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h1><p>前面说的简单工厂模式，是工厂创建实例。而工厂方法模式是对简单工厂的抽象。在工厂层抽象出一个总工厂接口，具体的创建人物交给具体的工厂。简单实现如下</p>
+<p>public interface Factory {<br>Animal create();<br>}<br>public class DogFactory implements Factory {<br>@Override<br>public Animal create() {<br>return new Dog();<br>}<br>}<br>public class CatFactory implements Factory {<br>@Override<br>public Animal create() {<br>return new Cat();<br>}<br>}<br>public class Test {<br>public static void main(String[] args){<br>Factory factory = new DogFactory();<br>Animal ani = dogFactory.create();<br>ani.cry();<br>}<br>}<br>首先我们抽象出一个工厂接口，每个具体的工厂都要实现这个总工厂接口。每个具体实例的创建都基于具体的工厂，而不是全部由一个工厂创建。这样做最大的好处是可扩展。上面我们测试的是获取狗，并调用dog.cry()。假如现在要换成猫，那么我们只需要把Factory factory = new DogFactory();改成Factory factory = new CatFactory();即可，具体的创建逻辑，像是黑盒，用户不用关心。</p>
+<p>##实例<br>工厂模式的实例很多，平时都会接触到，比如java的线程池，Android的Activity的setConentView()，有兴趣的可以去看一下，看看具体的实例是怎么运用的。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/02/ICMP/" data-id="cj5fl1d0t0007xbx34kmwapg2" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/23/设计模式之工厂方法/" data-id="cj5fl1d2e002lxbx37tycdvdj" class="article-share-link">分享</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/net/">net</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
 
     </footer>
   </div>
@@ -132,19 +134,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/12/02/TCP-UDP/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          TCP/UDP
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/12/02/快慢指针-归并/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/07/20/java领域模型实体类细分/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">快慢指针+归并</div>
+      <div class="article-nav-title">java领域模型实体类细分</div>
     </a>
   
 </nav>
