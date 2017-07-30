@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>springboot集成dubbo经历 | 逝去的美好</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="springboot集成dubbo，dubbo-admin的配置和使用">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springboot集成dubbo经历">
+<meta property="og:url" content="http://yoursite.com/2017/07/30/springboot集成dubbo经历/index.html">
+<meta property="og:site_name" content="逝去的美好">
+<meta property="og:description" content="springboot集成dubbo，dubbo-admin的配置和使用">
+<meta property="og:updated_time" content="2017-07-30T16:02:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="springboot集成dubbo经历">
+<meta name="twitter:description" content="springboot集成dubbo，dubbo-admin的配置和使用">
+  
+    <link rel="alternate" href="/atom.xml" title="逝去的美好" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/plugin/bganimation/bg.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <div class="widget-wrap mobile-header">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="http://ofy9dm2ii.bkt.clouddn.com/ez.jpeg">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">客户端的渣渣</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>33</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>7</strong><br>标签</div></a>
+    </div>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+        <section id="main"><article id="post-springboot集成dubbo经历" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/30/springboot集成dubbo经历/" class="article-date">
+  <time class="post-time" datetime="2017-07-30T14:17:57.000Z" itemprop="datePublished">
+    <span class="post-month">7月</span><br/>
+    <span class="post-day">30</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      springboot集成dubbo经历
+    </h1>
+  
+
+        <div>
+          
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>springboot集成dubbo，dubbo-admin的配置和使用<br><a id="more"></a></p>
+<h1 id="dubbo介绍"><a href="#dubbo介绍" class="headerlink" title="dubbo介绍"></a>dubbo介绍</h1><p>dubbo的介绍，网上有很多，让我这个新手讲，也讲不出什么东西。献上个链接<a href="http://shiyanjun.cn/archives/325.html" target="_blank" rel="external">dubbo详解</a>，自己参详</p>
+<h1 id="springboot-dubbo-server"><a href="#springboot-dubbo-server" class="headerlink" title="springboot-dubbo-server"></a>springboot-dubbo-server</h1><h3 id="pom"><a href="#pom" class="headerlink" title="pom"></a>pom</h3><p>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;</p>
+<p><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://maven.apache.org/POM/4.0.0       http://maven.apache.org/xsd/maven-4.0.0.xsd"></project></p>
+<p><modelversion>4.0.0</modelversion></p>
+<p><groupid>com.gzw</groupid></p>
+<p><artifactid>server</artifactid></p>
+<p><version>0.0.1-SNAPSHOT</version></p>
+<packaging>jar</packaging>
+
+<p><name>server</name></p>
+<description>Demo project for Spring Boot</description>
+
+<parent><br><groupid>org.springframework.boot</groupid><br><artifactid>spring-boot-starter-parent</artifactid><br><version>1.5.6.RELEASE</version><br><relativepath> <!-- lookup parent from repository --><br></relativepath></parent>
+
+<properties><br><project.build.sourceencoding>UTF-8</project.build.sourceencoding><br><project.reporting.outputencoding>UTF-8</project.reporting.outputencoding><br><java.version>1.8</java.version><br></properties>
+
+<dependencies><br><br><dependency><br><groupid>org.springframework.boot</groupid><br><artifactid>spring-boot-starter-test</artifactid><br><scope>test</scope><br></dependency><br><!-- Spring Boot Dubbo 依赖 --><br><dependency><br><groupid>io.dubbo.springboot</groupid><br><artifactid>spring-boot-starter-dubbo</artifactid><br><version>1.0.0</version><br></dependency><br><br></dependencies>
+
+<build><br><plugins><br><plugin><br><groupid>org.springframework.boot</groupid><br><artifactid>spring-boot-maven-plugin</artifactid><br></plugin><br></plugins><br></build>
+
+
+<p><br>这个是我的服务端pom文件，很简单，引入dubbo-starter就行了。集成dubbo有两种方式，这是一种，还有一种就是直接引dubbo，然后用配置文件的形式。这里既然说了用springboot，springboot的宗旨就是消灭xml，那么另外一种就先不说了。</p>
+<h3 id="properties"><a href="#properties" class="headerlink" title="properties"></a>properties</h3><p>spring.dubbo.application.name=provider<br>spring.dubbo.registry.address=zookeeper://127.0.0.1:2181<br>spring.dubbo.registry.group=gzw<br>spring.dubbo.protocol.name=dubbo<br>spring.dubbo.protocol.port=20880<br>spring.dubbo.scan=com.gzw.dubbo.service.impl<br>server.port=8081<br>这是配置文件，简单集成，配置很少，第一行是名称，第二行是zookeeper的地址，然后是分组信息，协议地址，协议端口，要扫面的服务接口实现，最后为了不和8080端口冲突，自己改了个。</p>
+<h3 id="service"><a href="#service" class="headerlink" title="service"></a>service</h3><p>在你要扫描的包下，创建一个服务接口，比如HelloService，里面暂时就一个方法：String getHi();然后写个接口的实现类，实现类有一点需要注意，</p>
+<p>@Service(version=”1.0”)<br>public class HelloServiceImpl implements HelloService {<br>@Override<br>public String getHi() {<br>return “hello”;<br>}<br>}<br>Service注解要用dubbo，不要用springboot的，不然里面的version属性找不到，version是定义服务接口的版本的，客户端调用相应服务的时候，要标明版本。然后。。。。没有然后了，一个简易的dubbo服务已经配置完成。我当时碰到的坑，其实怪自己，我参考了注解方式和xml方式两种，写到同一个项目里了，然后就各种奇葩错，如果直接按这个来，应该一点问题没有。</p>
+<h1 id="springboot-dubbo-client"><a href="#springboot-dubbo-client" class="headerlink" title="springboot-dubbo-client"></a>springboot-dubbo-client</h1><p>客户端的pom就不贴了，因为我没有专门写一个demo，引的依赖比较多，对于dubbo而言，就跟服务端一样，只引入一个dubbo-starter就行了，另外，springboot的优势就是各种starter，它会帮你做很多事，比如自动读取properties，自动引一些需要的依赖，dubbo-starter就自动把zookeeper相关的也包含进来了，我们不用单独再引zookeeper依赖。</p>
+<h3 id="properties-1"><a href="#properties-1" class="headerlink" title="properties"></a>properties</h3><p>dubbo:<br>application:<br>name: consumer<br>registry:<br>address: zookeeper://127.0.0.1:2181<br>scan: com.gzw.dubbo.service.serviceImpl<br>客户端关于dubbo的简单配置，其实就一行最主要，就是注册中心的地址，其他的跟服务端也一样</p>
+<h3 id="service-1"><a href="#service-1" class="headerlink" title="service"></a>service</h3><p>service这里看实现方式。第一种，我们可以直接引入dubbo服务项目，这样就直接掉服务里的服务接口就行了。第二种，我们可以把服务接口单独抽出来，让客户端和服务项目共同引用接口项目。第三种，服务项目写一个服务接口，客户端掉服务接口的时候，在客户端写个一模一样的接口，我这里使用的是第三种，第一种的话，客户端和服务耦合，不好，第二种挺好，但是我只是写个非常简单的集成一下dubbo，不想建3个项目。这里需要注意的是，客户端写的接口要和服务端一样，然后实现类里注入接口的时候要加@Reference(version = “1.0”)，完整的就是</p>
+<p>@Service<br>public class HelloServiceImpl implements HelloService{<br>@Reference(version = “1.0”)<br>HelloService helloService;<br>@Override<br>public String getHi() {<br>return helloService.getHi();<br>}<br>}<br>不要忘记客户端配置里也有扫描路径，这个service要在扫描路径下<br>然后。。。又没有然后了，这就完了，写个简单的controller掉下这个service，应该可以看到结果了。现在看看真的是很简答，不知道为什么我当时遇到各种错，不过错也挺好，如果没有遇到错，可能我到这里就结束了，因为出错让我学到更多。刚才我们看到，服务端和客户端都注册了zookeeper这个东西，这个东西是什么呢？简单说就是个注册中心，dubbo把服务注册到这里，然后客户端在这里找已经注册的服务。具体深入的话，同样，我等渣渣目前的功力还解释不了，献上链接<a href="https://www.ibm.com/developerworks/cn/opensource/os-cn-zookeeper/" target="_blank" rel="external">zookeeper详解</a></p>
+<p>#zookeeper安装配置<br>我刚开始也看了好几个关于zookeeper的安装配置的博客，总结起来其实很简单，下载zookeeper，解压，然后conf目录下有个叫zoo_sample.cfg的文件，把它改成zoo.cfg就行了，这些链接里都有，只是真的很简单，如果只是安装配置，看我这几句话足以。</p>
+<h1 id="中结"><a href="#中结" class="headerlink" title="中结"></a>中结</h1><p>像我上面说的，如果我没有碰到错误，那么到这里估计我就会结束了。当时配置好之后，客户端死活掉不到dubbo服务，各种检查配置，都没问题，先说结果。我前面说了，参考了注解和xml两种方式，结果傻逼的用混了，pom里没用starter，要自己写xml导入配置，但是我又是用属性的方式配置的，结果导致根本没读到配置。这是结果。我检查完配置后，就想，会不会是zookeeper出问题了，根本没有注册进去。这个时候就找到了dubbo-admin了。有同学问了，想看有没有注册进去，去zookeeper里看下不就行了，这个可以，而且简单，但是我看到dubbo-admin的时候，就想用这种方式，以后也方便操作。</p>
+<h1 id="dubbo-admin"><a href="#dubbo-admin" class="headerlink" title="dubbo-admin"></a>dubbo-admin</h1><h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><p>网上有dubbo-admin编译好的war，放到tomcat下就行，但是很不幸，因为每个人的环境不同，导致很多war下下来不能用，还是自己打包靠谱。我们先到<a href="https://github.com/alibaba/dubbo" target="_blank" rel="external">这里</a>下载包好dubbo-admin的源码，然后进入dubbo-admin目录然后执行mvn package -Dmaven.skip.test=true 命令打包，当然这个时候，你的jdk，maven肯定是已经装好了。打包过程中如果没有出现错误，那只能说你太幸运了，环境跟源码一致，我肯定是报错了，首先是说Could not find artifact com.alibaba:dubbo:jar:2.5.4-SNAPSHOT in nexus-aliyun，这个原因很简单，maven仓库中最新的猜2.5.3，这里用的是2.5.4，两种方法，一种是在dubbo-admin同级别目录打包，就是全量编译，这样就能用刚打好的2.5.4了，还有一种，直接打开dubbo-admin里的pom，把2.5.4改成2.5.3就行了。然后再打包，这个时候又报错 Error creating bean with name ‘uriBrokerService’，这个错是因为我用的jdk1.8，这里有三种方法了，第一，把jdk1.8换成1.7，第二种其实dubbo已经有3了，更新后的支持1.8，下那份源码，可以打1.8下的包，第三种，就是改pom，这里给个链接，里面说的比较详细<a href="https://github.com/alibaba/dubbo/issues/50" target="_blank" rel="external">看这里</a>。这个处理完，就应该能正常打出包了。</p>
+<h3 id="tomcat运行"><a href="#tomcat运行" class="headerlink" title="tomcat运行"></a>tomcat运行</h3><p>打完包，将war放入tomcat/webapps下，运行tomcat后，会自动解压war包，这个时候停掉tomct，到tomcat/webapps下找到解压后的文件夹dubbo-admin-2.5.4-SNAPSHOT。进入到WEB-INF下，有个dubbo-properites文件，打开里面有三项内容，zookeeper地址，这里主要看端口，是不是zookeeper暴露的端口，一般不用改，下面两行是root的密码和guest的密码，下面会用。这个时候启动tomcat，访问<a href="http://localhost:8089/dubbo-admin-2.5.4-SNAPSHOT/。如果一切正常，浏览器就会弹出需要输入用户名密码的对话框，我们输入root，root。就进入了管理页面。大功告成。但是问题又来了，我明明把dubbo的服务注册到zookeeper了，客户端也成功请求到了，为什么这个后台上显示服务数为0，搜也搜不到。网上看了下，原来是分组的问题。" target="_blank" rel="external">http://localhost:8089/dubbo-admin-2.5.4-SNAPSHOT/。如果一切正常，浏览器就会弹出需要输入用户名密码的对话框，我们输入root，root。就进入了管理页面。大功告成。但是问题又来了，我明明把dubbo的服务注册到zookeeper了，客户端也成功请求到了，为什么这个后台上显示服务数为0，搜也搜不到。网上看了下，原来是分组的问题。</a></p>
+<h3 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h3><p>我们看上面服务项目的配置，有个分组spring.dubbo.registry.group=gzw。如果不设置，默认是dubbo组。但是我们的dubbo-admin没有设置分组信息，所以找不到。我们来到tomcat7/webapps/dubbo-admin/WEB-INF/classes/META-INF/spring这个目录，里面有个dubbo-admin.xml文件，打开可以看到有一行<code>&lt;dubbo:registry address=&quot;${dubbo.registry.address}&quot; check=&quot;false&quot; file=&quot;false&quot; /&gt;</code><br>这里只有address没有分组信息，改为<code>&lt;dubbo:registry group=&quot;${dubbo.registry.group}&quot;address=&quot;${dubbo.registry.address}&quot; check=&quot;false&quot; file=&quot;false&quot; /&gt;</code>然后到tomcat7/webapps/dubbo-admin/WEB-INF这个目录下，有个dubbo.properties文件，打开，加入分组信息dubbo.registry.group=gzw。然后重启tomcat，对了，最好去tomcat的server.xml中，把端口改掉，防止和8080冲突。这个时候，我们应该可以正常看到后台显示有一个服务注册到zookeeper上了。</p>
+<p>#总结<br>自己做完之后，感觉其实接起来挺简单的，但是第一遍，总是有各种坑，有的是自己粗心，自己给自己挖的，有的因为环境等之类的原因。dubbo这个项目貌似已经不维护了，所以随着jdk等环境的不断升级，可能会遇到各种问题。上面我接入过程中遇到的，也只是部分问题，大家在接入的时候，可能还会碰到各种五花八门的错误。耐心点，好好看错误提示，好好google，总会解决的。有一个事实是，如果你现在开始接，你前面已经有无数个人接过了，你碰到的问题，其他人基本也碰到了，所以，我们这种就很幸运了，坑已经被别人填平了。比如还有个问题，加入热部署依赖后，dubbo会报接口不可见的错，这个时候，简单粗暴的方法是把热部署干掉，但是你如果实在需要热部署,去dubbo的git的issue里看看，已经有人给出方案了。这只是极简的接入dubbo然后配置了下dubbo-admin，要学的还很多，小白继续努力，以后深入研究了，再来续写更好的文章。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/30/springboot集成dubbo经历/" data-id="cj5qwztbm001e9hx395ert4cj" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/07/23/设计模式之工厂方法/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">设计模式之工厂方法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <h1 class="blog-title">逝去的美好</h1>
+    <h2 class="blog-subtitle">无论做什么，兴趣还是最重要的</h2>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="http://ofy9dm2ii.bkt.clouddn.com/ez.jpeg">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">客户端的渣渣</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>33</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>7</strong><br>标签</div></a>
+    </div>
+
+
+
+    <div class="social-link">
+      
+        <a class="hvr-bounce-in" href="https://github.com/geekzw" target="_blank" title="Github">
+          Github
+        </a>
+      
+    </div>
+
+    <div class="friend-link">
+      <h2>友情链接</h2>
+      
+        <a class="hvr-bounce-in" href="http://blog.shanamaid.top/" target="_blank" title="ShanaMaid">
+          ShanaMaid
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy;2016 - 2017 geekzw<br>
+      由<a href="http://hexo.io/" target="_blank">Hexo</a>强力驱动 | 
+      主题-<a href="https://github.com/ShanaMaid/hexo-theme-shana">Shana</a>
+      
+    </div>
+    
+  </div>
+</footer>
+    </div>
+    
+
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//apps.bdimg.com/libs/wow/0.1.6/wow.min.js"></script>
+<script>
+new WOW().init();
+</script>   
+
+
+  <link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+  <script src="/plugin/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <link rel="stylesheet" href="/plugin/galmenu/GalMenu.css">
+  <script src="/plugin/galmenu/GalMenu.js"></script>
+  <div class="GalMenu GalDropDown">
+      <div class="circle" id="gal">
+        <div class="ring">
+          
+            <a href="/" title="" class="menuItem">首页</a>
+          
+            <a href="/tags" title="" class="menuItem">标签</a>
+          
+            <a href="/categories" title="" class="menuItem">分类</a>
+          
+            <a href="/archives" title="" class="menuItem">归档</a>
+          
+            <a href="/xxxxxxxxx" title="" class="menuItem">xxx</a>
+          
+            <a href="/xxxxxxx" title="" class="menuItem">xxxx</a>
+          
+        </div>
+        
+          <audio id="audio" src="#"></audio>
+        
+      </div> 
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+  <script type="text/javascript">var items = document.querySelectorAll('.menuItem');
+    for (var i = 0,
+    l = items.length; i < l; i++) {
+      items[i].style.left = (50 - 35 * Math.cos( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+      items[i].style.top = (50 + 35 * Math.sin( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%"
+    }</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('body').GalMenu({
+      'menu': 'GalDropDown'
+    })
+  });
+</script>
+
+  <section class="hidden-xs"> 
+  <ul class="cb-slideshow"> 
+    <li><span>苟利</span></li> 
+    <li><span>国家</span></li> 
+    <li><span>生死以</span></li> 
+    <li><span>岂能</span></li> 
+    <li><span>祸福</span></li> 
+    <li><span>趋避之</span></li> 
+  </ul>
+</section>
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
