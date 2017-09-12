@@ -3,18 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>android source | 逝去的美好</title>
+  <title>设计模式之策略模式 | 逝去的美好</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="android最新源码汇总">
+  <meta name="description" content="策略模式属于对象的行为模式。其用意是针对一组算法，将每一个算法封装到具有共同接口的独立的类中，从而使得它们可以相互替换。策略模式使得算法可以在不影响到客户端的情况下发生变化。">
+<meta name="keywords" content="designMode">
 <meta property="og:type" content="article">
-<meta property="og:title" content="android source">
-<meta property="og:url" content="http://yoursite.com/2016/11/03/android-source/index.html">
+<meta property="og:title" content="设计模式之策略模式">
+<meta property="og:url" content="http://yoursite.com/2017/09/12/设计模式之策略模式/index.html">
 <meta property="og:site_name" content="逝去的美好">
-<meta property="og:description" content="android最新源码汇总">
-<meta property="og:updated_time" content="2017-07-18T07:20:48.000Z">
+<meta property="og:description" content="策略模式属于对象的行为模式。其用意是针对一组算法，将每一个算法封装到具有共同接口的独立的类中，从而使得它们可以相互替换。策略模式使得算法可以在不影响到客户端的情况下发生变化。">
+<meta property="og:image" content="http://7xslom.com1.z0.glb.clouddn.com/image/E318DB79-E492-4327-8C01-1E5229296772.png">
+<meta property="og:image" content="http://7xslom.com1.z0.glb.clouddn.com/image/02A15EB2-2D55-4325-886E-0BF3E4A1FAF6.png">
+<meta property="og:image" content="http://7xslom.com1.z0.glb.clouddn.com/image/7B55216C-F525-405E-B171-E9B3D301DDC8.png">
+<meta property="og:updated_time" content="2017-09-12T03:15:32.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="android source">
-<meta name="twitter:description" content="android最新源码汇总">
+<meta name="twitter:title" content="设计模式之策略模式">
+<meta name="twitter:description" content="策略模式属于对象的行为模式。其用意是针对一组算法，将每一个算法封装到具有共同接口的独立的类中，从而使得它们可以相互替换。策略模式使得算法可以在不影响到客户端的情况下发生变化。">
+<meta name="twitter:image" content="http://7xslom.com1.z0.glb.clouddn.com/image/E318DB79-E492-4327-8C01-1E5229296772.png">
   
     <link rel="alternate" href="/atom.xml" title="逝去的美好" type="application/atom+xml">
   
@@ -67,12 +72,12 @@
   </div>
 </div>
 
-        <section id="main"><article id="post-android-source" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-设计模式之策略模式" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/11/03/android-source/" class="article-date">
-  <time class="post-time" datetime="2016-11-03T11:05:33.000Z" itemprop="datePublished">
-    <span class="post-month">11月</span><br/>
-    <span class="post-day">03</span>
+    <a href="/2017/09/12/设计模式之策略模式/" class="article-date">
+  <time class="post-time" datetime="2017-09-12T02:26:12.000Z" itemprop="datePublished">
+    <span class="post-month">9月</span><br/>
+    <span class="post-day">12</span>
   </time>
 </a>
    
@@ -84,16 +89,12 @@
         
   
     <h1 class="article-title" itemprop="name">
-      android source
+      设计模式之策略模式
     </h1>
   
 
         <div>
           
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/source/">source</a>
-  </div>
-
           
               
 
@@ -103,33 +104,44 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>android最新源码汇总<br><a id="more"></a><br><a href="http://androidblog.cn/index.php/Source/newSourceList/p/1" target="_blank" rel="external">android最新源码汇总</a><br>转载自：<a href="http://androidblog.cn/index.php/Source/newSourceList/p/1" target="_blank" rel="external">http://androidblog.cn/index.php/Source/newSourceList/p/1</a></p>
+        <p>策略模式属于对象的行为模式。其用意是针对一组算法，将每一个算法封装到具有共同接口的独立的类中，从而使得它们可以相互替换。策略模式使得算法可以在不影响到客户端的情况下发生变化。<br><a id="more"></a></p>
+<p>#场景<br>每个人思想不同，可能看到一个东西，能联想到的东西也不同。比如看到这个策略模式，我就突然想到了小时候看的一个动画片《马丁的早晨》。大概讲的就是主人公马丁，每天早上起来都发现自己变成不一样的自己，有时候是猿人，有时候是机器人，有时候是超人，有时候是动物，等等。跟策略模式对应一下。首先马丁是一个人，具有人的基本属性，每天变化的部分是他的形态和要执行的动作。那么我们就可以把形态和动作从马丁身上抽出来，单独处理。形态和动作可以当做一个父类。每天不同的形体和动作，就可以用不同的子类来实现，这样，每天马丁只需要选择具体的子类，就可以表现出不同的形态和执行不同的动作。而不是创建多个不同的马丁本身。</p>
+<p>#定义<br>策略模式属于对象的行为模式。其用意是针对一组算法，将每一个算法封装到具有共同接口的独立的类中，从而使得它们可以相互替换。策略模式使得算法可以在不影响到客户端的情况下发生变化。</p>
+<hr>
+<p>定义看着太专业，乍看上去看不太懂，但是如果你读完全文，理解了这个模式，再回过头来看定义，应该能够理解</p>
+<p>#角色</p>
+<ul>
+<li>客户端（执行策略的类）</li>
+<li>抽象策略类（所有策略的父类）</li>
+<li>具体策略类（具体策略的实现）</li>
+</ul>
+<hr>
+<p>UML图之类的就懒得话，代码可以很好的说明问题</p>
+<p>#源码</p>
+<p>###形态动作抽象类<br><img src="http://7xslom.com1.z0.glb.clouddn.com/image/E318DB79-E492-4327-8C01-1E5229296772.png" alt="此处输入图片的描述"></p>
+<p>###具体形态动作类<br><img src="http://7xslom.com1.z0.glb.clouddn.com/image/02A15EB2-2D55-4325-886E-0BF3E4A1FAF6.png" alt="此处输入图片的描述"></p>
+<p>###客户端类<br><img src="http://7xslom.com1.z0.glb.clouddn.com/image/7B55216C-F525-405E-B171-E9B3D301DDC8.png" alt="此处输入图片的描述"></p>
+<hr>
+<p>代码很简单，应该能看明白。马丁就是客户端类，他每天都会变成不同的样子。这种形态可能会很多，针对这个动画片来说，马丁有52个早晨，那就需要52中策略，那么我们把52种形态抽离出来，然后抽象出公共部分作为父类，子类各自实现，这样耦合就很低，扩展也很强。这里其实也体现出了组合的优势。现在回头看看策略模式的定义，就大致看得懂了。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/11/03/android-source/" data-id="cj7h0z1lu0012u1x32neuajg5" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/09/12/设计模式之策略模式/" data-id="cj7h0z1n1002uu1x3tlepp9cf" class="article-share-link">分享</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/designMode/">designMode</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2016/11/08/二叉搜索树/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          二叉搜索树
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/11/02/剑指offer-重建二叉树/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/08/20/centos7单机部署hadoop/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">剑指offer_重建二叉树</div>
+      <div class="article-nav-title">centos7单机部署hadoop</div>
     </a>
   
 </nav>
