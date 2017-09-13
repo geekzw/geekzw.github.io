@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>设计模式之观察者模式 | 逝去的美好</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="观察者模式定义了一种一对多的依赖关系，让多个观察者对象同时监听某一个主题对象。">
+<meta name="keywords" content="designMode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式之观察者模式">
+<meta property="og:url" content="http://yoursite.com/2017/09/13/设计模式之观察者模式/index.html">
+<meta property="og:site_name" content="逝去的美好">
+<meta property="og:description" content="观察者模式定义了一种一对多的依赖关系，让多个观察者对象同时监听某一个主题对象。">
+<meta property="og:image" content="http://7xslom.com1.z0.glb.clouddn.com/image/7630FFE8-4302-4369-BE3D-200FC35FFA33.png">
+<meta property="og:image" content="http://7xslom.com1.z0.glb.clouddn.com/image/825E1FF8-D17E-4AE7-80BE-A96FFC971F86.png">
+<meta property="og:image" content="http://7xslom.com1.z0.glb.clouddn.com/image/CC0E72AE-3643-4B3A-A851-F3F38B3F8B6B.png">
+<meta property="og:image" content="http://7xslom.com1.z0.glb.clouddn.com/image/90287D5D-17F4-4282-B9EC-2DA9F2BA20A0.png">
+<meta property="og:image" content="http://7xslom.com1.z0.glb.clouddn.com/image/5D192E46-1A6A-4FB4-B834-E2B866D077E2.png">
+<meta property="og:image" content="http://7xslom.com1.z0.glb.clouddn.com/image/2BD33660-8A83-4542-9D10-824F1FEA3168.png">
+<meta property="og:image" content="http://7xslom.com1.z0.glb.clouddn.com/image/07C5E91E-96AA-4273-9A11-807C1BDD9E16.png">
+<meta property="og:image" content="http://7xslom.com1.z0.glb.clouddn.com/image/A90327D5-6547-4386-94A3-98FCAB372F5F.png">
+<meta property="og:image" content="http://7xslom.com1.z0.glb.clouddn.com/image/525BE41F-65CF-41F9-A159-CE3DE9B0524F.png">
+<meta property="og:updated_time" content="2017-09-13T07:16:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式之观察者模式">
+<meta name="twitter:description" content="观察者模式定义了一种一对多的依赖关系，让多个观察者对象同时监听某一个主题对象。">
+<meta name="twitter:image" content="http://7xslom.com1.z0.glb.clouddn.com/image/7630FFE8-4302-4369-BE3D-200FC35FFA33.png">
+  
+    <link rel="alternate" href="/atom.xml" title="逝去的美好" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/plugin/bganimation/bg.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <div class="widget-wrap mobile-header">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="http://ofy9dm2ii.bkt.clouddn.com/ez.jpeg">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">客户端的渣渣</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>36</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>7</strong><br>标签</div></a>
+    </div>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+        <section id="main"><article id="post-设计模式之观察者模式" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/13/设计模式之观察者模式/" class="article-date">
+  <time class="post-time" datetime="2017-09-13T06:20:08.000Z" itemprop="datePublished">
+    <span class="post-month">9月</span><br/>
+    <span class="post-day">13</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      设计模式之观察者模式
+    </h1>
+  
+
+        <div>
+          
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>观察者模式定义了一种一对多的依赖关系，让多个观察者对象同时监听某一个主题对象。<br><a id="more"></a></p>
+<h1 id="观察者模式定义"><a href="#观察者模式定义" class="headerlink" title="观察者模式定义"></a>观察者模式定义</h1><p>观察者模式定义了一种一对多的依赖关系，让多个观察者对象同时监听某一个主题对象。这个主题对象在状态上发生变化时，会通知所有观察者对象，使它们能够自动更新自己</p>
+<hr>
+<p>这个模式作为程序员应该都很熟悉，不用特意去举一些形象的例子。这个模式的实现思想也很简单。</p>
+<h1 id="观察者模式结构"><a href="#观察者模式结构" class="headerlink" title="观察者模式结构"></a>观察者模式结构</h1><p>先上一张盗来的图<br><img src="http://7xslom.com1.z0.glb.clouddn.com/image/7630FFE8-4302-4369-BE3D-200FC35FFA33.png" alt="观察者模式结构图"><br>涉及角色</p>
+<ul>
+<li>抽象主题</li>
+<li>具体主题</li>
+<li>抽象观察者</li>
+<li>具体观察者</li>
+</ul>
+<hr>
+<p>下面就按照上述结构通过源码实现</p>
+<h1 id="观察者模式源码"><a href="#观察者模式源码" class="headerlink" title="观察者模式源码"></a>观察者模式源码</h1><h3 id="抽象主题"><a href="#抽象主题" class="headerlink" title="抽象主题"></a>抽象主题</h3><p><img src="http://7xslom.com1.z0.glb.clouddn.com/image/825E1FF8-D17E-4AE7-80BE-A96FFC971F86.png" alt="抽象主题"></p>
+<h3 id="具体主题"><a href="#具体主题" class="headerlink" title="具体主题"></a>具体主题</h3><p><img src="http://7xslom.com1.z0.glb.clouddn.com/image/CC0E72AE-3643-4B3A-A851-F3F38B3F8B6B.png" alt="具体主题"></p>
+<h3 id="抽象观察者"><a href="#抽象观察者" class="headerlink" title="抽象观察者"></a>抽象观察者</h3><p><img src="http://7xslom.com1.z0.glb.clouddn.com/image/90287D5D-17F4-4282-B9EC-2DA9F2BA20A0.png" alt="此处输入图片的描述"></p>
+<h3 id="具体观察者"><a href="#具体观察者" class="headerlink" title="具体观察者"></a>具体观察者</h3><p><img src="http://7xslom.com1.z0.glb.clouddn.com/image/5D192E46-1A6A-4FB4-B834-E2B866D077E2.png" alt="具体观察者"></p>
+<hr>
+<p>以上就是简易观察者模式的完整代码，很简单，看着代码也很容易理解观察者模式的思想。需要说明的是，上述的实现方式是观察者模式中的<strong>推</strong>模式，意思就是当数据变化时，被观察者把数据全部推送给所有的观察者。当然，有推就有<strong>拉</strong>。<strong>拉</strong>模式的思想是。当数据变化时，被观察者只告诉所有观察者，我的数据变化了，或者只传给观察者少量参数，需要更多的话，自己去拉。下面我们实现以下拉的方式。</p>
+<h3 id="抽象主题-1"><a href="#抽象主题-1" class="headerlink" title="抽象主题"></a>抽象主题</h3><p><img src="http://7xslom.com1.z0.glb.clouddn.com/image/2BD33660-8A83-4542-9D10-824F1FEA3168.png" alt="抽象主题"></p>
+<h3 id="具体主题-1"><a href="#具体主题-1" class="headerlink" title="具体主题"></a>具体主题</h3><p><img src="http://7xslom.com1.z0.glb.clouddn.com/image/07C5E91E-96AA-4273-9A11-807C1BDD9E16.png" alt="具体主题"></p>
+<h3 id="抽象观察者-1"><a href="#抽象观察者-1" class="headerlink" title="抽象观察者"></a>抽象观察者</h3><p><img src="http://7xslom.com1.z0.glb.clouddn.com/image/A90327D5-6547-4386-94A3-98FCAB372F5F.png" alt="抽象观察者"></p>
+<h3 id="具体观察者-1"><a href="#具体观察者-1" class="headerlink" title="具体观察者"></a>具体观察者</h3><p><img src="http://7xslom.com1.z0.glb.clouddn.com/image/525BE41F-65CF-41F9-A159-CE3DE9B0524F.png" alt="具体观察者"></p>
+<hr>
+<p>两种方式的选择，要放到具体的场景，肯定是各有优势的。最后需要注意的是，千万不要忘记注销订阅，不然很容易内存泄漏，此次保存观察者用的是vector而不是list事因为vector是线程安全的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/09/13/设计模式之观察者模式/" data-id="cj7ip151r00326jx3je80kqh5" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/designMode/">designMode</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/09/12/设计模式之策略模式/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">设计模式之策略模式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <h1 class="blog-title">逝去的美好</h1>
+    <h2 class="blog-subtitle">无论做什么，兴趣还是最重要的</h2>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="http://ofy9dm2ii.bkt.clouddn.com/ez.jpeg">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">客户端的渣渣</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>36</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>7</strong><br>标签</div></a>
+    </div>
+
+
+
+    <div class="social-link">
+      
+        <a class="hvr-bounce-in" href="https://github.com/geekzw" target="_blank" title="Github">
+          Github
+        </a>
+      
+    </div>
+
+    <div class="friend-link">
+      <h2>友情链接</h2>
+      
+        <a class="hvr-bounce-in" href="http://blog.shanamaid.top/" target="_blank" title="ShanaMaid">
+          ShanaMaid
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy;2016 - 2017 geekzw<br>
+      由<a href="http://hexo.io/" target="_blank">Hexo</a>强力驱动 | 
+      主题-<a href="https://github.com/ShanaMaid/hexo-theme-shana">Shana</a>
+      
+    </div>
+    
+  </div>
+</footer>
+    </div>
+    
+
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//apps.bdimg.com/libs/wow/0.1.6/wow.min.js"></script>
+<script>
+new WOW().init();
+</script>   
+
+
+  <link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+  <script src="/plugin/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <link rel="stylesheet" href="/plugin/galmenu/GalMenu.css">
+  <script src="/plugin/galmenu/GalMenu.js"></script>
+  <div class="GalMenu GalDropDown">
+      <div class="circle" id="gal">
+        <div class="ring">
+          
+            <a href="/" title="" class="menuItem">首页</a>
+          
+            <a href="/tags" title="" class="menuItem">标签</a>
+          
+            <a href="/categories" title="" class="menuItem">分类</a>
+          
+            <a href="/archives" title="" class="menuItem">归档</a>
+          
+            <a href="/xxxxxxxxx" title="" class="menuItem">xxx</a>
+          
+            <a href="/xxxxxxx" title="" class="menuItem">xxxx</a>
+          
+        </div>
+        
+          <audio id="audio" src="#"></audio>
+        
+      </div> 
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+  <script type="text/javascript">var items = document.querySelectorAll('.menuItem');
+    for (var i = 0,
+    l = items.length; i < l; i++) {
+      items[i].style.left = (50 - 35 * Math.cos( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+      items[i].style.top = (50 + 35 * Math.sin( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%"
+    }</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('body').GalMenu({
+      'menu': 'GalDropDown'
+    })
+  });
+</script>
+
+  <section class="hidden-xs"> 
+  <ul class="cb-slideshow"> 
+    <li><span>苟利</span></li> 
+    <li><span>国家</span></li> 
+    <li><span>生死以</span></li> 
+    <li><span>岂能</span></li> 
+    <li><span>祸福</span></li> 
+    <li><span>趋避之</span></li> 
+  </ul>
+</section>
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
