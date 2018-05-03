@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>记一次RocketMQ单机安装过程 | 逝去的美好</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="网上关于centos7单机部署RocketMQ的文章挺多的，官网写的也比较清晰，但是奈何本人比较笨，还是没能很顺利的一次成功。既然没有一次成功，那么肯定是遇到坑了，所以还是记录下来好，说不定哪天还要回来看。">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次RocketMQ单机安装过程">
+<meta property="og:url" content="http://yoursite.com/2018/04/29/记一次RocketMQ单机安装过程/index.html">
+<meta property="og:site_name" content="逝去的美好">
+<meta property="og:description" content="网上关于centos7单机部署RocketMQ的文章挺多的，官网写的也比较清晰，但是奈何本人比较笨，还是没能很顺利的一次成功。既然没有一次成功，那么肯定是遇到坑了，所以还是记录下来好，说不定哪天还要回来看。">
+<meta property="og:updated_time" content="2018-05-03T03:15:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="记一次RocketMQ单机安装过程">
+<meta name="twitter:description" content="网上关于centos7单机部署RocketMQ的文章挺多的，官网写的也比较清晰，但是奈何本人比较笨，还是没能很顺利的一次成功。既然没有一次成功，那么肯定是遇到坑了，所以还是记录下来好，说不定哪天还要回来看。">
+  
+    <link rel="alternate" href="/atom.xml" title="逝去的美好" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/plugin/bganimation/bg.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <div class="widget-wrap mobile-header">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="http://ofy9dm2ii.bkt.clouddn.com/ez.jpeg">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">客户端的渣渣</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>39</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>7</strong><br>标签</div></a>
+    </div>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+        <section id="main"><article id="post-记一次RocketMQ单机安装过程" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/04/29/记一次RocketMQ单机安装过程/" class="article-date">
+  <time class="post-time" datetime="2018-04-29T05:15:24.000Z" itemprop="datePublished">
+    <span class="post-month">4月</span><br/>
+    <span class="post-day">29</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      记一次RocketMQ单机安装过程
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>
+  </div>
+
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>网上关于centos7单机部署RocketMQ的文章挺多的，<a href="http://rocketmq.apache.org/docs/quick-start/" target="_blank" rel="external">官网</a>写的也比较清晰，但是奈何本人比较笨，还是没能很顺利的一次成功。既然没有一次成功，那么肯定是遇到坑了，所以还是记录下来好，说不定哪天还要回来看。<br><a id="more"></a></p>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ol>
+<li>系统:centos7 64(4G 1核虚拟机)</li>
+<li>jdk:1.8.0_161</li>
+<li>maven:3.5.3</li>
+<li><p>Git:1.8.3.1(这个无所谓的吧，不装都可以)</p>
+<h2 id="环境变量配置"><a href="#环境变量配置" class="headerlink" title="环境变量配置"></a>环境变量配置</h2><p>JAVA_HOME=/usr/java/jdk1.8.0_161<br>CLASSPATH=.:$JAVA_HOME/lib.tools.jar<br>PATH=$JAVA_HOME/bin:$PATH<br>export JAVA_HOME CLASSPATH PATH<br>export MAVEN_HOME=/usr/local/maven/apache-maven-3.5.3<br>export PATH=${PATH}:${MAVEN_HOME}/bin</p>
+</li>
+</ol>
+<h2 id="RocketMQ安装"><a href="#RocketMQ安装" class="headerlink" title="RocketMQ安装"></a>RocketMQ安装</h2><p><a href="https://www.apache.org/dyn/closer.cgi?path=rocketmq/4.2.0/rocketmq-all-4.2.0-source-release.zip" target="_blank" rel="external">下载</a>source压缩包,这里直接用wget下载<br>解压:压缩包是zip格式，所以要yum install unzip,然后直接解压就行了</p>
+<pre><code>&gt; unzip rocketmq-all-4.2.0-source-release.zip
+&gt; cd rocketmq-all-4.2.0/
+&gt; mvn -Prelease-all -DskipTests clean install -U
+&gt; cd distribution/target/apache-rocketmq
+</code></pre><p>我们需要的就是target目录下的apache-rocketmq,建议直接把这个目录mv到/usr/local目录下<br>接下来可以先配置一下环境变量了，我的配置</p>
+<pre><code>export ROCKETMQ_HOME=/usr/local/apache-rocketmq
+export PATH=${PATH}:${ROCKETMQ_HOME}/bin
+</code></pre><p>现在我们可以看下apache-rocketmq目录下的东西</p>
+<ul>
+<li>benchmark</li>
+<li>bin(重点操作对象)</li>
+<li>conf(配置文件，后面再研究)</li>
+<li><p>log(我创建的log日志目录)<br>当然还有几个文件，至少安装过程用不到，先不解释了<br>我们进入到bin目录，首先给这几个文件添加执行权限<br>chmod +x mqadmin mqbroker mqfiltersrv mqshutdown  mqnamesrv<br>然后就可以nohup mqnamesrv 1&gt;/usr/local/apache-rocketmq/log/ng.log 2&gt;/usr/local/apache-rocketmq/log/ng-err.log &amp;<br>意思是启动nameserver,并把相应的日志写入日志文件，最后一个符号是后台启动的意思。<br>如果没报什么异常，就可以去ng.log看一下。应该会看到The Name Server boot success. serializeType=JSON<br>接着jps一下，就可以看到nameserver进程已经启动了<br>11510 NamesrvStartup<br>下面需要启动broker了，在此之前，我们要配置一下server的地址，我这里直接写在环境变量里了，也可以写到broker的配置里。</p>
+<p> export NAMESRV_ADDR=localhost:9876<br>这里说下，nameserver的默认端口是9876,不知道的话，当启动完server后，jps看进程id，然后netstat -nlep|grep xxxx就可以看到进程对应的端口了</p>
+</li>
+</ul>
+<p>很兴奋，接着赶紧nohupmqbroker&gt;/usr/local/apache-rocketmq/log/mq.log &amp;。意思跟上面差不多。这里我就坑了。<br>首先是报了一个jvm内存不足的异常。原来mq默认参数是8G，我的配置是4G的。这时候修改一下bin/runbroker.sh文件的<br>JAVA_OPT=”${JAVA_OPT} -server -Xms2g -Xmx2g -Xmn521m”，根据自己的配置修改就行了。然后再次启动broker。网上说这时候应该没问题了，启动成功后，jps一下，应该看到<br>11542 BrokerStartup<br>这个我倒是看到了，但是还说日志里会有boot启动成功，还会打印server的地址，broker的地址，这个我死活都打印不出来。我一度认为是没启动成功，但是jps确实有这个进程了。那我就先不管了。试下官网的测试用例:sh bin/tools.sh org.apache.rocketmq.example.quickstart.Producer<br>给我爆了个没有TopicTest这个topic的错误，那怎么办，加个topic呗。于是sh mqadmin updateTopic –n 192.168.1.23:9876 –c DefaultCluster –t TopicTest。相关命令可以<a href="http://www.cnblogs.com/gmq-sh/p/6232633.html" target="_blank" rel="external">查看</a>。还是死活加不上。我还是怀疑broker的问题，查了一下集群状态，果然都是空，根本没有broker。这里就是诡异的问题了。就是broker怎么都注册不到server上。后来关机，重启，就好了。再次添加topic的时候，还是加不上，我-n后面试了127.0.0.1不行，localhost也不行，最后用了本机ip才加上。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/04/29/记一次RocketMQ单机安装过程/" data-id="cjgpykuzi0034fjx3repm6fqv" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/05/01/java8集合针对对象属性排序/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          java8集合针对对象属性排序
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/02/07/android调用系统相机/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">android调用系统相机</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <h1 class="blog-title">逝去的美好</h1>
+    <h2 class="blog-subtitle">无论做什么，兴趣还是最重要的</h2>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="http://ofy9dm2ii.bkt.clouddn.com/ez.jpeg">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">客户端的渣渣</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>39</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>7</strong><br>标签</div></a>
+    </div>
+
+
+
+    <div class="social-link">
+      
+        <a class="hvr-bounce-in" href="https://github.com/geekzw" target="_blank" title="Github">
+          Github
+        </a>
+      
+    </div>
+
+    <div class="friend-link">
+      <h2>友情链接</h2>
+      
+        <a class="hvr-bounce-in" href="http://blog.shanamaid.top/" target="_blank" title="ShanaMaid">
+          ShanaMaid
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy;2017 - 2018 geekzw<br>
+      由<a href="http://hexo.io/" target="_blank">Hexo</a>强力驱动 | 
+      主题-<a href="https://github.com/ShanaMaid/hexo-theme-shana">Shana</a>
+      
+    </div>
+    
+  </div>
+</footer>
+    </div>
+    
+
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//apps.bdimg.com/libs/wow/0.1.6/wow.min.js"></script>
+<script>
+new WOW().init();
+</script>   
+
+
+  <link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+  <script src="/plugin/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <link rel="stylesheet" href="/plugin/galmenu/GalMenu.css">
+  <script src="/plugin/galmenu/GalMenu.js"></script>
+  <div class="GalMenu GalDropDown">
+      <div class="circle" id="gal">
+        <div class="ring">
+          
+            <a href="/" title="" class="menuItem">首页</a>
+          
+            <a href="/tags" title="" class="menuItem">标签</a>
+          
+            <a href="/categories" title="" class="menuItem">分类</a>
+          
+            <a href="/archives" title="" class="menuItem">归档</a>
+          
+            <a href="/xxxxxxxxx" title="" class="menuItem">xxx</a>
+          
+            <a href="/xxxxxxx" title="" class="menuItem">xxxx</a>
+          
+        </div>
+        
+          <audio id="audio" src="#"></audio>
+        
+      </div> 
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+  <script type="text/javascript">var items = document.querySelectorAll('.menuItem');
+    for (var i = 0,
+    l = items.length; i < l; i++) {
+      items[i].style.left = (50 - 35 * Math.cos( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+      items[i].style.top = (50 + 35 * Math.sin( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%"
+    }</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('body').GalMenu({
+      'menu': 'GalDropDown'
+    })
+  });
+</script>
+
+  <section class="hidden-xs"> 
+  <ul class="cb-slideshow"> 
+    <li><span>苟利</span></li> 
+    <li><span>国家</span></li> 
+    <li><span>生死以</span></li> 
+    <li><span>岂能</span></li> 
+    <li><span>祸福</span></li> 
+    <li><span>趋避之</span></li> 
+  </ul>
+</section>
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
