@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/05/01/java8集合针对对象属性排序/index.html">
 <meta property="og:site_name" content="逝去的美好">
 <meta property="og:description" content="集合对按照属性去重，方法不止一种，如果对象是自己的，重写了equals和hashCode的对象就更容易一些。当对象没有重写这两个方法，又不能去重写的时候，实现就有些不雅观了。java8出现后，集合的操作变的简单又优雅，所以想用java8的stream实现。最后找到了这个方式">
-<meta property="og:updated_time" content="2018-05-03T03:19:36.000Z">
+<meta property="og:updated_time" content="2018-05-03T03:24:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java8集合针对对象属性排序">
 <meta name="twitter:description" content="集合对按照属性去重，方法不止一种，如果对象是自己的，重写了equals和hashCode的对象就更容易一些。当对象没有重写这两个方法，又不能去重写的时候，实现就有些不雅观了。java8出现后，集合的操作变的简单又优雅，所以想用java8的stream实现。最后找到了这个方式">
@@ -132,9 +132,10 @@
             Collectors.collectingAndThen(
                     Collectors.toCollection(() -&gt; new TreeSet&lt;&gt;(Comparator.comparing(Persion::getId))), ArrayList::new)
     );
-System.out.print(Arrays.toString(unique.toArray()));
+    System.out.print(Arrays.toString(unique.toArray()));
 }
-</code></pre><p>``<br>原理待补充。。。。</p>
+</code></pre><p>``</p>
+<p>原理待补充。。。。</p>
 
       
     </div>
