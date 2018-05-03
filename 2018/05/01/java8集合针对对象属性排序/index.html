@@ -5,16 +5,16 @@
   
   <title>java8集合针对对象属性排序 | 逝去的美好</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="客户端的渣渣">
+  <meta name="description" content="集合对按照属性去重，方法不止一种，如果对象是自己的，重写了equals和hashCode的对象就更容易一些。当对象没有重写这两个方法，又不能去重写的时候，实现就有些不雅观了。java8出现后，集合的操作变的简单又优雅，所以想用java8的stream实现。最后找到了这个方式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java8集合针对对象属性排序">
 <meta property="og:url" content="http://yoursite.com/2018/05/01/java8集合针对对象属性排序/index.html">
 <meta property="og:site_name" content="逝去的美好">
-<meta property="og:description" content="客户端的渣渣">
-<meta property="og:updated_time" content="2018-05-01T15:36:28.000Z">
+<meta property="og:description" content="集合对按照属性去重，方法不止一种，如果对象是自己的，重写了equals和hashCode的对象就更容易一些。当对象没有重写这两个方法，又不能去重写的时候，实现就有些不雅观了。java8出现后，集合的操作变的简单又优雅，所以想用java8的stream实现。最后找到了这个方式">
+<meta property="og:updated_time" content="2018-05-03T03:19:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java8集合针对对象属性排序">
-<meta name="twitter:description" content="客户端的渣渣">
+<meta name="twitter:description" content="集合对按照属性去重，方法不止一种，如果对象是自己的，重写了equals和hashCode的对象就更容易一些。当对象没有重写这两个方法，又不能去重写的时候，实现就有些不雅观了。java8出现后，集合的操作变的简单又优雅，所以想用java8的stream实现。最后找到了这个方式">
   
     <link rel="alternate" href="/atom.xml" title="逝去的美好" type="application/atom+xml">
   
@@ -99,7 +99,43 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>集合对按照属性去重，方法不止一种，如果对象是自己的，重写了equals和hashCode的对象就更容易一些。当对象没有重写这两个方法，又不能去重写的时候，实现就有些不雅观了。java8出现后，集合的操作变的简单又优雅，所以想用java8的stream实现。最后找到了这个方式<br><a id="more"></a><br>``java</p>
+<pre><code> static class Persion{
+    private String id;
+
+     public Persion(String id) {
+         this.id = id;
+     }
+
+     public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+     @Override
+     public String toString() {
+         return id;
+     }
+
+ }
+
+ public static void main(String[] args){
+    List&lt;Persion&gt; strs = new ArrayList&lt;&gt;();
+    strs.add(new Persion(&quot;1&quot;));
+    strs.add(new Persion(&quot;2&quot;));
+    strs.add(new Persion(&quot;3&quot;));
+    strs.add(new Persion(&quot;1&quot;));
+    List&lt;Persion&gt; unique = strs.stream().collect(
+            Collectors.collectingAndThen(
+                    Collectors.toCollection(() -&gt; new TreeSet&lt;&gt;(Comparator.comparing(Persion::getId))), ArrayList::new)
+    );
+System.out.print(Arrays.toString(unique.toArray()));
+}
+</code></pre><p>``<br>原理待补充。。。。</p>
+
       
     </div>
     <footer class="article-footer">
