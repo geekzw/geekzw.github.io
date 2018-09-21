@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>线程池 | 逝去的美好</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="线程池是我们平时接触很多的一个工具，官方建议，永远不要着急new Thread(),要用线程池">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程池">
+<meta property="og:url" content="http://yoursite.com/2018/09/21/线程池/index.html">
+<meta property="og:site_name" content="逝去的美好">
+<meta property="og:description" content="线程池是我们平时接触很多的一个工具，官方建议，永远不要着急new Thread(),要用线程池">
+<meta property="og:image" content="http://ofy9dm2ii.bkt.clouddn.com/blog/WechatIMG3.jpeg">
+<meta property="og:updated_time" content="2018-09-21T07:07:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="线程池">
+<meta name="twitter:description" content="线程池是我们平时接触很多的一个工具，官方建议，永远不要着急new Thread(),要用线程池">
+<meta name="twitter:image" content="http://ofy9dm2ii.bkt.clouddn.com/blog/WechatIMG3.jpeg">
+  
+    <link rel="alternate" href="/atom.xml" title="逝去的美好" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/plugin/bganimation/bg.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <div class="widget-wrap mobile-header">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="http://ofy9dm2ii.bkt.clouddn.com/ez.jpeg">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">客户端的渣渣</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>40</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>7</strong><br>标签</div></a>
+    </div>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+        <section id="main"><article id="post-线程池" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/21/线程池/" class="article-date">
+  <time class="post-time" datetime="2018-09-21T07:03:50.000Z" itemprop="datePublished">
+    <span class="post-month">9月</span><br/>
+    <span class="post-day">21</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      线程池
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>
+  </div>
+
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>线程池是我们平时接触很多的一个工具，官方建议，永远不要着急new Thread(),要用线程池<br><a id="more"></a></p>
+<h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p>提到java线程池，大家都会写以下代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">ExecutorService service = Executors.newCachedThreadPool();</div><div class="line">   Future future = service.submit(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">	System.out.println(<span class="string">"doWork"</span>);</div><div class="line">	&#125;</div><div class="line">   &#125;);</div></pre></td></tr></table></figure></p>
+<p>当然了，不仅可以newCached，还有newSingle，newFixed，其中的区别后面再说。<br>进入newCached方法后，可以看到，其实是创建了个ThreadPoolExecutor，看来这是最终的线程池实例，那看看他的继承关系吧。<br><img src="http://ofy9dm2ii.bkt.clouddn.com/blog/WechatIMG3.jpeg" alt="ThreadPoolExecutor继承图" title="ThreadPoolExecutor继承图"><br>这个继承还是相对简单的，而且直来直往，没有分叉。那么我们就从上到下的看一下吧，毕竟上层是抽象，看的更全面，也没有复杂的实现</p>
+<h2 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Executor</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Executes the given command at some time in the future.  The command</div><div class="line">     * may execute in a new thread, in a pooled thread, or in the calling</div><div class="line">     * thread, at the discretion of the &#123;<span class="doctag">@code</span> Executor&#125; implementation.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> command the runnable task</div><div class="line">     * <span class="doctag">@throws</span> RejectedExecutionException if this task cannot be</div><div class="line">     * accepted for execution</div><div class="line">     * <span class="doctag">@throws</span> NullPointerException if command is null</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">execute</span><span class="params">(Runnable command)</span></span>;</div></pre></td></tr></table></figure>
+<p>这是线程池最顶层的抽象，定义了作为一个线程池，必须有的基本功能。也就是要可以执行一个任务，没错，这确实是一个线程池或者一个线程的基本工作，没有这个，还要你干啥。顶层抽象一般都是惜墨如金，简单明了，这样也使职责更加明确。</p>
+<h2 id="ExecutorService"><a href="#ExecutorService" class="headerlink" title="ExecutorService"></a>ExecutorService</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ExecutorService</span> <span class="keyword">extends</span> <span class="title">Executor</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">shutdown</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function">List&lt;Runnable&gt; <span class="title">shutdownNow</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isShutdown</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isTerminated</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">awaitTermination</span><span class="params">(<span class="keyword">long</span> timeout, TimeUnit unit)</span></span></div><div class="line">        <span class="keyword">throws</span> InterruptedException;</div><div class="line"></div><div class="line">    &lt;T&gt; <span class="function">Future&lt;T&gt; <span class="title">submit</span><span class="params">(Callable&lt;T&gt; task)</span></span>;</div><div class="line"></div><div class="line">    &lt;T&gt; <span class="function">Future&lt;T&gt; <span class="title">submit</span><span class="params">(Runnable task, T result)</span></span>;</div><div class="line"></div><div class="line">    Future&lt;?&gt; submit(Runnable task);</div><div class="line"></div><div class="line">    &lt;T&gt; List&lt;Future&lt;T&gt;&gt; invokeAll(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks)</div><div class="line">        <span class="keyword">throws</span> InterruptedException;</div><div class="line"></div><div class="line">    &lt;T&gt; List&lt;Future&lt;T&gt;&gt; invokeAll(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks,</div><div class="line">                                  <span class="keyword">long</span> timeout, TimeUnit unit)</div><div class="line">        <span class="keyword">throws</span> InterruptedException;</div><div class="line"></div><div class="line">    &lt;T&gt; <span class="function">T <span class="title">invokeAny</span><span class="params">(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks)</span></span></div><div class="line">        <span class="keyword">throws</span> InterruptedException, ExecutionException;</div><div class="line"></div><div class="line">    &lt;T&gt; <span class="function">T <span class="title">invokeAny</span><span class="params">(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks,</span></span></div><div class="line">                    <span class="keyword">long</span> timeout, TimeUnit unit)</div><div class="line">					<span class="keyword">throws</span> InterruptedException, ExecutionException, TimeoutException;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里是对Executor接口的扩展，扩展的接口可以分为这几类：对线程池的操作和状态获取、添加了有返回值的执行接口、批量执行。就是因为有了这些接口，我们才能进一步的控制线程池。可能当我们看到这些扩展接口的实现，或者用到这些扩展接口的时候，才能真正体会到它的重要性。这里出现了新东西，Future，Callable，这是为了得到线程执行结果而设计的类，后面单独看吧，我们要顺着继承关系看，先不分叉，除非迫不得已。</p>
+<h2 id="AbstractExecutorService"><a href="#AbstractExecutorService" class="headerlink" title="AbstractExecutorService"></a>AbstractExecutorService</h2><p>这里就先不贴代码了，有点多，分析到了具体再看。抽象类，作用是实现部分接口方法，那这个部分是哪部分呢。我自己的理解是，接口是对公共行为的抽象，抽象类是对行为的公共实现的抽象。看以下代码</p>
+<h3 id="submit"><a href="#submit" class="headerlink" title="submit"></a>submit</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> Future&lt;?&gt; submit(Runnable task) &#123;</div><div class="line">        <span class="keyword">if</span> (task == <span class="keyword">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">        RunnableFuture&lt;Void&gt; ftask = newTaskFor(task, <span class="keyword">null</span>);</div><div class="line">        execute(ftask);</div><div class="line">        <span class="keyword">return</span> ftask;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这是对接口submit的实现。也就是说。无论哪个子类，只要是调用submit，都会传一个Runnable任务过来，也最终都会返回给你个Future。那么作为子类来讲，执行逻辑都是一样的，没必要每个子类都实现一遍。从这个实现我们也可以知道，调用submit的时候，虽然我们传入的是runnable，但是里面却不是用runnable执行的，因为runnable没有返回值。下面再来看下invokeAll的实现</p>
+<h3 id="invokeAll"><a href="#invokeAll" class="headerlink" title="invokeAll"></a>invokeAll</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> &lt;T&gt; List&lt;Future&lt;T&gt;&gt; invokeAll(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks)</div><div class="line">        <span class="keyword">throws</span> InterruptedException &#123;</div><div class="line">        <span class="keyword">if</span> (tasks == <span class="keyword">null</span>)</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">        ArrayList&lt;Future&lt;T&gt;&gt; futures = <span class="keyword">new</span> ArrayList&lt;Future&lt;T&gt;&gt;(tasks.size());</div><div class="line">        <span class="keyword">boolean</span> done = <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">for</span> (Callable&lt;T&gt; t : tasks) &#123;</div><div class="line">                RunnableFuture&lt;T&gt; f = newTaskFor(t);</div><div class="line">                futures.add(f);</div><div class="line">                execute(f);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, size = futures.size(); i &lt; size; i++) &#123;</div><div class="line">                Future&lt;T&gt; f = futures.get(i);</div><div class="line">                <span class="keyword">if</span> (!f.isDone()) &#123;</div><div class="line">                    <span class="keyword">try</span> &#123;</div><div class="line">                        f.get();</div><div class="line">                    &#125; <span class="keyword">catch</span> (CancellationException ignore) &#123;</div><div class="line">                    &#125; <span class="keyword">catch</span> (ExecutionException ignore) &#123;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            done = <span class="keyword">true</span>;</div><div class="line">            <span class="keyword">return</span> futures;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            <span class="keyword">if</span> (!done)</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, size = futures.size(); i &lt; size; i++)</div><div class="line">                    futures.get(i).cancel(<span class="keyword">true</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>代码还是很好理解的。首先用一个集合接收所有任务，然后遍历执行，这里的执行跟submit没什么区别，只是在执行中顺便把任务加到任务集合中。遍历完成之后，再比那里接收返回结果，当所有结果都返回的时候，把结果集返回给调用方。这基本上就是AbstractExecutorService做的所有的事了。</p>
+<h2 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h2><p>终于到了最终实现类了。这里就是把上层接口，没有实现的方法都实现掉<br>先看静态域</p>
+<h3 id="静态域"><a href="#静态域" class="headerlink" title="静态域"></a>静态域</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> AtomicInteger ctl = <span class="keyword">new</span> AtomicInteger(ctlOf(RUNNING, <span class="number">0</span>));</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> COUNT_BITS = Integer.SIZE - <span class="number">3</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CAPACITY   = (<span class="number">1</span> &lt;&lt; COUNT_BITS) - <span class="number">1</span>;</div><div class="line"></div><div class="line">    <span class="comment">// runState is stored in the high-order bits</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> RUNNING    = -<span class="number">1</span> &lt;&lt; COUNT_BITS;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SHUTDOWN   =  <span class="number">0</span> &lt;&lt; COUNT_BITS;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> STOP       =  <span class="number">1</span> &lt;&lt; COUNT_BITS;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TIDYING    =  <span class="number">2</span> &lt;&lt; COUNT_BITS;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TERMINATED =  <span class="number">3</span> &lt;&lt; COUNT_BITS;</div><div class="line"></div><div class="line">    <span class="comment">// Packing and unpacking ctl</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">runStateOf</span><span class="params">(<span class="keyword">int</span> c)</span>     </span>&#123; <span class="keyword">return</span> c &amp; ~CAPACITY; &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">workerCountOf</span><span class="params">(<span class="keyword">int</span> c)</span>  </span>&#123; <span class="keyword">return</span> c &amp; CAPACITY; &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">ctlOf</span><span class="params">(<span class="keyword">int</span> rs, <span class="keyword">int</span> wc)</span> </span>&#123; <span class="keyword">return</span> rs | wc; &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line">     * Bit field accessors that don't require unpacking ctl.</div><div class="line">     * These depend on the bit layout and on workerCount being never negative.</div><div class="line">     */</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">runStateLessThan</span><span class="params">(<span class="keyword">int</span> c, <span class="keyword">int</span> s)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> c &lt; s;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">runStateAtLeast</span><span class="params">(<span class="keyword">int</span> c, <span class="keyword">int</span> s)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> c &gt;= s;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isRunning</span><span class="params">(<span class="keyword">int</span> c)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> c &lt; SHUTDOWN;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这里目标做两件事，一件事是定义线程池的状态，利用ctl可以随时获取线程池的专题，还有一件事是获取线程池容量，关于二进制的算法，不是本次重点，先忽略<br>下面是实例属性</p>
+<h3 id="实例属性"><a href="#实例属性" class="headerlink" title="实例属性"></a>实例属性</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//使用cas的方式对线程数增加，防止并发问题</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">compareAndIncrementWorkerCount</span><span class="params">(<span class="keyword">int</span> expect)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> ctl.compareAndSet(expect, expect + <span class="number">1</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">compareAndDecrementWorkerCount</span><span class="params">(<span class="keyword">int</span> expect)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> ctl.compareAndSet(expect, expect - <span class="number">1</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">decrementWorkerCount</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">do</span> &#123;&#125; <span class="keyword">while</span> (! compareAndDecrementWorkerCount(ctl.get()));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//存放排队等待执行的任务</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> BlockingQueue&lt;Runnable&gt; workQueue;</div><div class="line"><span class="comment">//锁对象</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> ReentrantLock mainLock = <span class="keyword">new</span> ReentrantLock();</div><div class="line"><span class="comment">//正在执行的任务集合</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> HashSet&lt;Worker&gt; workers = <span class="keyword">new</span> HashSet&lt;Worker&gt;();</div><div class="line"><span class="comment">//锁条件</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> Condition termination = mainLock.newCondition();</div><div class="line"><span class="comment">//线程池历史最大线程数</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> largestPoolSize;</div><div class="line"><span class="comment">//已经执行完成的任务数量</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">long</span> completedTaskCount;</div><div class="line"><span class="comment">//线程工厂</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> ThreadFactory threadFactory;</div><div class="line"><span class="comment">//拒绝控制器(当线程池爆满，无法容纳更多的任务时触发)</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> RejectedExecutionHandler handler;</div><div class="line"><span class="comment">//线程在池中存活时间</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">long</span> keepAliveTime;</div><div class="line"><span class="comment">//是否允许核心线程超时</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">boolean</span> allowCoreThreadTimeOut;</div><div class="line"><span class="comment">//核心线程数</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span> corePoolSize;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Maximum pool size. Note that the actual maximum is internally</div><div class="line"> * bounded by CAPACITY.</div><div class="line"> */</div><div class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span> maximumPoolSize;</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> RejectedExecutionHandler defaultHandler =</div><div class="line">    <span class="keyword">new</span> AbortPolicy();</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> RuntimePermission shutdownPerm =</div><div class="line">    <span class="keyword">new</span> RuntimePermission(<span class="string">"modifyThread"</span>);</div></pre></td></tr></table></figure>
+<h3 id="Worker"><a href="#Worker" class="headerlink" title="Worker"></a>Worker</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Worker</span></span></div><div class="line">        <span class="keyword">extends</span> <span class="title">AbstractQueuedSynchronizer</span></div><div class="line">        <span class="keyword">implements</span> <span class="title">Runnable</span></div><div class="line">    &#123;</div><div class="line">        <span class="comment">/**</span></div><div class="line">         * This class will never be serialized, but we provide a</div><div class="line">         * serialVersionUID to suppress a javac warning.</div><div class="line">         */</div><div class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">6138294804551838833L</span>;</div><div class="line"></div><div class="line">        <span class="comment">/** Thread this worker is running in.  Null if factory fails. */</span></div><div class="line">        <span class="keyword">final</span> Thread thread;</div><div class="line">        <span class="comment">/** Initial task to run.  Possibly null. */</span></div><div class="line">        Runnable firstTask;</div><div class="line">        <span class="comment">/** Per-thread task counter */</span></div><div class="line">        <span class="keyword">volatile</span> <span class="keyword">long</span> completedTasks;</div><div class="line"></div><div class="line">        <span class="comment">/**</span></div><div class="line">         * Creates with given first task and thread from ThreadFactory.</div><div class="line">         * <span class="doctag">@param</span> firstTask the first task (null if none)</div><div class="line">         */</div><div class="line">        Worker(Runnable firstTask) &#123;</div><div class="line">            setState(-<span class="number">1</span>); <span class="comment">// inhibit interrupts until runWorker</span></div><div class="line">            <span class="keyword">this</span>.firstTask = firstTask;</div><div class="line">            <span class="keyword">this</span>.thread = getThreadFactory().newThread(<span class="keyword">this</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">/** Delegates main run loop to outer runWorker  */</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            runWorker(<span class="keyword">this</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// Lock methods</span></div><div class="line">        <span class="comment">//</span></div><div class="line">        <span class="comment">// The value 0 represents the unlocked state.</span></div><div class="line">        <span class="comment">// The value 1 represents the locked state.</span></div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">isHeldExclusively</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> getState() != <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> unused)</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (compareAndSetState(<span class="number">0</span>, <span class="number">1</span>)) &#123;</div><div class="line">                setExclusiveOwnerThread(Thread.currentThread());</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">tryRelease</span><span class="params">(<span class="keyword">int</span> unused)</span> </span>&#123;</div><div class="line">            setExclusiveOwnerThread(<span class="keyword">null</span>);</div><div class="line">            setState(<span class="number">0</span>);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span>        </span>&#123; acquire(<span class="number">1</span>); &#125;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">tryLock</span><span class="params">()</span>  </span>&#123; <span class="keyword">return</span> tryAcquire(<span class="number">1</span>); &#125;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unlock</span><span class="params">()</span>      </span>&#123; release(<span class="number">1</span>); &#125;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isLocked</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> isHeldExclusively(); &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">void</span> <span class="title">interruptIfStarted</span><span class="params">()</span> </span>&#123;</div><div class="line">            Thread t;</div><div class="line">            <span class="keyword">if</span> (getState() &gt;= <span class="number">0</span> &amp;&amp; (t = thread) != <span class="keyword">null</span> &amp;&amp; !t.isInterrupted()) &#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    t.interrupt();</div><div class="line">                &#125; <span class="keyword">catch</span> (SecurityException ignore) &#123;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>在线程池中，任务都是以worker为单位执行的，我们看它的继承，可以知道，它本身是一把锁，它本身也是一个可以被thread执行的任务。在构造方法中，初始化自己的thread变量，把自己赋值给thread。我们关键看下runWorker</p>
+<h4 id="runWorker"><a href="#runWorker" class="headerlink" title="runWorker"></a>runWorker</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">runWorker</span><span class="params">(Worker w)</span> </span>&#123;</div><div class="line">        Thread wt = Thread.currentThread();</div><div class="line">        Runnable task = w.firstTask;</div><div class="line">        w.firstTask = <span class="keyword">null</span>;</div><div class="line">        w.unlock(); <span class="comment">// allow interrupts</span></div><div class="line">        <span class="keyword">boolean</span> completedAbruptly = <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">while</span> (task != <span class="keyword">null</span> || (task = getTask()) != <span class="keyword">null</span>) &#123;</div><div class="line">                w.lock();</div><div class="line">                <span class="comment">// If pool is stopping, ensure thread is interrupted;</span></div><div class="line">                <span class="comment">// if not, ensure thread is not interrupted.  This</span></div><div class="line">                <span class="comment">// requires a recheck in second case to deal with</span></div><div class="line">                <span class="comment">// shutdownNow race while clearing interrupt</span></div><div class="line">                <span class="keyword">if</span> ((runStateAtLeast(ctl.get(), STOP) ||</div><div class="line">                     (Thread.interrupted() &amp;&amp;</div><div class="line">                      runStateAtLeast(ctl.get(), STOP))) &amp;&amp;</div><div class="line">                    !wt.isInterrupted())</div><div class="line">                    wt.interrupt();</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    beforeExecute(wt, task);</div><div class="line">                    Throwable thrown = <span class="keyword">null</span>;</div><div class="line">                    <span class="keyword">try</span> &#123;</div><div class="line">                        task.run();</div><div class="line">                    &#125; <span class="keyword">catch</span> (RuntimeException x) &#123;</div><div class="line">                        thrown = x; <span class="keyword">throw</span> x;</div><div class="line">                    &#125; <span class="keyword">catch</span> (Error x) &#123;</div><div class="line">                        thrown = x; <span class="keyword">throw</span> x;</div><div class="line">                    &#125; <span class="keyword">catch</span> (Throwable x) &#123;</div><div class="line">                        thrown = x; <span class="keyword">throw</span> <span class="keyword">new</span> Error(x);</div><div class="line">                    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                        afterExecute(task, thrown);</div><div class="line">                    &#125;</div><div class="line">                &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                    task = <span class="keyword">null</span>;</div><div class="line">                    w.completedTasks++;</div><div class="line">                    w.unlock();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            completedAbruptly = <span class="keyword">false</span>;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            processWorkerExit(w, completedAbruptly);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>关键部分在while，如果创建worker的时候传了任务过来，这里直接执行这个任务，否则，worker会去getTask，这里是去等待队列里去取任务。我们说线程池，就是当一个任务执行完之后，如果后面还有等待的任务，这个线程会继续执行新的任务，而不是死掉，逻辑就在这里。首先执行创建这个任务时传过来的任务，也称首要任务，当首要任务执行完后，去遍历等待的任务继续执行。这里还可以看到两个回调<br>execute的实现 beforeExecute(wt, task);afterExecute(task, thrown);用户可以通过这两个回调，拿到当前那个线程，在执行哪个任务，很贴心。</p>
+<h3 id="execute"><a href="#execute" class="headerlink" title="execute"></a>execute</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Runnable command)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (command == <span class="keyword">null</span>)</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">        <span class="comment">/*</span></div><div class="line">         * Proceed in 3 steps:</div><div class="line">         *</div><div class="line">         * 1. If fewer than corePoolSize threads are running, try to</div><div class="line">         * start a new thread with the given command as its first</div><div class="line">         * task.  The call to addWorker atomically checks runState and</div><div class="line">         * workerCount, and so prevents false alarms that would add</div><div class="line">         * threads when it shouldn't, by returning false.</div><div class="line">         *</div><div class="line">         * 2. If a task can be successfully queued, then we still need</div><div class="line">         * to double-check whether we should have added a thread</div><div class="line">         * (because existing ones died since last checking) or that</div><div class="line">         * the pool shut down since entry into this method. So we</div><div class="line">         * recheck state and if necessary roll back the enqueuing if</div><div class="line">         * stopped, or start a new thread if there are none.</div><div class="line">         *</div><div class="line">         * 3. If we cannot queue task, then we try to add a new</div><div class="line">         * thread.  If it fails, we know we are shut down or saturated</div><div class="line">         * and so reject the task.</div><div class="line">         */</div><div class="line">        <span class="keyword">int</span> c = ctl.get();</div><div class="line">        <span class="keyword">if</span> (workerCountOf(c) &lt; corePoolSize) &#123;</div><div class="line">            <span class="keyword">if</span> (addWorker(command, <span class="keyword">true</span>))</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            c = ctl.get();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (isRunning(c) &amp;&amp; workQueue.offer(command)) &#123;</div><div class="line">            <span class="keyword">int</span> recheck = ctl.get();</div><div class="line">            <span class="keyword">if</span> (! isRunning(recheck) &amp;&amp; remove(command))</div><div class="line">                reject(command);</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (workerCountOf(recheck) == <span class="number">0</span>)</div><div class="line">                addWorker(<span class="keyword">null</span>, <span class="keyword">false</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (!addWorker(command, <span class="keyword">false</span>))</div><div class="line">            reject(command);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这里注释写的很清楚，一共三步</p>
+<ol>
+<li>如果当前线程数小于核心线程大小，则执行<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">addWorker</span><span class="params">(Runnable firstTask, <span class="keyword">boolean</span> core)</span> </span>&#123;</div><div class="line">        retry:</div><div class="line">        <span class="keyword">for</span> (;;) &#123;</div><div class="line">            <span class="keyword">int</span> c = ctl.get();</div><div class="line">			<span class="comment">//获取线程池的执行状态</span></div><div class="line">            <span class="keyword">int</span> rs = runStateOf(c);</div><div class="line">            <span class="keyword">if</span> (rs &gt;= SHUTDOWN &amp;&amp;</div><div class="line">                ! (rs == SHUTDOWN &amp;&amp;</div><div class="line">                   firstTask == <span class="keyword">null</span> &amp;&amp;</div><div class="line">                   ! workQueue.isEmpty()))</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line"></div><div class="line">            <span class="keyword">for</span> (;;) &#123;</div><div class="line">                <span class="keyword">int</span> wc = workerCountOf(c);</div><div class="line">				<span class="comment">//这里很好理解，当前线程数量如果大于总容量，拒绝添加</span></div><div class="line">				<span class="comment">//如果这次添加的是核心线程，如果线程数量大于核心线程数量，拒绝</span></div><div class="line">				<span class="comment">//如果添加的不是核心线程，超过了设定的最大数量，拒绝</span></div><div class="line">                <span class="keyword">if</span> (wc &gt;= CAPACITY ||</div><div class="line">                    wc &gt;= (core ? corePoolSize : maximumPoolSize))</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">				<span class="comment">//这里利用cas给线程数自增，如果成功，就跳出双层循环，继续添加流程</span></div><div class="line">                <span class="keyword">if</span> (compareAndIncrementWorkerCount(c))</div><div class="line">                    <span class="keyword">break</span> retry;</div><div class="line">                c = ctl.get();  <span class="comment">// Re-read ctl</span></div><div class="line">				<span class="comment">//如果线程池不是运行状态，继续内层循环</span></div><div class="line">                <span class="keyword">if</span> (runStateOf(c) != rs)</div><div class="line">                    <span class="keyword">continue</span> retry;</div><div class="line">                <span class="comment">// else CAS failed due to workerCount change; retry inner loop</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">boolean</span> workerStarted = <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">boolean</span> workerAdded = <span class="keyword">false</span>;</div><div class="line">        Worker w = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            w = <span class="keyword">new</span> Worker(firstTask);</div><div class="line">            <span class="keyword">final</span> Thread t = w.thread;</div><div class="line">            <span class="keyword">if</span> (t != <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">final</span> ReentrantLock mainLock = <span class="keyword">this</span>.mainLock;</div><div class="line">                mainLock.lock();</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    <span class="comment">// Recheck while holding lock.</span></div><div class="line">                    <span class="comment">// Back out on ThreadFactory failure or if</span></div><div class="line">                    <span class="comment">// shut down before lock acquired.</span></div><div class="line">                    <span class="keyword">int</span> rs = runStateOf(ctl.get());</div><div class="line"></div><div class="line">                    <span class="keyword">if</span> (rs &lt; SHUTDOWN ||</div><div class="line">                        (rs == SHUTDOWN &amp;&amp; firstTask == <span class="keyword">null</span>)) &#123;</div><div class="line">                        <span class="keyword">if</span> (t.isAlive()) <span class="comment">// precheck that t is startable</span></div><div class="line">                            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalThreadStateException();</div><div class="line">                        workers.add(w);</div><div class="line">                        <span class="keyword">int</span> s = workers.size();</div><div class="line">                        <span class="keyword">if</span> (s &gt; largestPoolSize)</div><div class="line">                            largestPoolSize = s;</div><div class="line">                        workerAdded = <span class="keyword">true</span>;</div><div class="line">                    &#125;</div><div class="line">                &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                    mainLock.unlock();</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span> (workerAdded) &#123;</div><div class="line">                    t.start();</div><div class="line">                    workerStarted = <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            <span class="keyword">if</span> (! workerStarted)</div><div class="line">                addWorkerFailed(w);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> workerStarted;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这里先说下go to语法，自己开发没用过，突然看到，有点懵逼。这里的break retry;是跳出双层循环，继续往下执行，continue retry;是跳出内层循环，继续执行外层循环。我们看7-11行这个判断条件。在这个条件下是直接返回false，添加失败。第一段很好理解，rs &gt;= SHUTDOWN，当状态大于运行状态时，不让添加。关键是后半段rs == SHUTDOWN &amp;&amp; firstTask == null &amp;&amp;!workQueue.isEmpty())，当线程池状态为关闭，当前任务为空，等待任务队列不为空的时候，是可以添加的(别忘了外面有个非)。那这个状态为什么允许添加呢，希望后面会找到答案。看内层循环，循环内部的东西都在代码上注释了。整个内层循环的任务就是，判断线程池数量，确定能不能添加，如果能，就给线程数量递增，然后继续添加逻辑，如果线程池不是运行状态，那么会跳到外层循环，外层循环的主要作用，就是根据线程池状态判断是否可以添加。就一直循环这几个逻辑判断，直到得到确定的答案，能或者不能。再粗糙一点，这个内层循环的目的就是不停的轮询看这个线程能不能被添加。以上是添加任务的上半段，主要是判断状态，下面就是添加逻辑了。从32行开始，先创建一个worker，然后根据各种状态判断，符合以后进行workers.add(w);之所以说葛总判断，是因为跟上面判断模块的差不多，一看就理解了这里注意到rs == SHUTDOWN &amp;&amp; firstTask == null，跟上面的算是对应上了。到这里  addWorker算是分析完了三步走走完了第一步</p>
+<ol>
+<li>如果当前线程池在运行，并且把任务放入等待队列成功，那么就走等待线程的执行逻辑<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//如果线程池是运行状态，并且任务添加到了等待队列</span></div><div class="line"><span class="keyword">if</span> (isRunning(c) &amp;&amp; workQueue.offer(command)) &#123;</div><div class="line">            <span class="keyword">int</span> recheck = ctl.get();</div><div class="line">			<span class="comment">//重复判断状态，防止再次期间状态发生改变</span></div><div class="line">            <span class="keyword">if</span> (! isRunning(recheck) &amp;&amp; remove(command))</div><div class="line">                reject(command);</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (workerCountOf(recheck) == <span class="number">0</span>)</div><div class="line">                addWorker(<span class="keyword">null</span>, <span class="keyword">false</span>);</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>我们主要看else if这个条件，当当前运行的线程数为0的时候，进行非核心线程非首要任务的添加。外层if我们知道，已经把任务放入等待队列了。那么等待队列里的任务什么时候执行，我们看worker的时候已经说了。是首要任务执行过后，线程不会结束，会继续执行等待任务。这里运行线程数都为0 了，如果不add一个任务，等待任务就永远不会得到执行，所以add一个没有首要任务的线程，目的就是去消费刚刚添加的等待任务，可以看回worker的runWorker的while的部分</p>
+<ol>
+<li>如果执行失败，就执行拒绝策略<br>直接添加一个非核心任务，添加失败调用拒绝策略<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3>到这里，execute就分析完了，那么线程池的主要运行机制，到此为止。当然，还有很多关联东西没有讲到，比如ThreadPoolExecutor更多的方法，Callable，future，ReentrantLock等等，我们可以看到，在关键步骤，都是用了ReentrantLock来防止并发问题。这里我也没有重点说明构造方法里的几个参数的意思，也没有说cache，fix 等的区别，感觉。。。看完实例属性，就都知道了</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/21/线程池/" data-id="cjmbnz42o003arfx3h7fbfmbv" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/01/java8集合针对对象属性排序/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">java8集合针对对象属性排序</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <h1 class="blog-title">逝去的美好</h1>
+    <h2 class="blog-subtitle">无论做什么，兴趣还是最重要的</h2>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="http://ofy9dm2ii.bkt.clouddn.com/ez.jpeg">
+    <h2 class="author">geekzw</h2>
+    <h3 class="description">客户端的渣渣</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>40</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>7</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>7</strong><br>标签</div></a>
+    </div>
+
+
+
+    <div class="social-link">
+      
+        <a class="hvr-bounce-in" href="https://github.com/geekzw" target="_blank" title="Github">
+          Github
+        </a>
+      
+    </div>
+
+    <div class="friend-link">
+      <h2>友情链接</h2>
+      
+        <a class="hvr-bounce-in" href="http://blog.shanamaid.top/" target="_blank" title="ShanaMaid">
+          ShanaMaid
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy;2017 - 2018 geekzw<br>
+      由<a href="http://hexo.io/" target="_blank">Hexo</a>强力驱动 | 
+      主题-<a href="https://github.com/ShanaMaid/hexo-theme-shana">Shana</a>
+      
+    </div>
+    
+  </div>
+</footer>
+    </div>
+    
+
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//apps.bdimg.com/libs/wow/0.1.6/wow.min.js"></script>
+<script>
+new WOW().init();
+</script>   
+
+
+  <link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+  <script src="/plugin/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <link rel="stylesheet" href="/plugin/galmenu/GalMenu.css">
+  <script src="/plugin/galmenu/GalMenu.js"></script>
+  <div class="GalMenu GalDropDown">
+      <div class="circle" id="gal">
+        <div class="ring">
+          
+            <a href="/" title="" class="menuItem">首页</a>
+          
+            <a href="/tags" title="" class="menuItem">标签</a>
+          
+            <a href="/categories" title="" class="menuItem">分类</a>
+          
+            <a href="/archives" title="" class="menuItem">归档</a>
+          
+            <a href="/xxxxxxxxx" title="" class="menuItem">xxx</a>
+          
+            <a href="/xxxxxxx" title="" class="menuItem">xxxx</a>
+          
+        </div>
+        
+          <audio id="audio" src="#"></audio>
+        
+      </div> 
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+  <script type="text/javascript">var items = document.querySelectorAll('.menuItem');
+    for (var i = 0,
+    l = items.length; i < l; i++) {
+      items[i].style.left = (50 - 35 * Math.cos( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+      items[i].style.top = (50 + 35 * Math.sin( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%"
+    }</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('body').GalMenu({
+      'menu': 'GalDropDown'
+    })
+  });
+</script>
+
+  <section class="hidden-xs"> 
+  <ul class="cb-slideshow"> 
+    <li><span>苟利</span></li> 
+    <li><span>国家</span></li> 
+    <li><span>生死以</span></li> 
+    <li><span>岂能</span></li> 
+    <li><span>祸福</span></li> 
+    <li><span>趋避之</span></li> 
+  </ul>
+</section>
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
